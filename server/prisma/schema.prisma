@@ -1,0 +1,40 @@
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output = "../generated/prisma"
+  engineType = "client"
+}
+
+
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String
+  password String 
+  
+}
+
+// profile Profile?
+  // loveMusic LoveMusic[]
+// model Profile {
+//   id Int @id @default(autoincrement())
+//   bio String
+//   user User @relation(fields: [userId],references: [id])
+//   userId Int @unique
+// }
+
+// model LoveMusic {
+//   id Int @id @default(autoincrement())
+//   userLoveMusic User @relation(fields: [userId],references: [id])
+//   userId Int
+//   name String
+//   artist String?
+//   genre String?
+//   description String?
+//   isLove Boolean @default(true)
+// }
