@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const response = await ApiRequest('http://localhost:3003/session', 'GET');
 
-                if (response.auth) {
+              if (response.auth) {
                     setIsAuth(true);
                     console.log('AUTH!!!');
                 }
@@ -21,9 +21,10 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
     };
 
-    useEffect(() => {
-        checkAuth();
-    });
+  useEffect(() => {
+    checkAuth()
+  },[])
+
 
     const logout = async () => {
         try {

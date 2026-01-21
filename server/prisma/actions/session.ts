@@ -9,7 +9,7 @@ type SessionPayload = {
 };
 
 export const create_session = async (userId: number, res) => {
-    const expiresAt = new Date(Date.now() + 7 * 60 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 7 * 60 * 60 * 60 * 24 + 1000);
     const session = await encrypt({ userId, expiresAt });
     res.cookie('session', session, {
         httpOnly: true,
@@ -27,22 +27,22 @@ export const encrypt = async (payload: SessionPayload) => {
 };
 
 export const decrypt = async (sessionToken: string) => {
+  if(sessionToken) {
     try {
-        const { payload } = await jwtVerify(sessionToken, encodedKey, {
-            algorithms: ['HS256'],
-        });
-        return payload;
-    } catch (error) {
-        console.log('error', error);
+      const {payload} = await jwtVerify(sessionToken,encodedKey, {
+        algorithms:["HS256"]
+      })
+      return payload
+    } catch(error) {
+      console.log("decrypt",error)
     }
+  } else {
+    console.log("no data")
+  }
 };
 
 export const get_session = async (req, res) => {
     const sessionToken = req.cookies?.session;
-
-    if (!sessionToken) {
-        console.log('Error');
-    }
 
     return await decrypt(sessionToken);
 };

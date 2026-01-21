@@ -10,12 +10,12 @@ import {
     deleted_session,
     get_session,
 } from './prisma/actions/session.ts';
-
 import cookieParser from 'cookie-parser';
-
 import validate from './middleware/middleware.js';
 
+
 const app = express();
+const URL = 'http://localhost'
 
 app.use(express.json());
 app.use(
@@ -70,20 +70,17 @@ app.post('/register', validate(registerSchema), async (req, res) => {
             email: email,
         },
     });
+    res.json({status:"success"})
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login',validate(loginSchema), async (req, res) => {
     const { email, password } = req.body;
 
     const userFind = await prisma.user.findUnique({ where: { email: email } });
     const passCheck = await bcrypt.compare(password, userFind.password);
 
-    if (!userFind) {
-        return res.status(400).json({ errors: 'no valide data' });
-    }
-
-    if (!passCheck) {
-        return res.status(400).json({ errors: 'no password' });
+    if (!userFind && !passCheck) {
+        return res.status(400).json({ errors: 'no valide data or no password' });
     }
     await create_session(userFind.id, res);
 
@@ -97,26 +94,60 @@ app.post('/logout', async (req, res) => {
 
 app.get('/session', async (req, res) => {
     const session = await get_session(req);
-
     if (session) {
         return res.status(200).json({
             auth: true,
         });
-    }
-    await res.status(200).json({
+    } else {
+    await res.json({
         auth:false,
         path:'/'
-    })
+    });
+}});
+
+app.get("/my_music",(req,res) => {
+
 });
 
-// app.get("/user",async (req,res) => {
+app.post('/my_music', (req, res) => {});
 
-// })
+app.delete('/my_music', (req, res) => {});
 
-// app.update("/user/:id", async (req, res) => {
-//     // ПОТОМ
-// });
+
+app.get("/music",async (req,res) => {
+  //const music = await prisma.music.findMany({
+    //select: {
+      //title:true,
+      //description:true,
+      //avatar:true,
+      //author:true,
+      //time:true,
+      //url:true
+    //}
+  //})
+
+   
+  //await res.json({
+    //music_res:{
+      //music
+    //}
+  //})
+});
+
+app.post("/music",async (req,res) => {
+
+
+});
+
+app.delete("/music",async (req,res) => {});
+
+app.get("/music:title",async (req,res) => {
+  const {title} = req.body;
+
+});
+
+
 
 app.listen(3003, (req, res) => {
-    console.log('Сервер запущен на 3003');
+    console.log(`Сервер запущен на ${URL}:3003`);
 });

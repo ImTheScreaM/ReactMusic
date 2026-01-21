@@ -1,38 +1,39 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../shared/modals/authContext";
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../shared/modals/authContext';
+
+//import '../../../assets/css/auth.login.css';
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        password: "",
-        email: ""
+        password: '',
+        email: '',
     });
 
-    const navigate = useNavigate()
-    const {login} = useAuth()
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const handleChange = (e) => {
-        setFormData((prev) => ({
+    const handleChange = e => {
+        setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
         const res = await login(formData);
 
         if (res.success && res.path) {
-            localStorage.setItem("session","true")
-            navigate(res.path)
+            navigate(res.path);
         }
-
     };
 
     return (
-        <form action="" onSubmit={handleSubmit}>
-            <div className="login-form">
-                <div className="login-form-email">
+        <form className="login_container" action="" onSubmit={handleSubmit}>
+            <div className="login_form">
+                <h1 className="login_title">LOGIN</h1>
+                <div className="login_form_email">
                     <label>Email:</label>
                     <input
                         type="email"
@@ -41,7 +42,7 @@ const Login = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="login-form-password">
+                <div className="login_form_password">
                     <label>Password:</label>
                     <input
                         type="password"
@@ -50,9 +51,11 @@ const Login = () => {
                         name="password"
                     />
                 </div>
+                <div className="buttons_reg_log">
+                    <button type="submit">Submit</button>
+                    <NavLink to={'/auth/register'}>Register</NavLink>
+                </div>
             </div>
-
-            <button type="submit">Submit</button>
         </form>
     );
 };

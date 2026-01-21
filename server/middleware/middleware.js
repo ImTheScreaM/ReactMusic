@@ -3,7 +3,7 @@ const validate = (schema) => async (req, res, next) => {
         await schema.parse(req.body);
         next();
     } catch (error) {
-        return console.log("Error schema");
+        return res.json({status:"Error validate"})
     }
 };
 

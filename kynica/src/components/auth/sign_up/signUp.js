@@ -1,40 +1,38 @@
 import { useState } from 'react';
-import ApiRequest from '../../shared/modals/apiRequest';
 import { NavLink, useNavigate } from 'react-router-dom';
+import ApiRequest from '../../shared/modals/apiRequest';
+
+//import '../../../assets/css/auth.register.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
-      name: '',
-      password: '',
-      email: '',
+        name: '',
+        password: '',
+        email: '',
     });
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-      setFormData((prev) => ({
-          ...prev,
-          [e.target.name]: e.target.value,
-      }));
+    const handleChange = e => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
     };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const res = await ApiRequest(
-          'http://localhost:3003/register',
-          'POST',
-          formData
-        );
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const res = await ApiRequest('http://localhost:3003/register', 'POST', formData);
 
-      if (res.path) {
-          navigate(res.path)
-      }
-
+        if (res.path) {
+            navigate(res.path);
+        }
     };
 
     return (
-        <div className='login_container'>
-            <form action="" onSubmit={handleSubmit} className='login_form'>
-                <div className='login_form_name'>
+        <div className="register_container">
+            <form action="" onSubmit={handleSubmit} className="register_form">
+                <h1 className="register_title">Register</h1>
+                <div className="register_form_name">
                     <label htmlFor="name">Name</label>
                     <input
                         onChange={handleChange}
@@ -44,7 +42,7 @@ const Register = () => {
                         id="name"
                     />
                 </div>
-                <div className='login_form_password'>
+                <div className="register_form_password">
                     <label htmlFor="password">Password</label>
                     <input
                         onChange={handleChange}
@@ -54,7 +52,7 @@ const Register = () => {
                         id="password"
                     />
                 </div>
-                <div className='login_form_email'>
+                <div className="register_form_email">
                     <label>Email:</label>
                     <input
                         onChange={handleChange}
@@ -64,10 +62,14 @@ const Register = () => {
                         id="email"
                     />
                 </div>
-                <div className='login_form_submit'>
-                    <button type="submit">Send</button>
+                <div className="buttons_reg_log">
+                    <div className="register_form_submit">
+                        <button type="submit">Send</button>
+                    </div>
+                    <NavLink className={'nav_to_login'} to={'/auth/login'}>
+                        Login
+                    </NavLink>
                 </div>
-                <NavLink className={"nav_to_login"} to={'/auth/login'}>Login</NavLink>
             </form>
         </div>
     );
