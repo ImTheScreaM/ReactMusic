@@ -1,0 +1,37 @@
+services:
+  database:
+    image: postgres:15
+    container_name: database
+    networks:
+      - prisma-networks
+    restart:
+      always
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - database:/var/lib/postgres/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_data
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - ${PGADMIN_PORT}:80
+    restart: always
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - prisma-networks
+
+networks:
+  prisma-networks:
+
+volumes:
+  pgadmin_data:
+  database:

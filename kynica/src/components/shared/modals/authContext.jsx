@@ -24,8 +24,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuth()
   },[])
-
-
     const logout = async () => {
         try {
             const response = await ApiRequest('http://localhost:3003/logout', 'POST');

@@ -23,7 +23,7 @@ const Login = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         const res = await login(formData);
-
+        console.log(res)
         if (res.success && res.path) {
             navigate(res.path);
         }

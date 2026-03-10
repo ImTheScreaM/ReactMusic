@@ -17,15 +17,12 @@ const Register = () => {
             ...prev,
             [e.target.name]: e.target.value,
         }));
-    };
+      };
 
     const handleSubmit = async e => {
         e.preventDefault();
         const res = await ApiRequest('http://localhost:3003/register', 'POST', formData);
-
-        if (res.path) {
-            navigate(res.path);
-        }
+        console.log(res)
     };
 
     return (

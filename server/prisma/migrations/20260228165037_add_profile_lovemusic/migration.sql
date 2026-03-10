@@ -1,17 +1,13 @@
--- CreateTable
-CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
-    "name" TEXT,
-    "password" TEXT NOT NULL,
+-- CreateEnum
+CREATE TYPE "ROLE" AS ENUM ('USER', 'ADMIN');
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "role" "ROLE" NOT NULL DEFAULT 'USER';
 
 -- CreateTable
 CREATE TABLE "Profile" (
     "id" SERIAL NOT NULL,
-    "bio" TEXT NOT NULL,
+    "bio" TEXT,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
@@ -25,13 +21,9 @@ CREATE TABLE "LoveMusic" (
     "artist" TEXT,
     "genre" TEXT,
     "description" TEXT,
-    "isLove" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "LoveMusic_pkey" PRIMARY KEY ("id")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");

@@ -1,28 +1,38 @@
 .cart_music-container {
   display: flex;
+}
+
+.cart_music {
+  display: grid;
+  grid-template-columns: repeat(2,250px);
+  /* flex-direction: row; */
   gap: 5px;
   padding: 5px;
   margin-left: 6px;
-  align-items: center;
-  width: 50%;
+  margin: 0 auto;
 
 }
 
-.cart_music-container img {
+.cart_music img {
   width: 2.5rem;
 }
 
-.cart_music-container:hover {
+.cart_music:hover {
   background: rgb(163, 163, 163);
   border-radius: 3px;
   transition: .2s;
-
 }
 
-.cart_music-information {
+.cart_music-left_information,
+.cart_music-right_information {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 7px;
+}
+
+.cart_music-right_information {
+  justify-content: end;
 }
 
 .cart_music-name {

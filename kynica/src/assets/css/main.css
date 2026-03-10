@@ -1,6 +1,10 @@
-.music-main_container {
+.music_main-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: ; */
+    margin: 0 auto;
+    
 }
 
 .music_container {
@@ -10,4 +14,11 @@
 .favorite_music-header,
 .population_music-header {
     font-size: 26px;
+}
+
+.favorite_music-main {
+  display: grid;
+  grid-template-columns: repeat(2,530px);
+  justify-content: center;
+
 }

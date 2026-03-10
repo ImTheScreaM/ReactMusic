@@ -43,7 +43,7 @@ export const decrypt = async (sessionToken: string) => {
 
 export const get_session = async (req, res) => {
     const sessionToken = req.cookies?.session;
-
+    
     return await decrypt(sessionToken);
 };
 
