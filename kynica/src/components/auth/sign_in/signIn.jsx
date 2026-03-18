@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../shared/modals/authContext';
+import auth_store from '../../shared/stores/auth_store.ts';
 
 //import '../../../assets/css/auth.login.css';
 
@@ -9,9 +9,7 @@ const Login = () => {
         password: '',
         email: '',
     });
-
     const navigate = useNavigate();
-    const { login } = useAuth();
 
     const handleChange = e => {
         setFormData(prev => ({
@@ -22,11 +20,15 @@ const Login = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const res = await login(formData);
-        console.log(res)
-        if (res.success && res.path) {
-            navigate(res.path);
+        try {
+          const res = auth_store.login(formData)
+          if(res.path) {
+            navigate("/")
+          }
+        } catch (error) {
+            console.log(error)
         }
+
     };
 
     return (

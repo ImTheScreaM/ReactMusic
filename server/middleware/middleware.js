@@ -10,6 +10,7 @@ export const validate = (schema) => async (req, res, next) => {
 };
 
 export const auth_schema = () => {
+  
   const registerSchema = z.object({
     name: z.string().min(8),
     password: z.string().min(12),

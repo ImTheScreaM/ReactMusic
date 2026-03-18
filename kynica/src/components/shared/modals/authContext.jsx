@@ -4,31 +4,11 @@ import ApiRequest from './apiRequest';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuth, setIsAuth] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
 
-    const checkAuth = async () => {
-            try {
-                const response = await ApiRequest('http://localhost:3003/session', 'GET');
-
-              if (response.auth) {
-                    setIsAuth(true);
-                    console.log('AUTH!!!');
-                }
-            } catch (err) {
-                console.log('NO AUTH!!');
-            }
-        setIsLoading(false);
-    };
-
-  useEffect(() => {
-    checkAuth()
-  },[])
     const logout = async () => {
         try {
             const response = await ApiRequest('http://localhost:3003/logout', 'POST');
 
-            setIsAuth(false);
             return response;
         } catch (err) {
             console.log(err);
@@ -38,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     const login = async data => {
         try {
             const res = await ApiRequest('http://localhost:3003/login', 'POST', data);
-            setIsAuth(true);
+            
             return res;
         } catch (err) {
             console.error(err);
@@ -46,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuth, logout, login, checkAuth, isLoading }}>
+        <AuthContext.Provider value={{ logout, login }}>
             {children}
         </AuthContext.Provider>
     );

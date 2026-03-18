@@ -5,24 +5,23 @@ const TEST = [
   {
     id: 1,
     name: "Reborn",
-    author: "Теппо",
+    artist: "Теппо",
     time: 214,
-    isLicked: false,
-    url: "https://images.genius.com/4359a58369263453193e9d898edce2d1.1000x1000x1.jpg",
+    urlAvatar: "https://images.genius.com/4359a58369263453193e9d898edce2d1.1000x1000x1.jpg",
     description:"it music"
   },
   {
     id: 2,
     name: "Reborn2",
-    author: "Теппо",
+    artist: "Теппо",
     time: 214,
-    isLicked: false,
-    url: "https://images.genius.com/4359a58369263453193e9d898edce2d1.1000x1000x1.jpg",
+    urlAvatar: "https://images.genius.com/4359a58369263453193e9d898edce2d1.1000x1000x1.jpg",
     description:"it music"
   },
 ];
 
 const Main = () => {
+  
   return (
     <div className="music_main-container">
       <div className="music_container">

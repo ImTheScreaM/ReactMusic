@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose';
+import "dotenv/config"
 
-const SECRET_CODE = 'SECRET_CODE';
+const SECRET_CODE = process.env.SECRET_CODE;
 const encodedKey = new TextEncoder().encode(SECRET_CODE);
 
 type SessionPayload = {

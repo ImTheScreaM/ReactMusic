@@ -1,9 +1,18 @@
+import auth_store from "../../shared/stores/auth_store.ts"
+
+import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../shared/modals/authContext";
+import { useEffect } from 'react';
 
-const Header = () => {
-  const { isAuth, isLoading } = useAuth();
+const Header = observer(() => {
+  const isAuth = auth_store.isAuth
+  const isLoading = auth_store.isLoading
 
+  useEffect(() => {
+    auth_store.checkAuth();
+    
+  },6)
+  
   if (isLoading) {
     return <div>Loading</div>;
   }
@@ -38,6 +47,6 @@ const Header = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Header;

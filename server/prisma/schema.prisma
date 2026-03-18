@@ -35,9 +35,9 @@ model LoveMusic {
   userId      Int
   user        User    @relation(fields: [userId], references: [id])
   name        String
-  artist      String
-  genre       String
+  artist      String?
+  genre       String? 
   description String?
-  time        Int
-  urlAvatar   String
+  time        Int?
+  urlAvatar   String?
 }

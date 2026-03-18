@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import ApiRequest from '../../shared/modals/apiRequest';
+import auth_store from '../../shared/stores/auth_store.ts';
 
 //import '../../../assets/css/auth.register.css';
 
@@ -21,8 +21,7 @@ const Register = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const res = await ApiRequest('http://localhost:3003/register', 'POST', formData);
-        console.log(res)
+        auth_store.register(formData)
     };
 
     return (

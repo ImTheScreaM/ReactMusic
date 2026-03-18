@@ -1,0 +1,16 @@
+import express from "express";
+import {
+  change_bio,
+  change_username,
+  session,
+} from "../controllers/user_controller.js";
+
+const router = express.Router();
+
+router.get("/session", session);
+
+router.post("/change_bio", change_bio);
+
+router.post("/change_username", change_username);
+
+export default router
