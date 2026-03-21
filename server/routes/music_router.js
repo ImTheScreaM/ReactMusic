@@ -3,8 +3,7 @@ import {
   add_music,
   find_music,
   get_all_music,
-  get_user_music,
-  love_user_music,
+  get_love_user_music,
   remove_user_music,
 } from "../controllers/music_controller.js";
 
@@ -14,9 +13,7 @@ router.get("/all_music", get_all_music);
 
 router.get("/find_music", find_music);
 
-router.get("/user_music", get_user_music);
-
-router.get("/get_love_music",love_user_music)
+router.get("/user_music", get_love_user_music);
 
 router.post("/add_music", add_music);
 

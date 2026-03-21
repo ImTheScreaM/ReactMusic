@@ -4,7 +4,7 @@ import { create_session, deleted_session } from "../prisma/actions/session.ts";
 
 export async function register(req, res) {
   const { name, password, email } = req.body;
-
+  console.log(name,password,email)
   if (!(name && password && email)) {
     return res.status(400).json({ errors: "No user,password,email" });
   }

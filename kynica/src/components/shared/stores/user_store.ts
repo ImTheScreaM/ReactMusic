@@ -1,27 +1,32 @@
-import { makeObservable, observable, computed, action, makeAutoObservable } from "mobx"
-
+import { makeAutoObservable } from "mobx";
+import ApiRequest from "../modals/apiRequest";
 
 class User {
-  user_data = [];
-  
   constructor() {
     makeAutoObservable(this);
   }
-  
-  getUser() {
-    return;
+
+  *updateUsername(data) {
+    try {
+      const response = yield ApiRequest(
+        "http://localhost:3003/change_username",
+        "POST",
+        data,
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  updateInformation() {
-    return;
+  *updateBio(data) {
+    try {
+      const response = yield ApiRequest(
+        "http://localhost:3003/change_bio",
+        "POST",
+        data,
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  addMusic() {
-    return;
-  }
-
-  deleteMusic() {
-    return;
-  }
-
 }
