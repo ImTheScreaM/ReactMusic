@@ -7,10 +7,16 @@ import {
 
 const router = express.Router();
 
+// GET
+
 router.get("/session", session);
+
+// POST
 
 router.post("/change_bio", change_bio);
 
 router.post("/change_username", change_username);
+
+// DELETE
 
 export default router

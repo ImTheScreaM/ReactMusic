@@ -1,0 +1,17 @@
+.main_layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.main_layout-header {
+    width: 250px;
+    flex-shrink: 0;
+
+}
+
+.main_layout-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}

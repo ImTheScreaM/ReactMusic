@@ -1,0 +1,11 @@
+
+
+/* BUTTON NAVIGATION */
+.button_nav {
+    font-size: 26px;
+}
+
+.button_nav:hover {
+    cursor:pointer;
+}
+

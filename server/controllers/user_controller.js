@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma.ts";
-import { get_session } from "../prisma/actions/session.ts";
+import { prisma } from "../lib/prisma.js";
+import {deleted_session, get_session} from "../prisma/actions/session.ts";
 
 export async function change_bio(req, res) {
   const { bio } = req.body;
@@ -34,7 +34,7 @@ export async function change_bio(req, res) {
 }
 
 export async function change_username(req, res) {
-  const { username } = req.body;
+  const { new_name } = req.body;
   const { session } = await get_session(req);
 
   if (!session) return console.log("Wrong session");
@@ -46,7 +46,7 @@ export async function change_username(req, res) {
       },
       data: {
         update: {
-          name: username,
+          name: new_name,
         },
       },
     });
@@ -61,13 +61,30 @@ export async function session(req, res) {
   const session = await get_session(req);
 
   if (session) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id:session.userId,
+      },
+      include: {
+        id:false,
+        password:false,
+        role:false,
+        loveMusic:true,
+        profile:true,
+      }
+    })
+
     return res.status(200).json({
       auth: true,
+      user:user
     });
+
   } else {
+    await deleted_session(res);
     await res.json({
       auth: false,
       path: "/",
+      user:null
     });
   }
 }

@@ -1,6 +1,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import session from "express-session"
+import helmet from "helmet";
 
 import authRouter from "./routes/auth_router.js";
 import musicRouter from "./routes/music_router.js";
@@ -20,6 +22,36 @@ app.use(
   }),
 );
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-super-secret-key-change-this",
+    resave: false,
+    saveUninitialized: false,
+    name: "sessionId",
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24,
+      domain: "localhost",
+      path: "/",
+    },
+    rolling: true,
+  })
+);
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:["'self'"],
+      scriptSrc:["'self'"],
+      styleSrc:["'self'"],
+      imgSrc:["'self'"],
+      connectSrc:["'self'","http://localhost:3003"]
+    }
+  }
+}));
 
 app.use("/",authRouter)
 app.use("/",musicRouter)

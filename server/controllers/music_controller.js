@@ -1,8 +1,7 @@
-import { prisma } from "../lib/prisma.ts";
+import { prisma } from "../lib/prisma.js";
 import {
   get_session,
 } from "../prisma/actions/session.ts";
-
 
 export async function get_all_music(req,res) {
   const https_music = "https://spootify.com";
@@ -17,8 +16,7 @@ export async function find_music(req,res) {
   const url_music = `${https_music}/${https_title}`
 
   try {
-
-    res.status(200).json({music:{url_music}});
+    return res.status(200).json({music:{url_music}});
   } catch (error) {
     console.log(error);
   }
@@ -30,18 +28,11 @@ export async function get_love_user_music(req,res) {
   if (!session) return console.log("No session");
 
   try {
-    const getMusic = await prisma.loveMusic.findMany({ 
+    const getMusic = await prisma.loveMusic.findMany({
       where: { userId: session.userId },
-      data: {
-        name: true,
-        artist: true,
-        time: true,
-        description: true,
-        urlAvatar: true,
-      },
     });
 
-    res.json(200).status({ userMusic: { getMusic } });
+    res.status(200).json({ userMusic: { getMusic } });
   } catch (error) {
     console.log("my_music", error);
   }
@@ -90,13 +81,14 @@ export async function add_music(req,res) {
 
 export async function remove_user_music(req,res) {
   const session = await get_session(req);
-  const { name, artist } = req.body;
-
+  const { name, artist,id } = req.body;
+  console.log(req.body)
   if (!session) return console.log("no session");
 
   try {
-    const deleteMusic = await prisma.loveMusic.delete({
+    await prisma.loveMusic.delete({
       where: {
+        id:id,
         userId: session.userId,
         name: name,
         artist: artist,

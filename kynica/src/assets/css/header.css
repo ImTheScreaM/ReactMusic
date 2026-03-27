@@ -1,0 +1,26 @@
+.header_container {
+    padding: 0px 35px;
+    width: 250px;             /* Фиксированная ширина */
+    flex-shrink: 0;
+}
+
+.header_logo img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50px;
+}
+
+.nav_buttons li {
+    width: 120px;
+}
+
+.nav_buttons li div {
+    display: flex;
+    gap: 9px;
+}
+
+.nav_buttons li div:hover:nth-child(n) {
+    gap:13px;
+
+}
+

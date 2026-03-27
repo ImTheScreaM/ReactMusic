@@ -1,24 +1,39 @@
-.music_main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* align-items: ; */
-    margin: 0 auto;
-    
-}
 
-.music_container {
-    display: grid;
-}
 
-.favorite_music-header,
-.population_music-header {
+.favorite_music-title,
+.population_music-title {
     font-size: 26px;
 }
 
-.favorite_music-main {
-  display: grid;
-  grid-template-columns: repeat(2,530px);
-  justify-content: center;
+.favorite_music-title {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 4px;
 
+}
+
+.favorite_music-title:hover {
+    animation: 0.4s ease-in-out anim_right_arrow forwards;
+}
+
+@keyframes anim_right_arrow {
+    0% {
+        gap: 4px;
+    }
+    33% {
+        gap: 8px;
+    }
+    55% {
+        gap:10px;
+    }
+    100% {
+        gap: 10px;
+    }
+    /*77% {*/
+    /*    gap: 8px;*/
+    /*}*/
+    /*33% {*/
+    /*    gap: 4px;*/
+    /*}*/
 }
