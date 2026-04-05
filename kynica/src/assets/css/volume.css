@@ -1,0 +1,109 @@
+/* Горизонтальная полоска громкости */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.volume-icon-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.volume-icon-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.volume-bar {
+    width: 100px;
+    height: 4px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: height 0.2s;
+}
+
+.volume-bar:hover {
+    height: 6px;
+}
+
+.volume-fill {
+    height: 100%;
+    background-color: #1db954;
+    border-radius: 2px;
+    transition: width 0.1s;
+}
+
+.volume-handle {
+    width: 12px;
+    height: 12px;
+    background-color: #1db954;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.volume-bar:hover .volume-handle {
+    opacity: 1;
+}
+
+.volume-percent {
+    font-size: 12px;
+    color: #666;
+    min-width: 40px;
+}
+
+/* Вертикальная полоска громкости */
+.volume-control-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.volume-bar-vertical {
+    width: 4px;
+    height: 100px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.volume-fill-vertical {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #1db954;
+    border-radius: 2px;
+    transition: height 0.1s;
+}
+
+.volume-handle-vertical {
+    width: 12px;
+    height: 12px;
+    background-color: #1db954;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.volume-bar-vertical:hover .volume-handle-vertical {
+    opacity: 1;
+}

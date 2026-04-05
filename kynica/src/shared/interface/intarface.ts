@@ -4,6 +4,7 @@ export interface IMusic {
     genre:string,
     time:number,
     urlAvatar:string
+    musicId:number
 }
 
 export interface IProfile {

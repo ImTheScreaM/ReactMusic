@@ -6,7 +6,7 @@ class User {
     makeAutoObservable(this);
   }
 
-  *updateUsername(data:string) {
+  *update_username(data:string) {
     try {
       const response = yield ApiRequest(
         "http://localhost:3003/change_username",
@@ -18,7 +18,7 @@ class User {
     }
   }
 
-  *updateBio(data:string) {
+  *update_bio(data:string) {
     try {
       const response = yield ApiRequest(
         "http://localhost:3003/change_bio",

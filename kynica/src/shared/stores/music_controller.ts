@@ -3,21 +3,27 @@ import {IMusic} from "../interface/intarface";
 import {makeAutoObservable, runInAction} from "mobx";
 
 class Music {
-  favorite = null;
+  userMusic:IMusic | string = null;
   isLoading = true;
+  allMusic:IMusic[] = [];
+
 
   constructor() {
     makeAutoObservable(this);
     this.get_user_music();
+    this.all_music();
   }
   *all_music() {
     try {
-      const response = yield ApiRequest(
+      const res = yield ApiRequest(
         "http://localhost:3003/all_music",
         "GET",
       );
+      this.allMusic = res.music;
     } catch (error) {
       console.log(error);
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -28,7 +34,7 @@ class Music {
         "GET",
       );
       runInAction(() => {
-        this.favorite = res.userMusic
+        this.userMusic = res.userMusic.getMusic.length > 0 ? res.userMusic : null;
       })
     } catch (error) {
       console.log(error);
@@ -41,34 +47,23 @@ class Music {
     try {
       const response = yield ApiRequest(
         "http://localhost:3003/find_music",
-        "GET",
+        "POST",
       );
     } catch (error) {
       console.log(error);
     }
   }
 
-  *add_music(data) {
+  *add_rm_user_music(data) {
     try {
-      const response = yield ApiRequest(
-        "http://localhost:3003/add_music",
-        "POST",data
-      );
+      console.log("controller data",data)
+      //yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
     } catch (error) {
       console.log(error);
     }
+
   }
 
-  *remove_my_music(data) {
-    try {
-      const response = yield ApiRequest(
-        "http://localhost:3003/remove_my_music",
-        "DELETE",data
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 
 export default new Music()

@@ -31,13 +31,23 @@ model Profile {
 }
 
 model LoveMusic {
-  id          Int     @id @default(autoincrement())
-  userId      Int
-  user        User    @relation(fields: [userId], references: [id])
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id])
+  musicId Int
+  music   Music    @relation(fields: [musicId], references: [id])
+  addedAt DateTime @default(now())
+
+  @@unique([userId, musicId])
+}
+
+model Music {
+  id          Int         @id @default(autoincrement())
   name        String
   artist      String?
-  genre       String? 
+  genre       String?
   description String?
   time        Int?
   urlAvatar   String?
+  lovedBy     LoveMusic[]
 }

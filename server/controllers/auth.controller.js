@@ -25,9 +25,6 @@ export async function register(req, res) {
             bio: "",
           },
         },
-        loveMusic: {
-          create: [],
-        },
       },
       include: {
         profile: true,

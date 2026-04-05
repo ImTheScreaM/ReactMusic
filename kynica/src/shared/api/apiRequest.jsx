@@ -10,9 +10,7 @@ const ApiRequest = async (url, method, data) => {
             mode: 'cors',
         });
 
-        const result = await response.json();
-
-        return result
+      return await response.json()
     } catch (err) {
         console.error("API Request failed:", err);
     }

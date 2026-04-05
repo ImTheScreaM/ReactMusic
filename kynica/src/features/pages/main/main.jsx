@@ -1,14 +1,20 @@
 import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
-import auth_store from "../../../shared/stores/auth_store.ts";
+
+
+import {Cart_music} from "../../../shared/modals/cart_music";
+import music_controller from "../../../shared/stores/music_controller.ts";
 
 import "../../../assets/css/main.css";
 import "../../../assets/css/buttons.css"
 
-const Main = () => {
+
+
+const Main = observer(() => {
   const navigate = useNavigate()
-
-
+  const allMusic = music_controller.allMusic;
+  console.log(allMusic);
 
   return (
     <div className="music_main-container pt-5">
@@ -25,13 +31,18 @@ const Main = () => {
 
         <div className="music_container-population">
           <div className="population_music">
-            <h1 className="population_music-title"> Populate Now </h1>
-            <div className="population_music-main"></div>
+            <h1 className="population_music-title"> Music </h1>
+            <div className="population_music-main">
+              {allMusic.map((item) => (
+                <Cart_music props={{...item}}/>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   );
-};
+});
 
 export default Main;

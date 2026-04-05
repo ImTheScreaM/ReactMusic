@@ -4,11 +4,10 @@
 
 .cart_music {
   display: grid;
-  grid-template-columns: repeat(2,250px);
+  grid-template-columns: repeat(2,400px);
   /* flex-direction: row; */
   gap: 5px;
   padding: 5px;
-  margin-left: 6px;
   margin: 0 auto;
 
 }

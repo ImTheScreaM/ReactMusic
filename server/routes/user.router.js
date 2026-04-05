@@ -3,7 +3,7 @@ import {
   change_bio,
   change_username,
   session,
-} from "../controllers/user_controller.js";
+} from "../controllers/user.controller.js";
 
 const router = express.Router();
 

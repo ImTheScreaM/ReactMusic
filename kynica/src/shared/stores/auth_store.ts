@@ -21,9 +21,7 @@ class AuthController {
           formData,
       );
     } catch (error) {
-      console.log("reg er",error)
-    } finally {
-      console.log("=)")
+      console.log("Error auth")
     }
   }
 
@@ -37,7 +35,7 @@ class AuthController {
         }
       })
     } catch (error) {
-      console.log(error);
+      console.log("Error auth")
     }
   }
 

@@ -22,13 +22,13 @@ const Profile = () => {
 
   const change_username = async (e) => {
     e.preventDefault();
-    user_store.updateUsername(newName);
+    user_store.update_username(newName);
 
   };
 
   const change_bio = async (e) => {
     e.preventDefault();
-    user_store.updateBio(newBio);
+    user_store.update_bio(newBio);
   };
 
   return (

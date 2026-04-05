@@ -3,15 +3,19 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session"
 import helmet from "helmet";
+import "dotenv/config"
 
-import authRouter from "./routes/auth_router.js";
-import musicRouter from "./routes/music_router.js";
-import userRouter from "./routes/user_router.js";
+import authRouter from "./routes/auth.router.js";
+import musicRouter from "./routes/music.router.js";
+import userRouter from "./routes/user.router.js";
 
 const app = express();
 const URL = "http://localhost";
 
 app.use(express.json());
+
+app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -21,11 +25,10 @@ app.use(
     exposedHeaders: ["Set-Cookie"],
   }),
 );
-app.use(cookieParser());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your-super-secret-key-change-this",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     name: "sessionId",
@@ -52,6 +55,8 @@ app.use(helmet({
     }
   }
 }));
+
+
 
 app.use("/",authRouter)
 app.use("/",musicRouter)

@@ -2,9 +2,10 @@ import auth_store from "../../../shared/stores/auth_store.ts"
 
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
-import { useEffect } from 'react';
+
 
 import "../../../assets/css/header.css"
+
 const Header = observer(() => {
   const isAuth = auth_store.isAuth
   const isLoading = auth_store.isLoading
