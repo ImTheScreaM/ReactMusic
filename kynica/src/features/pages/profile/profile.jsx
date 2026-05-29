@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import auth_store from "../../../shared/stores/auth_store.ts";
-import user_store from "../../../shared/stores/user_store.ts";
+import user_store from "../../../shared/stores/user_store_controller.ts";
 
 import {useState} from "react";
 

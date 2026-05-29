@@ -1,0 +1,220 @@
+.music_bottom-container {
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    right: 0;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    padding: 12px 24px;
+    z-index: 1000;
+}
+
+.music_player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.track-info,
+.track-img,
+.music-info-name,
+.track-name,
+.track-artist,
+.like-button,
+.previus-track-button,
+.pause-resume-button,
+.next-track-button,
+.loop-button,
+.dislike-button,
+.progress-bar  {
+    z-index: 100;
+}
+
+.music_player-info {
+    flex: 1;
+    min-width: 180px;
+}
+
+.track-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.track-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.music-info-name .track-name {
+    color: #b3b3b3;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.music-info-artist .track-artist {
+    color: #b3b3b3;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+.music_player-sonata {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+}
+
+.music_player-sonata button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.music_player-sonata button:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.music_player-sonata button:active {
+    transform: scale(0.95);
+}
+
+.pause-resume-button {
+    margin: 0 4px;
+}
+
+.pause-resume-button:hover {
+    transform: scale(1.05);
+}
+
+.pause-resume-button svg {
+    color: black;
+}
+
+.like-button svg {
+    color: #b3b3b3;
+    transition: color 0.2s;
+}
+
+.like-button:hover svg {
+    color: #ff4444;
+}
+
+.dislike-button svg {
+    color: #b3b3b3;
+}
+
+.dislike-button:hover svg {
+    color: #ff4444;
+}
+
+.like-button.active svg {
+    color: red;
+    fill: red;
+}
+
+.loop-button svg {
+    color: #b3b3b3;
+}
+
+.loop-button.active svg,
+.loop-button:hover svg {
+    color: black;
+}
+
+.previus-track-button svg,
+.next-track-button svg {
+    color: #b3b3b3;
+}
+
+.previus-track-button:hover svg,
+.next-track-button:hover svg {
+    color: black;
+}
+
+.music_player-meta {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    min-width: 120px;
+}
+
+@media (max-width: 1024px) {
+    .music_bottom-container {
+        width: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    .music_bottom-container {
+        width: 70%;
+        padding: 8px 12px;
+    }
+
+    .music_player {
+        gap: 12px;
+    }
+
+    .track-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .music-info-name .track-name {
+        font-size: 13px;
+    }
+
+    .music-info-artist .track-artist {
+        font-size: 11px;
+    }
+
+    .music_player-sonata button {
+        padding: 4px;
+    }
+
+    .music_player-sonata svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .music_bottom-container {
+        width: 100%;
+        left: 0;
+    }
+
+    .music_player-info {
+        min-width: 120px;
+    }
+
+    .track-name, .track-artist {
+        display: none;
+    }
+
+    .grid {
+        display: none;
+    }
+}

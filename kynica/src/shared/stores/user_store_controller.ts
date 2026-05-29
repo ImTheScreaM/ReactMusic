@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import {makeAutoObservable} from "mobx";
 import ApiRequest from "../api/apiRequest";
 
 class User {

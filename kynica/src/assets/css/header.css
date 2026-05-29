@@ -1,6 +1,6 @@
 .header_container {
     padding: 0px 35px;
-    width: 250px;             /* Фиксированная ширина */
+    width: 250px;
     flex-shrink: 0;
 }
 

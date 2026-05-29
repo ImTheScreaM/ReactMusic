@@ -1,85 +1,46 @@
-/* Горизонтальная полоска громкости */
-.volume-control {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-}
-
-.volume-icon-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-}
-
-.volume-icon-btn:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.volume-bar {
-    width: 100px;
-    height: 4px;
-    background-color: #e0e0e0;
-    border-radius: 2px;
-    cursor: pointer;
+.volume-control-wrapper {
     position: relative;
-    transition: height 0.2s;
-}
-
-.volume-bar:hover {
-    height: 6px;
-}
-
-.volume-fill {
-    height: 100%;
-    background-color: #1db954;
-    border-radius: 2px;
-    transition: width 0.1s;
-}
-
-.volume-handle {
-    width: 12px;
-    height: 12px;
-    background-color: #1db954;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-}
-
-.volume-bar:hover .volume-handle {
-    opacity: 1;
-}
-
-.volume-percent {
-    font-size: 12px;
-    color: #666;
-    min-width: 40px;
-}
-
-/* Вертикальная полоска громкости */
-.volume-control-vertical {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
+    justify-content: flex-end;
+}
+
+.volume-slider-container {
+    position: absolute;
+    bottom: 100%;
+    left: 40%;
+    transform: translateX(-50%) translateY(10px);
+    margin-bottom: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 12px 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.volume-slider-container.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
 .volume-bar-vertical {
-    width: 4px;
-    height: 100px;
-    background-color: #e0e0e0;
+    width: 8px;
+    height: 120px;
+    background-color: #4d4d4d;
     border-radius: 2px;
     cursor: pointer;
     position: relative;
+    transition: all 0.2s;
+}
+
+.volume-bar-vertical:hover {
+    width: 8px;
+    background-color: #666;
 }
 
 .volume-fill-vertical {
@@ -88,13 +49,13 @@
     width: 100%;
     background-color: #1db954;
     border-radius: 2px;
-    transition: height 0.1s;
+    transition: height 0.05s linear;
 }
 
 .volume-handle-vertical {
-    width: 12px;
-    height: 12px;
-    background-color: #1db954;
+    width: 10px;
+    height: 10px;
+    background-color: white;
     border-radius: 50%;
     position: absolute;
     left: 50%;
@@ -102,8 +63,41 @@
     opacity: 0;
     transition: opacity 0.2s;
     pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .volume-bar-vertical:hover .volume-handle-vertical {
     opacity: 1;
+}
+
+.volume-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b3b3b3;
+}
+
+.volume-icon-btn:hover {
+    color: black;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.volume-icon-btn:active {
+    transform: scale(0.95);
+}
+
+.volume-bar-vertical.dragging {
+    width: 6px;
+    background-color: #666;
+}
+
+.volume-bar-vertical.dragging .volume-handle-vertical {
+    opacity: 1;
+    transform: translate(-50%, 50%) scale(1.2);
 }

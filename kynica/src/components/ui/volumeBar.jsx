@@ -7,7 +7,9 @@ import "../../assets/css/volume.css"
 
 const VolumeBar = observer(() => {
   const [isDragging,setIsDragging] = useState(false);
+  const [isHovered,setIsHovered] = useState(false);
   const volumeRefBar = useRef(null);
+
   const volumePercent = music_player_controller.getVolumePercent()
   const isMuted = music_player_controller.isMuted;
 
@@ -39,23 +41,29 @@ const VolumeBar = observer(() => {
     document.addEventListener("mousemove",handleMouseMove);
     document.addEventListener("mouseup",handleMouseUp);
 
-  }
+  } // лень нахуй
 
   return (
-    <div className="volume-control-vertical">
-      <div ref={volumeRefBar}
-           className="volume-bar-vertical opacity-0"
-           onMouseDown={handleMouseDown}
+    <div className="volume-control-wrapper"
+         onMouseEnter={() => setIsHovered(true)}
+         onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`volume-slider-container ${isHovered || isDragging ? 'visible' : ''}`}>
+        <div ref={volumeRefBar}
+             className="volume-bar-vertical"
+             onMouseDown={handleMouseDown}
 
-      >
-        <div className="volume-fill-vertical"
-        style={{height:`${volumePercent}%`}}/>
-        <div className="volume-handle-vertical"
-        style={{bottom:`${volumePercent}%`}}/>
+        >
+          <div className="volume-fill-vertical"
+          style={{height:`${volumePercent}%`}}/>
+          <div className="volume-handle-vertical"
+          style={{bottom:`${volumePercent}%`}}/>
+        </div>
       </div>
+
       <button className="volume-icon-btn"
       onClick={() => music_player_controller.toggleMuted()}>
-        {isMuted ?
+        {isMuted || volumePercent === 0 ?
           (
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
               <path d="M11 5L6 9H2V15H6L11 19V5Z"

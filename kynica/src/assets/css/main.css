@@ -1,4 +1,12 @@
+.favorite_music-main {
+    display: flex;
+    flex-direction: column-reverse;
+}
 
+.population_music-main {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
 
 .favorite_music-title,
 .population_music-title {
@@ -30,10 +38,4 @@
     100% {
         gap: 10px;
     }
-    /*77% {*/
-    /*    gap: 8px;*/
-    /*}*/
-    /*33% {*/
-    /*    gap: 4px;*/
-    /*}*/
 }

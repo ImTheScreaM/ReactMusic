@@ -54,6 +54,7 @@ class AuthController {
   *checkAuth() {
     try {
       const res = yield ApiRequest("http://localhost:3003/session", "GET");
+      console.log(res)
       if (res.auth) {
         runInAction(() => {
           this.isAuth = !!res.user

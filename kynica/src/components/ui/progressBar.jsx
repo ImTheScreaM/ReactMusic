@@ -7,6 +7,7 @@ import {observer} from "mobx-react-lite";
 const ProgressBar = observer(() => {
   const [isDragging,setIsDragging] = useState(false);
   const progressRefBar = useRef(null);
+  const [isHover,setIsHover] = useState(false);
 
 
   const handleSeek = (e) => {
@@ -52,7 +53,8 @@ const ProgressBar = observer(() => {
       </div>
       <div ref={progressRefBar}
            className={`progress-bar ${isDragging ? 'dragging' : ''}`}
-           onMouseDown={handleMouseDown}>
+           onMouseDown={handleMouseDown}
+      >
         <div className="progress-fill"
              style={{width:`${progress}%`}}/>
         <div className="volume-handle"

@@ -1,14 +1,13 @@
-import auth_store from "../../../shared/stores/auth_store.ts"
-
-import { observer } from "mobx-react-lite";
-import { NavLink } from "react-router-dom";
+import {observer} from "mobx-react-lite";
+import {NavLink} from "react-router-dom";
 
 
 import "../../../assets/css/header.css"
+import {use_auth_store} from "../../../hook/hooks";
 
 const Header = observer(() => {
-  const isAuth = auth_store.isAuth
-  const isLoading = auth_store.isLoading
+
+  const {isAuth,isLoading} = use_auth_store();
   
   if (isLoading) {
     return <div>Loading</div>;

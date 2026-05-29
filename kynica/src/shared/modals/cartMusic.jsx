@@ -1,24 +1,18 @@
-import auth_store from "../stores/auth_store.ts";
 import music_controller from "../stores/music_controller.ts";
-import music_player_controller from "../stores/music_player_controller.ts";
+
 
 import "../../assets/css/cart_music.css";
 import {observer} from "mobx-react-lite";
+import {toggle_music, use_auth_store, use_music_player_controller} from "../../hook/hooks";
 
 
-export const Cart_music = observer(({ props }) => {
-  const isAuth = auth_store.isAuth;
-  const isPlaying = music_player_controller.isPlaying;
+export const CartMusic = observer(({ props,playlist }) => {
+  const {isAuth} = use_auth_store();
+  const {isPlay,musicId} = use_music_player_controller()
 
   function toggle_favorite_music(e) { // <- УЖЕ ПОЧТИ НЕ ТЕСТОВАЯ ХУЙНЯ =))),(или ъуй его знает)
     if(!isAuth) return;
-    console.log("props",props)
     music_controller.add_rm_user_music(props);
-
-  }
-
-  function toggle_music(e) {
-      return isPlaying ? music_player_controller.pause() : music_player_controller.play(props.id,props);
   }
 
   return (
@@ -26,7 +20,7 @@ export const Cart_music = observer(({ props }) => {
       <div className="cart_music">
         <div className="cart_music-left_information">
           <div className="cart_music-image">
-            <button onClick={toggle_music}>
+            <button onClick={() => toggle_music(isPlay,props.id,props,playlist)}>
               <img src={props.urlAvatar}/>
             </button>
           </div>
@@ -36,7 +30,16 @@ export const Cart_music = observer(({ props }) => {
           </div>
         </div>
         <div className="cart_music-right_information">
-          <button onClick={(e) => toggle_favorite_music()}>LIKE</button>
+          <button className={`like-button ${props.isLiked ? 'active' : ''}`}
+                  onClick={(e) => toggle_favorite_music()}>
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </button>
           <p>{Math.floor(props.time / 60)}:{String(props.time % 60).padStart(2, '0')}</p>
         </div>
       </div>

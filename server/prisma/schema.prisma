@@ -21,6 +21,7 @@ model User {
   profile   Profile?
   name      String
   password  String
+  playlist  Playlists[]
 }
 
 model Profile {
@@ -50,4 +51,14 @@ model Music {
   time        Int?
   urlAvatar   String?
   lovedBy     LoveMusic[]
+  playlists Playlists[]
+}
+
+model Playlists {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  name   String
+  avatar String
+  musics Music  @relation(fields: [userId], references: [id])
+  users User[]
 }

@@ -1,11 +1,9 @@
-import auth_store from "../stores/auth_store.ts"
-
-import { Navigate } from "react-router-dom"
+import {Navigate} from "react-router-dom"
 import {observer} from "mobx-react-lite";
+import {use_auth_store} from "../../hook/hooks";
 
 const ProtectedRouter = observer(({children}) => {
-    const isAuth = auth_store.isAuth
-    const isLoading = auth_store.isLoading;
+    const {isAuth,isLoading} = use_auth_store()
 
     if(isLoading) {
         return <div>Загрузка...</div>

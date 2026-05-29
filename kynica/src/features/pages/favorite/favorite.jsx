@@ -1,29 +1,35 @@
-import {Cart_music} from "../../../shared/modals/cart_music";
-import music_controller from "../../../shared/stores/music_controller.ts";
+import {CartMusic} from "../../../shared/modals/cartMusic";
 
 import "../../../assets/css/favorite.css"
 import {observer} from "mobx-react-lite";
+import {use_music_player} from "../../../hook/hooks";
+import {useEffect} from "react";
+import music_controller from "../../../shared/stores/music_controller.ts";
 
 const Favorite = observer(() => {
-    const music = music_controller.userMusic;
-    const isLoading = music_controller.isLoading;
+    const {userMusic,isLoading} = use_music_player();
 
+    useEffect(() => {
+      music_controller.get_user_music()
+    },[])
+
+    //console.log(music)
     if(isLoading) {
       return <div>Загрузка ...</div>
     }
 
 
 
-    if(!music) {
+    if(!userMusic) {
       return <div>Null</div>
     }
-
+  console.log(userMusic)
     return (
         <div className="favorite_music">
             <h1 className="favorite_music-header"> Your Music </h1>
             <div className="favorite_music-main">
-                {music.getMusic.map((item) => (
-                    <Cart_music props={{ ...item.music }} />
+                {userMusic.getMusic.map((item) => (
+                    <CartMusic props={{ ...item }} playlist={userMusic.getMusic} />
                 ))}
             </div>
         </div>

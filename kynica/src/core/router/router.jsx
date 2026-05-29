@@ -6,7 +6,7 @@ import ErrorPage from '../../features/pages/error/error_page';
 import MainLayout from '../../layout/main_layout';
 import Login from '../../features/pages/auth/login/login';
 import Profile from '../../features/pages/profile/profile';
-import ProtectedRouter from '../../shared/modals/protectedRouter';
+import ProtectedRouter from './protectedRouter';
 import Favorite from "../../features/pages/favorite/favorite";
 import AuthLayout from "../../layout/auth_loyout";
 

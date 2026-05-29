@@ -14,4 +14,10 @@
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    display: flex;
+
+}
+
+.main_layout-content.isPlay {
+    height: calc(100vh - 100px);
 }

@@ -10,9 +10,9 @@ class Music {
 
   constructor() {
     makeAutoObservable(this);
-    this.get_user_music();
-    this.all_music();
+
   }
+
   *all_music() {
     try {
       const res = yield ApiRequest(
@@ -20,6 +20,7 @@ class Music {
         "GET",
       );
       this.allMusic = res.music;
+      console.log(this.allMusic);
     } catch (error) {
       console.log(error);
     } finally {
@@ -33,6 +34,7 @@ class Music {
         "http://localhost:3003/user_music",
         "GET",
       );
+
       runInAction(() => {
         this.userMusic = res.userMusic.getMusic.length > 0 ? res.userMusic : null;
       })
@@ -57,7 +59,7 @@ class Music {
   *add_rm_user_music(data) {
     try {
       console.log("controller data",data)
-      //yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
+      yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
     } catch (error) {
       console.log(error);
     }
