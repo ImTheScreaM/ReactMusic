@@ -1,0 +1,12 @@
+.favorite_music-title {
+  font-size: 32px;
+}
+
+.favorite_music {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #121212;
+  padding: 24px;
+  border-radius: 18px;
+}

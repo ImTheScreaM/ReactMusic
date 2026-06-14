@@ -19,7 +19,7 @@ const MusicBottom = observer(() => {
 
 
   return (
-    <div className="overflow-hidden">
+
       <section className="music_bottom-container">
 
         <div className="progress_music">
@@ -28,7 +28,7 @@ const MusicBottom = observer(() => {
 
         <div className="music_player">
 
-          <div className="absolute w-full h-full" onClick={() => music_player_controller.toggleOpen()}></div>
+          <div className="absolute w-full" onClick={() => music_player_controller.toggleOpen()}></div>
 
           <div className="music_player-info">
             <div className="track-info">
@@ -156,7 +156,7 @@ const MusicBottom = observer(() => {
           </div>
         </div>
       </section>
-    </div>
+
   )
 })
 

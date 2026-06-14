@@ -1,8 +1,8 @@
 import {Outlet} from "react-router-dom"
 import {observer} from "mobx-react-lite";
 
+import MusicRight from "../components/ui/musicRight";
 import music_player_controller from "../shared/stores/music_player_controller.ts";
-import MusicRight from "../components/ui/musicRight"
 import MusicBottom from "../components/ui/musicBottom.jsx";
 import Header from "../features/pages/header/header.jsx"
 import {use_music_player_controller} from "../hook/hooks";
@@ -15,14 +15,23 @@ const MainLayout = observer(() => {
     const isOpen = music_player_controller.isOpen;
     return (
         <div className="main_layout">
-            <div className="main_layout-header">
+          <div className="main_layout-content">
+
+
+            {/*<div className="main_layout-header">*/}
                 <Header/>
-            </div>
-            <main className={`main_layout-content ${isPlay ? "isPlay" : ""}`}>
+            {/*</div>*/}
+            {/*<main className={`main_layout-content ${isPlay ? "isPlay" : ""}`}>*/}
+
+            <div className="content-area" >
+              <div className="outlet-wrapper">
                 <Outlet/>
-                {isOpen && <MusicRight/>}
-            </main>
-          {musicId && <MusicBottom/>}
+              </div>
+              {musicId && <MusicBottom/>}
+            </div>
+              {isOpen && <MusicRight/>}
+            {/*</main>*/}
+          </div>
         </div>
     )
 })

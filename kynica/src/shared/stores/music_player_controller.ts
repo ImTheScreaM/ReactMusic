@@ -8,7 +8,7 @@ class MusicPlayer {
     trackData = null;
     currentTime = 0;
     duration = 0;
-    volume = 0.45;
+    volume = 1;
     isMuted = false;
     previousVolume = 1;
     playlist = null;

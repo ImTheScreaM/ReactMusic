@@ -1,50 +1,46 @@
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
-import {CartMusic} from "../../../shared/modals/cartMusic";
-import music_controller from "../../../shared/stores/music_controller.ts";
+import {CartMusic} from "../../../components/ui/cartMusic";
+import {use_music_player} from "../../../hook/hooks";
+
 
 import "../../../assets/css/main.css";
 import "../../../assets/css/buttons.css"
-import {useEffect} from "react";
-
 
 
 const Main = observer(() => {
   const navigate = useNavigate()
-  const allMusic = music_controller.allMusic;
+  const {isLoading,allMusic,userMusicQuantity} = use_music_player()
 
-  useEffect(() => {
-    music_controller.all_music();
-  },[])
-
-  if(!allMusic) {
+  if(isLoading) {
     return <h1>Loading..</h1>
   }
 
+
   return (
-    <div className="music_main-container pt-5">
-      <div>
-        <div className="music_container-favorite">
-          <div className="favorite_music">
-            <div className="favorite_music-title">
-              <button className="button_nav" onClick={() => navigate("/favorite")}>My Favorite</button>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 7l7 7-7 7" />
-              </svg>
-            </div>
+    <div className="music_main-container pt-5 w-full">
+      <div className="main-favorite_music">
+        <div className="favorite_music-title">
+          <button className="button_nav" onClick={() => navigate("/favorite")}>My Favorite</button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 7l7 7-7 7" />
+          </svg>
+        </div>
+        <div className="favorite_music_count justify-center">
+          <span>{userMusicQuantity} tracks</span>
+        </div>
+      </div>
+
+      <div className="music_container-population">
+        <div className="population_music">
+          <h1 className="population_music-title"> Music </h1>
+          <div className="population_music-main">
+            {allMusic.map((item) => (
+              <CartMusic props={{...item}} playlist={allMusic}/>
+            ))}
           </div>
 
-          <div className="music_container-population">
-            <div className="population_music">
-              <h1 className="population_music-title"> Music </h1>
-              <div className="population_music-main">
-                {allMusic.map((item) => (
-                  <CartMusic props={{...item}} playlist={allMusic}/>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -51,7 +51,7 @@ model Music {
   time        Int?
   urlAvatar   String?
   lovedBy     LoveMusic[]
-  playlists Playlists[]
+  playlists   Playlists[]
 }
 
 model Playlists {
@@ -60,5 +60,5 @@ model Playlists {
   name   String
   avatar String
   musics Music  @relation(fields: [userId], references: [id])
-  users User[]
+  users  User[]
 }

@@ -8,6 +8,7 @@ import "dotenv/config"
 import authRouter from "./routes/auth.router.js";
 import musicRouter from "./routes/music.router.js";
 import userRouter from "./routes/user.router.js";
+import searchRouter from "./routes/search.router.js";
 
 const app = express();
 const URL = "http://localhost";
@@ -60,7 +61,8 @@ app.use(helmet({
 app.use("/",authRouter)
 app.use("/",musicRouter)
 app.use("/",userRouter)
+app.use("/",searchRouter)
 
-app.listen(3003, (req, res) => {
+app.listen(3003, () => {
   console.log(`Сервер запущен на ${URL}:3003`);
 });

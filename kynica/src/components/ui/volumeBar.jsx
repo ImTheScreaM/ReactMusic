@@ -1,5 +1,5 @@
 import {observer} from "mobx-react-lite";
-import {useState,useRef} from "react";
+import {useRef, useState} from "react";
 
 import music_player_controller from "../../shared/stores/music_player_controller.ts";
 
@@ -68,26 +68,26 @@ const VolumeBar = observer(() => {
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
               <path d="M11 5L6 9H2V15H6L11 19V5Z"
                     stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"/>>
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"/>>
               <line x1="2" y1="19" x2="14" y2="4"
                     stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"/>>
+                    strokeWidth="1"
+                    strokeLinecap="round"/>>
             </svg>
           ) :
           (
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
               <path d="M11 5L6 9H2V15H6L11 19V5Z"
                     stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"/>>
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"/>>
               <line x1="15.5" y1="8" x2="15.5" y2="16"
                     stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"/>>
+                    strokeWidth="1"
+                    strokeLinecap="round"/>>
             </svg>
           )
         }

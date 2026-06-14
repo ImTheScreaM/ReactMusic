@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import {createBrowserRouter} from 'react-router-dom';
 
 import Main from '../../features/pages/main/main';
 import Register from '../../features/pages/auth/register/register';
@@ -9,6 +9,7 @@ import Profile from '../../features/pages/profile/profile';
 import ProtectedRouter from './protectedRouter';
 import Favorite from "../../features/pages/favorite/favorite";
 import AuthLayout from "../../layout/auth_loyout";
+import Search from "../../features/pages/search/search";
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
                     </ProtectedRouter>
                 ),
             },
+            {
+                path:"/search",
+                element: <Search/>,
+            }
         ],
     },
     {

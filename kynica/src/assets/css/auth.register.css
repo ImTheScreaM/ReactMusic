@@ -5,6 +5,7 @@
     min-height: 100vh;
     background: linear-gradient(135deg, #3b3b3d 0%, #a4a2a6 100%);
     padding: 20px;
+    color: black;
 }
 
 .register_form {

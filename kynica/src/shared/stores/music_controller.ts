@@ -1,26 +1,30 @@
 import ApiRequest from "../api/apiRequest";
 import {IMusic} from "../interface/intarface";
+
 import {makeAutoObservable, runInAction} from "mobx";
 
 class Music {
-  userMusic:IMusic | string = null;
-  isLoading = true;
+  userMusic:IMusic[] | string = [];
+  isLoading:boolean = true;
   allMusic:IMusic[] = [];
-
+  userMusicQuantity:number = 0;
 
   constructor() {
     makeAutoObservable(this);
-
+    this.get_all_music();
+    this.get_user_music();
   }
 
-  *all_music() {
+  *get_all_music() {
     try {
       const res = yield ApiRequest(
         "http://localhost:3003/all_music",
         "GET",
       );
-      this.allMusic = res.music;
-      console.log(this.allMusic);
+
+      runInAction(() => {
+        this.allMusic = res.music;
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -37,6 +41,7 @@ class Music {
 
       runInAction(() => {
         this.userMusic = res.userMusic.getMusic.length > 0 ? res.userMusic : null;
+        this.userMusicQuantity = res.userMusic.getMusic.length
       })
     } catch (error) {
       console.log(error);
@@ -58,7 +63,6 @@ class Music {
 
   *add_rm_user_music(data) {
     try {
-      console.log("controller data",data)
       yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
     } catch (error) {
       console.log(error);

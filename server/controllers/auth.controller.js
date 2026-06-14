@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { prisma } from "../lib/prisma.js";
-import { create_session, deleted_session } from "../prisma/actions/session.ts";
+import {prisma} from "../lib/prisma.js";
+import {create_session, deleted_session} from "../prisma/actions/session.ts";
 
 export async function register(req, res) {
   const { name, password, email } = req.body;
@@ -44,10 +44,11 @@ export async function login(req, res) {
 
   const userFind = await prisma.user.findUnique({ where: { email: email } });
   const passCheck = await bcrypt.compare(password, userFind.password);
-
-  if (!userFind && !passCheck) {
+  console.log(passCheck)
+  if (!userFind || !passCheck) {
     return res.status(400).json({ errors: "no valide data or no password" });
   }
+
   await create_session(userFind.id, res);
   
   const user = await prisma.user.findUnique({
