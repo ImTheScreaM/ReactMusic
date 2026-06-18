@@ -49,15 +49,25 @@ const Header = observer(() => {
                       <div className="favorite flex">
                         <svg xmlns="http://www.w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.88-8.88 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                      </svg>
+                        </svg>
                          <h2>Favorite</h2>
                       </div>
                   </NavLink>
               </li>
+            <li>
+              <NavLink to={"/playlist"}>
+                <div className="playlist flex">
+                  <svg fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="currentColor" width="24" height="24" viewBox="-0.39 0 42.784 42.784" xmlns="http://www.w3.org/2000/svg">
+                    <path id="_22.Music-Playlist" data-name="22.Music-Playlist" d="M44.312,4.548v.007L37.344,6.486l0-.006-.029.042A1.994,1.994,0,0,0,36,8.393v30h0v2a5,5,0,0,1-5,5H25a5,5,0,0,1-5-5v-2a5,5,0,0,1,5-5h9v-25h0A3.987,3.987,0,0,1,36.693,4.63l-.006-.018,6.9-1.906a.927.927,0,0,1,.142-.039l.207-.058,0,.015c.021,0,.038-.012.06-.012a1,1,0,0,1,1,1A.988.988,0,0,1,44.312,4.548ZM34,38.393h0v-3H25a3,3,0,0,0-3,3v2a3,3,0,0,0,3,3h6a3,3,0,0,0,3-3Zm-7-9H4a1,1,0,0,1,0-2H27a1,1,0,0,1,0,2Zm0-8H4a1,1,0,0,1,0-2H27a1,1,0,0,1,0,2Zm0-8H4a1,1,0,0,1,0-2H27a1,1,0,0,1,0,2Zm-23,22h9a1,1,0,0,1,0,2H4a1,1,0,0,1,0-2Z" transform="translate(-3 -2.609)" fill-rule="evenodd"/>
+                  </svg>
+                  <h2>Playlist</h2>
+                </div>
+              </NavLink>
+            </li>
             {isAuth ? (
               <li>
                 <NavLink to={"/profile"}>
-                    <div>
+                    <div className="profile flex">
                         <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="19" stroke="currentColor" strokeWidth="1.5" fill="white"/>
                             <circle cx="20" cy="14" r="5" stroke="currentColor" strokeWidth="1.5" fill="white"/>

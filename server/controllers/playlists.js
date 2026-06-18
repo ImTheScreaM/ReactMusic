@@ -1,13 +1,14 @@
 import {prisma} from "../lib/prisma"
 
 
-
 export async function createPlaylist(req,res) {
-  const {name} = res,body;
+  const {name} = res.body;
 
   await prisma.playlists.create({
     data: {
-      name:name
+      name:name,
+      avatar:'none',
+      musics:[],
     }
   })
 
@@ -26,7 +27,7 @@ export async function addMusicForPlaylist(req,res) {
   await prisma.playlists.update({
     data : {
       id:idMusic,
-      name:name;
+      name:name
     }
   })
   res.status(200);

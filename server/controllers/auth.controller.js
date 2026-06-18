@@ -35,7 +35,6 @@ export async function register(req, res) {
     res.status(200).json({ user: user });
   } catch (error) {
     return;
-    //console.log("!!!!!!!", error);
   }
 }
 
@@ -44,7 +43,7 @@ export async function login(req, res) {
 
   const userFind = await prisma.user.findUnique({ where: { email: email } });
   const passCheck = await bcrypt.compare(password, userFind.password);
-  console.log(passCheck)
+
   if (!userFind || !passCheck) {
     return res.status(400).json({ errors: "no valide data or no password" });
   }

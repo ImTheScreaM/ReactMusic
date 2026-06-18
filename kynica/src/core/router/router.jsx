@@ -10,6 +10,7 @@ import ProtectedRouter from './protectedRouter';
 import Favorite from "../../features/pages/favorite/favorite";
 import AuthLayout from "../../layout/auth_loyout";
 import Search from "../../features/pages/search/search";
+import Playlist from "../../features/pages/playlist/playlist";
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,14 @@ export const router = createBrowserRouter([
             {
                 path:"/search",
                 element: <Search/>,
+            },
+            {
+                path:"/playlist",
+                element: (
+                    <ProtectedRouter>
+                        <Playlist/>
+                    </ProtectedRouter>
+                )
             }
         ],
     },

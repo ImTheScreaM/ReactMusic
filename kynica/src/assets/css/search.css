@@ -95,7 +95,7 @@
   margin-bottom: 20px;
 }
 
-.search_results_container {
+.search_result_container {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
