@@ -35,20 +35,6 @@ export async function get_all_music(req,res) {
 
 }
 
-export async function find_music(req,res) {
-  const title = res.body.title;
-  const https_music = "https://spootify.com";
-  const https_title = `${title}`
-  const url_music = `${https_music}/${https_title}`
-
-  try {
-    return res.status(200).json({music:{url_music}});
-  } catch (error) {
-    console.log(error);
-  }
-
-}
-
 export async function get_love_user_music(req,res) {
   const session = await get_session(req);
   if (!session) return console.log("No session");

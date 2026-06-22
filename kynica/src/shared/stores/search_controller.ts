@@ -12,7 +12,7 @@ class Search {
   *search_by_category(value,category) {
     this.isLoading = true;
     this.result = []
-    console.log(value,category)
+
     try {
       let url;
       let body;

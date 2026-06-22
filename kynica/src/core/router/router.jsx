@@ -11,6 +11,8 @@ import Favorite from "../../features/pages/favorite/favorite";
 import AuthLayout from "../../layout/auth_loyout";
 import Search from "../../features/pages/search/search";
 import Playlist from "../../features/pages/playlist/playlist";
+import PlaylistMusic from "../../features/pages/playlistMusic/playlistMusic";
+
 
 export const router = createBrowserRouter([
     {
@@ -49,7 +51,15 @@ export const router = createBrowserRouter([
                         <Playlist/>
                     </ProtectedRouter>
                 )
-            }
+            },
+            {
+                path:"/playlist/:id",
+                element: (
+                    <ProtectedRouter>
+                        <PlaylistMusic/>
+                    </ProtectedRouter>
+                )
+            },
         ],
     },
     {

@@ -10,6 +10,8 @@ export const CartMusic = observer(({ props,playlist }) => {
   const {isAuth} = use_auth_store();
   const {isPlay,musicId} = use_music_player_controller()
 
+  console.log("cart_music",playlist);
+
   function toggle_favorite_music(e) { // <- УЖЕ ПОЧТИ НЕ ТЕСТОВАЯ ХУЙНЯ =))),(или ъуй его знает)
     if(!isAuth) return;
     music_controller.add_rm_user_music(props);

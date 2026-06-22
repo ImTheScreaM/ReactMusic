@@ -118,6 +118,8 @@ class MusicPlayer {
             track.id === this.musicId || track.musicId === this.musicId
         );
 
+        console.log(currentIndex,this.playlist)
+
         if (currentIndex === -1) return;
 
         const nextIndex = (currentIndex + 1) % this.playlist.length;

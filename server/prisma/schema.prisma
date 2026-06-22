@@ -43,22 +43,33 @@ model LoveMusic {
 }
 
 model Music {
-  id          Int         @id @default(autoincrement())
-  name        String
-  artist      String?
-  genre       String?
-  description String?
-  time        Int?
-  urlAvatar   String?
-  lovedBy     LoveMusic[]
-  playlists   Playlists[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  artist         String?
+  genre          String?
+  description    String?
+  time           Int?
+  urlAvatar      String?
+  lovedBy        LoveMusic[]
+  playlistMusics PlaylistMusic[]
 }
 
 model Playlists {
-  id     Int    @id @default(autoincrement())
+  id     Int             @id @default(autoincrement())
   userId Int
   name   String
   avatar String
-  musics Music  @relation(fields: [userId], references: [id])
-  users  User[]
+  musics PlaylistMusic[]
+  user   User            @relation(fields: [userId], references: [id])
+}
+
+model PlaylistMusic {
+  id         Int       @id @default(autoincrement())
+  musicId    Int
+  playlistId Int
+  addedAt    DateTime  @default(now())
+  playlist   Playlists @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  music      Music     @relation(fields: [musicId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, musicId])
 }

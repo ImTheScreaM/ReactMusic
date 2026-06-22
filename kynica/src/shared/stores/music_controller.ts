@@ -50,17 +50,6 @@ class Music {
     }
   }
 
-  *find_music() {
-    try {
-      const response = yield ApiRequest(
-        "http://localhost:3003/find_music",
-        "POST",
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   *add_rm_user_music(data) {
     try {
       yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
