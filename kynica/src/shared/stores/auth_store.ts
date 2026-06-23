@@ -1,6 +1,7 @@
 import {makeAutoObservable, runInAction} from "mobx";
 
 import ApiRequest from "../api/apiRequest";
+import {IFormLogin, IFormRegister} from "../interface/intarface";
 
 
 class AuthController {
@@ -13,7 +14,8 @@ class AuthController {
     this.checkAuth();
   }
 
-  *register(formData) {
+  *register(formData:IFormRegister) {
+    console.log("register",formData)
     try {
       const res = yield ApiRequest(
           "http://localhost:3003/register",
@@ -25,7 +27,8 @@ class AuthController {
     }
   }
 
-  *login(data) {
+  *login(data:IFormLogin) {
+    console.log("login",data);
     try {
       const res = yield ApiRequest("http://localhost:3003/login", "POST", data);
       runInAction(() => {

@@ -39,13 +39,15 @@ export function use_music_player() {
   const userMusic = music_controller.userMusic;
   const allMusic = music_controller.allMusic;
   const userMusicQuantity = music_controller.userMusicQuantity;
-  const isLoading= music_controller.isLoading;
+  const userMusicLoading= music_controller.loadingAllMusic;
+  const allMusicLoading = music_controller.userAllMusic;
 
   return {
     userMusic,
-    isLoading,
     allMusic,
-    userMusicQuantity
+    userMusicQuantity,
+    userMusicLoading,
+    allMusicLoading
   }
 }
 

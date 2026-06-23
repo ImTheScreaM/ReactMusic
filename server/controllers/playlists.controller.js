@@ -107,7 +107,7 @@ export async function add_music_in_playlist(req,res) {
         message:"Already has"
       })
     } else {
-      await prisma.playlistMusic.create({
+      const music = await prisma.playlistMusic.create({
         data: {
           playlistId: parseInt(playlistId),
           musicId: parseInt(musicId)
@@ -118,7 +118,8 @@ export async function add_music_in_playlist(req,res) {
         }
       })
       res.json({
-        message:"Successfully added music"
+        message:"Successfully added music",
+        data:music
       })
     }
 

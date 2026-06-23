@@ -7,8 +7,9 @@ class Music {
   userMusic:IMusic[] | string = [];
   allMusic:IMusic[] = [];
   userMusicQuantity:number = 0;
-  isLoading:boolean = true;
 
+  loadingAllMusic:boolean = false;
+  userAllMusic:boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -17,6 +18,7 @@ class Music {
   }
 
   *get_all_music() {
+    this.loadingAllMusic = true;
     try {
       const res = yield ApiRequest(
         "http://localhost:3003/all_music",
@@ -25,15 +27,17 @@ class Music {
 
       runInAction(() => {
         this.allMusic = res.music;
+        this.loadingAllMusic = false;
       });
     } catch (error) {
       console.log(error);
     } finally {
-      this.isLoading = false;
+      this.loadingAllMusic = false;
     }
   }
 
   *get_user_music() {
+    this.userAllMusic = true;
     try {
       const res = yield ApiRequest(
         "http://localhost:3003/user_music",
@@ -43,17 +47,20 @@ class Music {
       runInAction(() => {
         this.userMusic = res.userMusic.getMusic.length > 0 ? res.userMusic : null;
         this.userMusicQuantity = res.userMusic.getMusic.length
+        this.userAllMusic = false;
       })
     } catch (error) {
       console.log(error);
     } finally {
-      this.isLoading = false;
+      this.userAllMusic = false;
     }
   }
 
-  *add_rm_user_music(data) {
+  *add_rm_user_music(data:IMusic) {
+    console.log(data)
     try {
-      yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
+      const res = yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
+      console.log(res)
     } catch (error) {
       console.log(error);
     }

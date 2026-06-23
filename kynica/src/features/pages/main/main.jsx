@@ -11,9 +11,9 @@ import "../../../assets/css/buttons.css"
 
 const Main = observer(() => {
   const navigate = useNavigate()
-  const {isLoading,allMusic,userMusicQuantity} = use_music_player()
+  const {allMusicLoading,allMusic,userMusicQuantity} = use_music_player()
 
-  if(isLoading) {
+  if(allMusicLoading) {
     return <h1>Loading..</h1>
   }
 

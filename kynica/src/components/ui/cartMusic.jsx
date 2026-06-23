@@ -10,7 +10,7 @@ import DropdownMusicOption from "./dropdownMusicOption";
 
 export const CartMusic = observer(({ props,playlist, showRemoveButton=false}) => {
   const {isAuth} = use_auth_store();
-  const {isPlay,musicId} = use_music_player_controller()
+  const {isPlay} = use_music_player_controller()
 
 
   function toggle_favorite_music(e) { // <- УЖЕ ПОЧТИ НЕ ТЕСТОВАЯ ХУЙНЯ =))),(или ъуй его знает)
@@ -45,7 +45,7 @@ export const CartMusic = observer(({ props,playlist, showRemoveButton=false}) =>
           </button>
           <p>{Math.floor(props.time / 60)}:{String(props.time % 60).padStart(2, '0')}</p>
 
-          <DropdownMusicOption props={{props, isAuth,showRemoveButton}}/>
+          <DropdownMusicOption props={{props,showRemoveButton}}/>
         </div>
       </div>
     </div>

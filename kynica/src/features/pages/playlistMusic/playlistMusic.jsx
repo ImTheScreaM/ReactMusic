@@ -10,22 +10,22 @@ const PlaylistMusic = observer(() => {
 
   const {id} = useParams();
   const [open, setOpen] = useState(false);
-  const isLoading = playlist_controller.playlistMusicLoading;
+  const playlistMusicLoading = playlist_controller.playlistMusicLoading;
 
   useEffect(() => {
-    if (id) {
-      playlist_controller.get_music_playlist(id);
-    }
+    console.log("hello")
+    playlist_controller.get_music_playlist(id);
   },[id])
 
-  if(isLoading) return (
-      <div>Loading...</div>
-  )
 
   const toggleOpen = () => {
     setOpen(!open);
   }
-  console.log(playlist_controller.playlistMusic.map(item => item));
+
+  if(playlistMusicLoading) return (
+      <div>Loading...</div>
+  )
+
   return (
       <div className="playlist_music">
         <div className="add_music-btn">

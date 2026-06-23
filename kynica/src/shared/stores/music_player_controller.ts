@@ -47,7 +47,7 @@ class MusicPlayer {
       return this.isOpen = !this.isOpen;
     }
 
-    play(musicId,trackData,playlist) {
+    play(musicId:number,trackData,playlist) {
         runInAction(() => {
             console.log("play",musicId,trackData,playlist)
 
@@ -74,14 +74,14 @@ class MusicPlayer {
         this.isPlaying = true;
     }
 
-    seek(time) {
+    seek(time:number) {
         if (this.audio.duration) {
             this.audio.currentTime = time;
             this.currentTime = time
         }
     }
 
-    setVolume(volume) {
+    setVolume(volume:number) {
         const newVolume = Math.max(0,Math.min(1,volume));
         this.volume = newVolume;
         this.audio.volume = newVolume;
@@ -148,7 +148,7 @@ class MusicPlayer {
         return this.play(prevId,prevTrack,this.playlist);
     }
 
-    formatTimer(time) {
+    formatTimer(time:number) {
         if (isNaN(time)) return "0:00";
 
         const mins = Math.floor(time / 60);

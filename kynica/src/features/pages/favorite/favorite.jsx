@@ -8,13 +8,13 @@ import music_controller from "../../../shared/stores/music_controller.ts";
 import "../../../assets/css/favorite.css"
 
 const Favorite = observer(() => {
-  const {userMusic,isLoading} = use_music_player();
+  const {userMusic,userMusicLoading} = use_music_player();
 
   useEffect(() => {
     music_controller.get_user_music()
   },[])
 
-  if(isLoading) {
+  if(userMusicLoading) {
     return <div>Загрузка ...</div>
   }
 

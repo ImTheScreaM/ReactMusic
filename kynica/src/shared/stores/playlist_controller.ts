@@ -9,6 +9,8 @@ class Playlist {
 
   playlists = [];
   playlistMusic = [];
+
+
   isLoading = false;
   playlistLoading = false;
   playlistMusicLoading = false;
@@ -56,6 +58,7 @@ class Playlist {
 
       runInAction(() => {
         this.playlists = res;
+        this.playlistLoading = false;
       });
 
     } catch (error) {
@@ -65,11 +68,13 @@ class Playlist {
     }
   }
 
-  *add_music_in_playlist(playlistId,musicId) {
+  *add_music_in_playlist(playlistId:number,musicId:number) {
     this.isLoading = true;
     try {
       const res = yield ApiRequest(`${URL}/add_music_in_playlist`,"POST",{playlistId,musicId});
+
       runInAction(() => {
+        if(!res.data) return;
         this.playlistMusic.push(res.data);
       });
     } catch (error) {
@@ -80,7 +85,7 @@ class Playlist {
   }
 
 
-  *delete_music_from_playlist(playlistId,musicId) {
+  *delete_music_from_playlist(playlistId:number,musicId:number) {
     this.isLoading = true;
     try {
       yield ApiRequest(`${URL}/delete_music_from_playlist`,"POST",{playlistId,musicId});
@@ -96,15 +101,14 @@ class Playlist {
     }
   }
 
-  *get_music_playlist(playlistId) {
-    if (!playlistId) return;
+  *get_music_playlist(playlistId:number) {
     this.playlistMusicLoading = true;
     try {
       const res = yield ApiRequest(`${URL}/get_music_playlist`,"POST", {playlistId});
 
       runInAction(() => {
-        this.playlistMusic = res;
         this.playlistMusicLoading = false;
+        this.playlistMusic = res;
       });
     } catch (error) {
       console.log(error);

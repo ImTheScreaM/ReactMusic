@@ -1,15 +1,18 @@
 import {useState} from "react";
-import playlist_controller from "../../shared/stores/playlist_controller.ts";
 import {observer} from "mobx-react-lite";
 
-const DropdownMusicOption = observer(({props,isAuth,showRemoveButton}) => {
+import playlist_controller from "../../shared/stores/playlist_controller.ts";
+import {use_auth_store} from "../../hook/hooks";
+
+const DropdownMusicOption = observer(({props}) => {
+  const {isAuth} = use_auth_store()
   const [openDropList, setOpenDropList] = useState(false)
   const [openPlaylistDropList, setOpenPlaylistDropList] = useState(false)
+
   const toggleDropList = async () => {
-    if(isAuth && openDropList) {
+    if(isAuth && !openDropList) {
       try {
         await playlist_controller.get_playlist()
-
       } catch (error) {
         console.log(error)
       }
@@ -26,8 +29,7 @@ const DropdownMusicOption = observer(({props,isAuth,showRemoveButton}) => {
 
   const addToPlaylist = async (playlistId) => {
     try {
-      console.log(playlistId,props.id)
-      await playlist_controller.add_music_in_playlist(playlistId,props.id);
+      await playlist_controller.add_music_in_playlist(playlistId,props.props.id);
       setOpenPlaylistDropList(false);
       setOpenDropList(false);
     } catch (error) {
@@ -37,7 +39,7 @@ const DropdownMusicOption = observer(({props,isAuth,showRemoveButton}) => {
 
   const deleteFromPlaylist = async () => {
     try {
-      await playlist_controller.delete_music_from_playlist(props.playlistId,props.id);
+      await playlist_controller.delete_music_from_playlist(props.props.playlistId,props.props.id);
       setOpenPlaylistDropList(false);
       setOpenDropList(false);
     } catch (error) {
@@ -62,7 +64,7 @@ const DropdownMusicOption = observer(({props,isAuth,showRemoveButton}) => {
                 {openPlaylistDropList ? '← Назад' : 'Добавить в плейлист'}
               </button>
 
-              {showRemoveButton && (
+              {props.showRemoveButton && (
                   <button onClick={deleteFromPlaylist}>
                     Удалить
                   </button>

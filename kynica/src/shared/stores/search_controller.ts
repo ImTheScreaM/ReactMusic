@@ -11,13 +11,13 @@ class Search {
     makeAutoObservable(this);
   }
 
-  *search_by_category(value,category) {
+  *search_by_category(value:string,category:string) {
     this.searchLoading = true;
     this.result = []
 
     try {
-      let url;
-      let body;
+      let url:string;
+      let body:Object;
 
       switch (category) {
         case "name":
@@ -33,7 +33,6 @@ class Search {
           body = {value};
 
       }
-
       const res = yield ApiRequest(url,"POST",body);
 
       runInAction(() => {
