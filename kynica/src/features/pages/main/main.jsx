@@ -17,7 +17,6 @@ const Main = observer(() => {
     return <h1>Loading..</h1>
   }
 
-
   return (
     <div className="music_main-container pt-5 w-full">
       <div className="main-favorite_music">

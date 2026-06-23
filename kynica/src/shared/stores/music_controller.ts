@@ -5,9 +5,10 @@ import {makeAutoObservable, runInAction} from "mobx";
 
 class Music {
   userMusic:IMusic[] | string = [];
-  isLoading:boolean = true;
   allMusic:IMusic[] = [];
   userMusicQuantity:number = 0;
+  isLoading:boolean = true;
+
 
   constructor() {
     makeAutoObservable(this);

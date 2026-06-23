@@ -1,5 +1,28 @@
 import {prisma} from "../lib/prisma.js"
 import {get_session} from "../prisma/actions/session.ts";
+import {CheckerLikeMusic} from "../utils/musicLikesHelper.js";
+
+const validate_params_in_add_remove_music = async (playlistId,musicId) => {
+  if (!playlistId || !musicId) {
+   throw new Error("need playlistId and musicId is required")
+  }
+
+  const playlist = await prisma.playlists.findUnique({
+    where: { id: parseInt(playlistId) }
+  });
+
+  if (!playlist) {
+    throw new Error("Плейлист не найден")
+  }
+
+  const music = await prisma.music.findUnique({
+    where: { id: parseInt(musicId) }
+  });
+
+  if (!music) {
+    throw new Error("Трек не найден")
+  }
+}
 
 
 export async function create_playlist(req,res) {
@@ -7,13 +30,17 @@ export async function create_playlist(req,res) {
   const {name} = req.body;
 
   try {
-    await prisma.playlists.create({
+    const playlist = await prisma.playlists.create({
       data: {
         name:name,
         userId: session.userId,
         avatar:"none"
       }
     })
+    res.json({
+      message:"Successfully created playlist",
+      playlist:playlist
+    });
   } catch (error) {
     console.log(error);
   }
@@ -30,6 +57,9 @@ export async function delete_playlist(req,res) {
         id:playlistId,
         userId: session.userId
       }
+    })
+    res.json({
+      message:"Successfully deleted playlist"
     })
   } catch (error) {
     console.log(error)
@@ -59,19 +89,39 @@ export async function get_playlist(req,res) {
 }
 
 export async function add_music_in_playlist(req,res) {
-  const {playlistId,musicId} = req.body;
-
   try {
-    await prisma.playlistMusic.create({
-      data: {
-        playlistId: playlistId,
-        musicId: musicId
-      },
-      include: {
-        music:true,
-        playlist:true
+    const {playlistId,musicId} = req.body;
+    await validate_params_in_add_remove_music(playlistId,musicId);
+
+    const existingMusic = await prisma.playlistMusic.findUnique({
+      where: {
+        playlistId_musicId: {
+          playlistId: parseInt(playlistId),
+          musicId: parseInt(musicId)
+        }
       }
     })
+
+    if(existingMusic) {
+      res.json({
+        message:"Already has"
+      })
+    } else {
+      await prisma.playlistMusic.create({
+        data: {
+          playlistId: parseInt(playlistId),
+          musicId: parseInt(musicId)
+        },
+        include: {
+          music:true,
+          playlist: true
+        }
+      })
+      res.json({
+        message:"Successfully added music"
+      })
+    }
+
   } catch (error) {
     console.log(error);
   }
@@ -81,31 +131,50 @@ export async function add_music_in_playlist(req,res) {
 export async function delete_music_from_playlist(req,res) {
   const {playlistId,musicId} = req.body;
 
+  console.log(req.body)
+
+  await validate_params_in_add_remove_music(playlistId,musicId);
+
   try {
     await prisma.playlistMusic.delete({
       where: {
         playlistId_musicId: {
-          playlistId: playlistId,
-          musicId:musicId
+          playlistId: parseInt(playlistId),
+          musicId:parseInt(musicId)
         }
       }
     })
+
+    res.json({
+    message:"Successfully deleted",
+    playlistId:parseInt(musicId),
+    musicId:parseInt(musicId)})
+
   } catch (error) {
     console.log(error);
   }
 }
 
 export async function get_music_playlist(req,res) {
+  const session = await get_session(req);
   const {playlistId} = req.body;
 
   try {
+
     const playlist_music = await prisma.playlistMusic.findMany({
       where: {playlistId: Number(playlistId)},
       include: {
         music:true,
       }
     })
-    res.json(playlist_music);
+
+    const musicWithLikes = await CheckerLikeMusic(
+        playlist_music,
+        (item) => item.music,
+        session
+    )
+
+    res.json(musicWithLikes);
   } catch (error) {
     console.log(error);
   }

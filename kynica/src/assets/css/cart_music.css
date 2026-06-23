@@ -51,3 +51,72 @@
 .cart_music-artist {
   font-size: 0.750rem;
 }
+
+.cart_music-options-droplist {
+  position: relative;
+}
+
+.droplist-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.droplist-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  min-width: 200px;
+  z-index: 1000;
+  padding: 5px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
+}
+
+.dropdown-menu button,
+.playlist-submenu button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-menu button:hover,
+.playlist-submenu button:hover {
+  background-color: #333;
+}
+
+.playlist-submenu {
+  position: absolute;
+  right: 0;
+  top: 90px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
+}
+
+.playlist-submenu span {
+  font-size: 12px;
+}

@@ -112,13 +112,11 @@ class MusicPlayer {
     }
 
     nextTrack() {
-        //if (!this.playlist || !this.playlist.length) return console.warn('No playlist');
+        if (!this.playlist || !this.playlist.length) return console.warn('No playlist');
 
         const currentIndex = this.playlist.findIndex(track =>
             track.id === this.musicId || track.musicId === this.musicId
         );
-
-        console.log(currentIndex,this.playlist)
 
         if (currentIndex === -1) return;
 

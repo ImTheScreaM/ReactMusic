@@ -10,14 +10,22 @@ import "../../../assets/css/search.css"
 const Search = observer( () => {
   const [value,setValue] = useState("");
   const [searchCategory, setSearchCategory] = useState("name");
+  const result = search_controller.result;
+  const searchPlaylist = search_controller.searchPlaylist;
+  const searchLoading = search_controller.searchLoading;
 
-  const {result,isLoading}= search_controller;
 
   const categories = [
     { id: 'name', label: 'Name' },
     { id: 'artist', label: 'Artist' },
     { id: 'genre', label: 'Genre' }
   ]
+
+  if(searchLoading) {
+    return (
+        <div>Loading...</div>
+    )
+  }
 
   const setNameHandler = (value) => {
     setValue(value);
@@ -36,7 +44,8 @@ const Search = observer( () => {
       console.error(error);
     }
   }
-  console.log(result)
+
+  console.log(searchPlaylist)
   return (
       <div className="search_page">
 
@@ -63,15 +72,11 @@ const Search = observer( () => {
           {result.length > 0 && (
               <div className="search_result">
                 {result.map((track) => (
-                    <CartMusic key={track.id} props={track} playlist={result}/>
+                    <CartMusic key={track.id} props={track} playlist={searchPlaylist}/>
                 ))}
               </div>
           )}
         </div>
-
-        {!isLoading && result.length === 0 && value && (
-            <span>Ничего не найдено</span>
-        )}
 
       </div>
   )

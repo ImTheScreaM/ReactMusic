@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 
 import playlist_controller from "../../../shared/stores/playlist_controller.ts";
@@ -7,37 +7,33 @@ import {observer} from "mobx-react-lite";
 import {CartMusic} from "../../../components/ui/cartMusic";
 
 const PlaylistMusic = observer(() => {
-  const {id} = useParams();
 
-  const isLoading = playlist_controller.isLoading;
+  const {id} = useParams();
+  const [open, setOpen] = useState(false);
+  const isLoading = playlist_controller.playlistMusicLoading;
 
   useEffect(() => {
-    playlist_controller.get_music_playlist(id);
-  },[])
+    if (id) {
+      playlist_controller.get_music_playlist(id);
+    }
+  },[id])
 
   if(isLoading) return (
       <div>Loading...</div>
   )
 
-  const flattenedPlaylist = playlist_controller.playlistMusic.map(item => ({
-    id: item.music.id,
-    name: item.music.name,
-    artist: item.music.artist,
-    urlAvatar: item.music.urlAvatar,
-    time: item.music.time,
-    description: item.music.description,
-    genre: item.music.genre,
-    addedAt: item.addedAt,
-    musicId: item.musicId,
-    playlistId: item.playlistId
-  }));
-
-  console.log(playlist_controller.playlistMusic)
-
+  const toggleOpen = () => {
+    setOpen(!open);
+  }
+  console.log(playlist_controller.playlistMusic.map(item => item));
   return (
       <div className="playlist_music">
         <div className="add_music-btn">
+          <button onClick={toggleOpen}>Add music</button>
 
+          {open && <div>
+
+          </div>}
         </div>
 
         <div className="playlist_music-content">
@@ -45,18 +41,21 @@ const PlaylistMusic = observer(() => {
               <div>
                 {
                   playlist_controller.playlistMusic.map((item) => (
-                    <CartMusic key={item.id} props={{...item.music }} playlist={playlist_controller.playlistMusic.map(track => ({
-                      id: track.music.id,
-                      name: track.music.name,
-                      artist: track.music.artist,
-                      urlAvatar: track.music.urlAvatar,
-                      time: track.music.time,
-                      description: track.music.description,
-                      genre: track.music.genre,
-                      addedAt: track.addedAt,
-                      musicId: track.musicId,
-                      playlistId: track.playlistId
-                    }))} />
+                    <CartMusic key={item.id} props={{...item.music,playlistId: item.playlistId }} showRemoveButton={true}
+                      playlist={
+                        playlist_controller.playlistMusic.map(track => ({
+                          id: track.music.id,
+                          name: track.music.name,
+                          artist: track.music.artist,
+                          urlAvatar: track.music.urlAvatar,
+                          time: track.music.time,
+                          description: track.music.description,
+                          genre: track.music.genre,
+                          addedAt: track.addedAt,
+                          musicId: track.musicId,
+                          playlistId: track.playlistId
+                        }))
+                      } />
                   ))
                 }
               </div>

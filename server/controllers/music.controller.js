@@ -1,30 +1,17 @@
 import {prisma} from "../lib/prisma.js";
 import {get_session} from "../prisma/actions/session.ts";
+import {CheckerLikeMusic} from "../utils/musicLikesHelper.js";
 
 export async function get_all_music(req,res) {
   const session = await get_session(req);
   try {
     const allMusic = await prisma.music.findMany();
 
-    if(!session) {
-      const musicWithLikes = allMusic.map((music) => ({
-        ...music,
-          isLiked:false
-      }))
-      return res.status(200).json({music:musicWithLikes})
-    }
-
-    const likedMusic = await prisma.loveMusic.findMany({
-      where:{userId:session.userId},
-      select:{musicId:true}
-    })
-
-    const likedIds = new Set(likedMusic.map(item => item.musicId));
-
-    const musicWithLikes = allMusic.map(music => ({
-      ...music,
-      isLiked:likedIds.has(music.id)
-    }))
+    const musicWithLikes = await CheckerLikeMusic (
+        allMusic,
+        (item) => item,
+        session
+    )
 
     res.status(200).json({music:musicWithLikes})
 

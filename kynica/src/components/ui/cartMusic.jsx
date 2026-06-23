@@ -1,16 +1,17 @@
+import {observer} from "mobx-react-lite";
+
 import music_controller from "../../shared/stores/music_controller.ts";
 
-
-import "../../assets/css/cart_music.css";
-import {observer} from "mobx-react-lite";
 import {toggle_music, use_auth_store, use_music_player_controller} from "../../hook/hooks";
 
+import "../../assets/css/cart_music.css";
+import DropdownMusicOption from "./dropdownMusicOption";
 
-export const CartMusic = observer(({ props,playlist }) => {
+
+export const CartMusic = observer(({ props,playlist, showRemoveButton=false}) => {
   const {isAuth} = use_auth_store();
   const {isPlay,musicId} = use_music_player_controller()
 
-  console.log("cart_music",playlist);
 
   function toggle_favorite_music(e) { // <- УЖЕ ПОЧТИ НЕ ТЕСТОВАЯ ХУЙНЯ =))),(или ъуй его знает)
     if(!isAuth) return;
@@ -43,6 +44,8 @@ export const CartMusic = observer(({ props,playlist }) => {
             </svg>
           </button>
           <p>{Math.floor(props.time / 60)}:{String(props.time % 60).padStart(2, '0')}</p>
+
+          <DropdownMusicOption props={{props, isAuth,showRemoveButton}}/>
         </div>
       </div>
     </div>

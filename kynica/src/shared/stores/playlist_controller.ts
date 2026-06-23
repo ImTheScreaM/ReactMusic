@@ -10,20 +10,28 @@ class Playlist {
   playlists = [];
   playlistMusic = [];
   isLoading = false;
+  playlistLoading = false;
+  playlistMusicLoading = false;
+  createLoading = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
   *create_playlist(name:string) {
-    this.isLoading = true;
+    this.createLoading = true;
     try {
-      yield ApiRequest(`${URL}/create_playlist`,"POST", {name})
+      const res = yield ApiRequest(`${URL}/create_playlist`,"POST", {name})
+
+      runInAction(() => {
+        this.playlists.push(res.playlist);
+        this.createLoading = false;
+      })
 
     } catch (error) {
       console.log(error);
     } finally {
-      this.isLoading = false;
+      this.createLoading = false;
     }
   }
 
@@ -42,10 +50,10 @@ class Playlist {
   }
 
   *get_playlist() {
-    this.isLoading = true;
+    this.playlistLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/get_playlist`,"GET");
-      console.log(res);
+      const res = yield ApiRequest(`${URL}/get_playlist`,"POST");
+
       runInAction(() => {
         this.playlists = res;
       });
@@ -53,7 +61,7 @@ class Playlist {
     } catch (error) {
       console.log(error);
     } finally {
-      this.isLoading = false;
+      this.playlistLoading = false;
     }
   }
 
@@ -77,7 +85,9 @@ class Playlist {
     try {
       yield ApiRequest(`${URL}/delete_music_from_playlist`,"POST",{playlistId,musicId});
       runInAction(() => {
-        this.playlistMusic = this.playlistMusic.filter(playlistMusic => playlistMusic.id !== musicId);
+        this.playlistMusic = this.playlistMusic.filter(
+            item => item.musicId !== Number(musicId)
+        );
       });
     } catch (error) {
       console.log(error);
@@ -87,19 +97,19 @@ class Playlist {
   }
 
   *get_music_playlist(playlistId) {
-    this.isLoading = true;
+    if (!playlistId) return;
+    this.playlistMusicLoading = true;
     try {
       const res = yield ApiRequest(`${URL}/get_music_playlist`,"POST", {playlistId});
 
-      console.log(res)
-
       runInAction(() => {
         this.playlistMusic = res;
+        this.playlistMusicLoading = false;
       });
     } catch (error) {
       console.log(error);
     } finally {
-      this.isLoading = false;
+      this.playlistMusicLoading = false;
     }
   }
 

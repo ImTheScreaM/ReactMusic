@@ -4,13 +4,15 @@ import {makeAutoObservable, runInAction} from "mobx";
 
 class Search {
   result = [];
-  isLoading = false;
+  searchPlaylist = [];
+  searchLoading = false;
+
   constructor() {
     makeAutoObservable(this);
   }
 
   *search_by_category(value,category) {
-    this.isLoading = true;
+    this.searchLoading = true;
     this.result = []
 
     try {
@@ -31,15 +33,19 @@ class Search {
           body = {value};
 
       }
-      console.log(url,body);
+
       const res = yield ApiRequest(url,"POST",body);
 
       runInAction(() => {
         this.result = res.search;
+        this.searchPlaylist = res.search
+        this.searchLoading = false;
       })
 
     } catch (error) {
       console.error(error);
+    } finally {
+      this.searchLoading = false;
     }
 
   }

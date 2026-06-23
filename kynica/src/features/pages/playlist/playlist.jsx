@@ -8,7 +8,7 @@ import BlockCreatePlaylist from "../../../components/ui/blockCreatePlaylist";
 import "../../../assets/css/playlist.css"
 
 const Playlist = observer(() => {
-  const isLoading = playlist_controller.isLoading;
+  const isLoading = playlist_controller.playlistLoading;
 
   useEffect(() => {
     playlist_controller.get_playlist();
