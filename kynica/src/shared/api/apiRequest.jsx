@@ -16,4 +16,19 @@ const ApiRequest = async (url, method, data) => {
     }
 };
 
-export default ApiRequest;
+const ApiUpload = async (url, method, data) => {
+  try {
+    const response = await fetch(url, {
+      method: method,
+      body: data,
+      credentials: 'include',
+      mode: 'cors',
+    });
+
+    return await response.json()
+  } catch (err) {
+    console.error("API Request failed:", err);
+  }
+}
+
+export {ApiRequest,ApiUpload};

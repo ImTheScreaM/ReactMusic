@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from "mobx";
 
-import ApiRequest from "../api/apiRequest";
+import {ApiRequest} from "../api/apiRequest";
 
 
 const URL = process.env.REACT_APP_URL_SERVER || "http://localhost:3003";

@@ -50,10 +50,11 @@ class MusicPlayer {
     play(musicId:number,trackData,playlist) {
         runInAction(() => {
             console.log("play",musicId,trackData,playlist)
-
+            const idMusicFromUrl = trackData.audioUrl;
+            console.log("YES",idMusicFromUrl);
             this.trackData = trackData;
             this.musicId = musicId;
-            this.audio.src = `/music/${musicId}.mp3`;
+            this.audio.src = `http://localhost:3003${idMusicFromUrl}`;
             this.audio.play();
 
             this.isPlaying = true;

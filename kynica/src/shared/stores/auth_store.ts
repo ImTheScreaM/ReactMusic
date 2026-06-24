@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from "mobx";
 
-import ApiRequest from "../api/apiRequest";
+import {ApiRequest} from "../api/apiRequest";
 import {IFormLogin, IFormRegister} from "../interface/intarface";
 
 

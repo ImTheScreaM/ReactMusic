@@ -24,7 +24,7 @@ export const CartMusic = observer(({ props,playlist, showRemoveButton=false}) =>
         <div className="cart_music-left_information">
           <div className="cart_music-image">
             <button onClick={() => toggle_music(isPlay,props.id,props,playlist)}>
-              <img src={props.urlAvatar}/>
+              <img src={`http://localhost:3003${props.urlAvatar.replaceAll(" ", "%20")}`}/>
             </button>
           </div>
           <div className="cart_music_information">

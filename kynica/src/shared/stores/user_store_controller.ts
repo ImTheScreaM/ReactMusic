@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import ApiRequest from "../api/apiRequest";
+import {ApiRequest} from "../api/apiRequest";
 
 class User {
   constructor() {

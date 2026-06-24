@@ -50,6 +50,7 @@ model Music {
   description    String?
   time           Int?
   urlAvatar      String?
+  audioUrl       String?
   lovedBy        LoveMusic[]
   playlistMusics PlaylistMusic[]
 }

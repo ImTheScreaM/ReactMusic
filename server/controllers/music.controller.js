@@ -18,8 +18,6 @@ export async function get_all_music(req,res) {
   } catch (err) {
     return res.status(500);
   }
-
-
 }
 
 export async function get_love_user_music(req,res) {
@@ -102,3 +100,24 @@ export async function add_rm_user_music(req,res) {
   }
 }
 
+export async function upload_music(req,res) {
+  try {
+    const session = await get_session(req);
+    const {name,description,genre} = req.body;
+
+
+    await prisma.music.create({
+      data: {
+        name:name,
+        description:description,
+        genre:genre,
+        artist:"ME",
+        urlAvatar:`/uploads/avatar/${req.files.avatar[0].filename}`,
+        audioUrl:`/uploads/audio/${req.files.audio[0].filename}`,
+      }
+    })
+
+  } catch (error) {
+    console.log("upload_music",error);
+  }
+}

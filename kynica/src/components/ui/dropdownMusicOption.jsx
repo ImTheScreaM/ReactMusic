@@ -30,8 +30,6 @@ const DropdownMusicOption = observer(({props}) => {
   const addToPlaylist = async (playlistId) => {
     try {
       await playlist_controller.add_music_in_playlist(playlistId,props.props.id);
-      setOpenPlaylistDropList(false);
-      setOpenDropList(false);
     } catch (error) {
       console.log(error);
     }

@@ -1,4 +1,4 @@
-import ApiRequest from "../api/apiRequest"
+import {ApiRequest} from "../api/apiRequest"
 
 import {makeAutoObservable, runInAction} from "mobx";
 

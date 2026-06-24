@@ -7,6 +7,7 @@ import music_controller from "../../../shared/stores/music_controller.ts";
 
 import "../../../assets/css/favorite.css"
 
+
 const Favorite = observer(() => {
   const {userMusic,userMusicLoading} = use_music_player();
 

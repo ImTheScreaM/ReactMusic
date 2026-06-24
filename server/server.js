@@ -10,13 +10,16 @@ import musicRouter from "./routes/music.router.js";
 import userRouter from "./routes/user.router.js";
 import searchRouter from "./routes/search.router.js";
 import playlistRouter from "./routes/playlist.router.js";
+import path from "path";
 
 const app = express();
 const URL = "http://localhost";
 
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.use(
   cors({

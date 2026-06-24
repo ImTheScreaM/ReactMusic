@@ -1,4 +1,4 @@
-import ApiRequest from "../api/apiRequest";
+import {ApiRequest} from "../api/apiRequest";
 import {IMusic} from "../interface/intarface";
 
 import {makeAutoObservable, runInAction} from "mobx";
@@ -64,7 +64,10 @@ class Music {
     } catch (error) {
       console.log(error);
     }
+  }
 
+  *upload_music(data:string) {
+    yield ApiRequest("http://localhost:3003/upload_music","POST",data);
   }
 
 }
