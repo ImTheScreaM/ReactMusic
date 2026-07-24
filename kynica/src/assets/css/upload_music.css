@@ -1,0 +1,110 @@
+.form-container-upload {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.form-group {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  background: #1d1d1d;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.upload_music-image,
+.upload_music-file,
+.upload_music-name,
+.upload_music-genre,
+.upload_music-description {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload_music-image span:first-child,
+.upload_music-file span:first-child,
+.upload_music-name label:first-child,
+.upload_music-genre label:first-child,
+.upload_music-description label:first-child {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.upload_music-name input,
+.upload_music-genre input,
+.upload_music-description input {
+  padding: 12px 15px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background: #2b2b2b;
+  color: white;
+  font-size: 15px;
+  transition: .2s;
+}
+
+.upload_music-name input:focus,
+.upload_music-genre input:focus,
+.upload_music-description input:focus {
+  outline: none;
+  border-color: #4b7cff;
+  box-shadow: 0 0 10px rgba(75, 124, 255, .35);
+}
+
+.upload_music-image input,
+.upload_music-file input {
+  display: none;
+}
+
+
+.upload_music-image label,
+.upload_music-file label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 48px;
+  border: 2px dashed #555;
+  border-radius: 12px;
+
+  cursor: pointer;
+  color: #d5d5d5;
+  background: #262626;
+
+  transition: .25s;
+}
+
+.upload_music-image label:hover,
+.upload_music-file label:hover {
+  border-color: #4b7cff;
+  color: white;
+  background: #303030;
+}
+
+.upload_music-submit input {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #4b7cff, #7b5cff);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+
+  transition: .25s;
+}
+
+.upload_music-submit input:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(75, 124, 255, .4);
+}
+
+.upload_music-submit input:active {
+  transform: scale(.98);
+}

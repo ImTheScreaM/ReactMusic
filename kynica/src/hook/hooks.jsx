@@ -1,29 +1,26 @@
-import music_player_controller from "../shared/stores/music_player_controller.ts";
-import music_controller from "../shared/stores/music_controller.ts";
+import { toast } from "react-toastify";
 import auth_store from "../shared/stores/auth_store.ts";
+import music_controller from "../shared/stores/music_controller.ts";
+import music_player_controller from "../shared/stores/music_player_controller.ts";
+import search_controller from "../shared/stores/search_controller.ts";
 
-export function toggle_music(isPlay,musicId,track,playlist) {
-  if(!track || !musicId) return console.log("music_id is null");
+export function toggleMusic(musicId, track, playlist) {
+  const controller = music_player_controller;
 
-  const oldTrackId = music_player_controller.musicId;
+  if (!track || !musicId) return console.log("music_id is null");
 
-  if( oldTrackId !== track.id) return music_player_controller.play(track.id,track,playlist);
+  if (controller.musicId !== track.id)
+    return music_player_controller.play(track.id, track, playlist);
 
-  isPlay ?
-      music_player_controller.pause()
-      :
-      music_player_controller.resume();
-
+  controller.isPlaying ? controller.pause() : controller.resume();
 }
 
-export function use_music_player_controller() {
-
+export function useMusicPlayerController() {
   const musicId = music_player_controller.musicId;
   const isPlay = music_player_controller.isPlaying;
   const isLoop = music_player_controller.isLoop;
   const track = music_player_controller.trackData;
   const playlist = music_player_controller.playlist;
-
 
   return {
     musicId,
@@ -31,15 +28,14 @@ export function use_music_player_controller() {
     isLoop,
     track,
     playlist,
-
-  }
+  };
 }
 
-export function use_music_player() {
+export function useMusicPlayer() {
   const userMusic = music_controller.userMusic;
   const allMusic = music_controller.allMusic;
   const userMusicQuantity = music_controller.userMusicQuantity;
-  const userMusicLoading= music_controller.loadingAllMusic;
+  const userMusicLoading = music_controller.loadingAllMusic;
   const allMusicLoading = music_controller.userAllMusic;
 
   return {
@@ -47,16 +43,34 @@ export function use_music_player() {
     allMusic,
     userMusicQuantity,
     userMusicLoading,
-    allMusicLoading
-  }
+    allMusicLoading,
+  };
 }
 
-export function use_auth_store() {
-  const isAuth = auth_store.isAuth
+export function useAuthStore() {
+  const isAuth = auth_store.isAuth;
   const isLoading = auth_store.isLoading;
 
   return {
     isAuth,
-    isLoading
-  }
+    isLoading,
+  };
+}
+
+export function useSearchController() {
+  const result = search_controller.result;
+  const searchPlaylist = search_controller.searchPlaylist;
+  const searchLoading = search_controller.searchLoading;
+
+  return {
+    result,
+    searchPlaylist,
+    searchLoading,
+  };
+}
+
+export function userTogglFavoriteMusic(props) {
+  console.log(props);
+  if (!auth_store.isAuth) return toast.error("pls register");
+  music_controller.add_rm_user_music(props.track);
 }

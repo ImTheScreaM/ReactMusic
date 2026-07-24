@@ -1,15 +1,15 @@
-import {ApiRequest} from "../api/apiRequest";
-import {IMusic} from "../interface/intarface";
+import { ApiRequest, ApiUpload } from "../api/apiRequest.jsx";
+import { IMusic, IUploadMusic } from "../interface/intarface";
 
-import {makeAutoObservable, runInAction} from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 class Music {
-  userMusic:IMusic[] | string = [];
-  allMusic:IMusic[] = [];
-  userMusicQuantity:number = 0;
+  userMusic: IMusic[] = [];
+  allMusic: IMusic[] = [];
+  userMusicQuantity: number = 0;
 
-  loadingAllMusic:boolean = false;
-  userAllMusic:boolean = false;
+  loadingAllMusic: boolean = false;
+  userAllMusic: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -20,14 +20,10 @@ class Music {
   *get_all_music() {
     this.loadingAllMusic = true;
     try {
-      const res = yield ApiRequest(
-        "http://localhost:3003/all_music",
-        "GET",
-      );
+      const res = yield ApiRequest("http://localhost:3003/all_music", "GET");
 
       runInAction(() => {
         this.allMusic = res.music;
-        this.loadingAllMusic = false;
       });
     } catch (error) {
       console.log(error);
@@ -39,16 +35,12 @@ class Music {
   *get_user_music() {
     this.userAllMusic = true;
     try {
-      const res = yield ApiRequest(
-        "http://localhost:3003/user_music",
-        "GET",
-      );
+      const res = yield ApiRequest("http://localhost:3003/user_music", "GET");
 
       runInAction(() => {
-        this.userMusic = res.userMusic.getMusic.length > 0 ? res.userMusic : null;
-        this.userMusicQuantity = res.userMusic.getMusic.length
-        this.userAllMusic = false;
-      })
+        this.userMusic = res.userMusic.getMusic;
+        this.userMusicQuantity = res.userMusic.getMusic.length;
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -56,20 +48,46 @@ class Music {
     }
   }
 
-  *add_rm_user_music(data:IMusic) {
-    console.log(data)
+  *add_rm_user_music(data: IMusic) {
     try {
-      const res = yield ApiRequest("http://localhost:3003/add_rm_user_music","POST",data);
-      console.log(res)
+      const res = yield ApiRequest(
+        "http://localhost:3003/add_rm_user_music",
+        "POST",
+        data,
+      );
+      console.log(res);
+      
+      runInAction(() => {
+        const music = this.allMusic.find((music) => music.id === data.id);
+
+        if (music) {
+          music.isLiked = res.liked;
+        }
+
+        if (res.liked) {
+          this.userMusic.push(data);
+        } else {
+          this.userMusic = this.userMusic.filter(
+            (music) => music.id !== data.id,
+          );
+        }
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  *upload_music(data:string) {
-    yield ApiRequest("http://localhost:3003/upload_music","POST",data);
-  }
+  *upload_music(data: IUploadMusic) {
+    const res = yield ApiUpload(
+      "http://localhost:3003/upload_music",
+      "POST",
+      data,
+    );
 
+    runInAction(() => {
+      this.allMusic.push(res.uploadMusic);
+    });
+  }
 }
 
-export default new Music()
+export default new Music();

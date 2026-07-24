@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import {NavLink} from "react-router-dom";
 
 import playlist_controller from "../../../shared/stores/playlist_controller.ts";
-import BlockCreatePlaylist from "../../../components/ui/blockCreatePlaylist";
+import BlockCreatePlaylist from "../../../components/UX/blockCreatePlaylist";
 
 import "../../../assets/css/playlist.css"
 

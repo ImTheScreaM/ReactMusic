@@ -1,4 +1,4 @@
-const ApiRequest = async (url, method, data) => {
+export const ApiRequest = async (url, method, data) => {
     try {
         const response = await fetch(url, {
             method: method,
@@ -16,7 +16,7 @@ const ApiRequest = async (url, method, data) => {
     }
 };
 
-const ApiUpload = async (url, method, data) => {
+export const ApiUpload = async (url, method, data) => {
   try {
     const response = await fetch(url, {
       method: method,
@@ -30,5 +30,3 @@ const ApiUpload = async (url, method, data) => {
     console.error("API Request failed:", err);
   }
 }
-
-export {ApiRequest,ApiUpload};

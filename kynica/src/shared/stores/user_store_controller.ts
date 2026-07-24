@@ -11,8 +11,11 @@ class User {
       const response = yield ApiRequest(
         "http://localhost:3003/change_username",
         "POST",
-        data,
+        {new_name:data},
       );
+
+      console.log(response);
+      
     } catch (error) {
       console.log(error);
     }
@@ -23,7 +26,7 @@ class User {
       const response = yield ApiRequest(
         "http://localhost:3003/change_bio",
         "POST",
-        data,
+        {new_bio:data},
       );
     } catch (error) {
       console.log(error);
@@ -31,4 +34,4 @@ class User {
   }
 }
 
-export default User;
+export default new User();

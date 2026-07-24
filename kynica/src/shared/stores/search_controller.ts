@@ -1,10 +1,11 @@
 import {ApiRequest} from "../api/apiRequest"
 
+
 import {makeAutoObservable, runInAction} from "mobx";
 
 class Search {
   result = [];
-  searchPlaylist = [];
+  searchPlaylist = []
   searchLoading = false;
 
   constructor() {
@@ -36,8 +37,8 @@ class Search {
       const res = yield ApiRequest(url,"POST",body);
 
       runInAction(() => {
-        this.result = res.search;
-        this.searchPlaylist = res.search
+        this.searchPlaylist = res.search;
+        this.result = res.search.map(item => item.id);
         this.searchLoading = false;
       })
 

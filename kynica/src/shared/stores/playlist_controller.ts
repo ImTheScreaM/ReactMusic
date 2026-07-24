@@ -1,15 +1,12 @@
-import {makeAutoObservable, runInAction} from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
-import {ApiRequest} from "../api/apiRequest";
-
+import { ApiRequest } from "../api/apiRequest";
 
 const URL = process.env.REACT_APP_URL_SERVER || "http://localhost:3003";
 
 class Playlist {
-
   playlists = [];
   playlistMusic = [];
-
 
   isLoading = false;
   playlistLoading = false;
@@ -20,16 +17,15 @@ class Playlist {
     makeAutoObservable(this);
   }
 
-  *create_playlist(name:string) {
+  *create_playlist(name: string) {
     this.createLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/create_playlist`,"POST", {name})
+      const res = yield ApiRequest(`${URL}/create_playlist`, "POST", { name });
 
       runInAction(() => {
         this.playlists.push(res.playlist);
         this.createLoading = false;
-      })
-
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -37,13 +33,15 @@ class Playlist {
     }
   }
 
-  *delete_playlist(playlistId:number) {
+  *delete_playlist(playlistId: number) {
     this.isLoading = true;
     try {
-      yield ApiRequest(`${URL}/delete_playlist`,"POST",{playlistId})
+      yield ApiRequest(`${URL}/delete_playlist`, "POST", { playlistId });
       runInAction(() => {
-        this.playlists = this.playlists.filter(playlist => playlist.id !== playlistId);
-      })
+        this.playlists = this.playlists.filter(
+          (playlist) => playlist.id !== playlistId,
+        );
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -54,13 +52,11 @@ class Playlist {
   *get_playlist() {
     this.playlistLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/get_playlist`,"POST");
+      const res = yield ApiRequest(`${URL}/get_playlist`, "POST");
 
       runInAction(() => {
-        this.playlists = res;
-        this.playlistLoading = false;
+        this.playlists = res
       });
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -68,13 +64,16 @@ class Playlist {
     }
   }
 
-  *add_music_in_playlist(playlistId:number,musicId:number) {
+  *add_music_in_playlist(playlistId: number, musicId: number) {
     this.isLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/add_music_in_playlist`,"POST",{playlistId,musicId});
+      const res = yield ApiRequest(`${URL}/add_music_in_playlist`, "POST", {
+        playlistId,
+        musicId,
+      });
 
       runInAction(() => {
-        if(!res.data) return;
+        if (!res.data) return;
         this.playlistMusic.push(res.data);
       });
     } catch (error) {
@@ -84,14 +83,16 @@ class Playlist {
     }
   }
 
-
-  *delete_music_from_playlist(playlistId:number,musicId:number) {
+  *delete_music_from_playlist(playlistId: number, musicId: number) {
     this.isLoading = true;
     try {
-      yield ApiRequest(`${URL}/delete_music_from_playlist`,"POST",{playlistId,musicId});
+      yield ApiRequest(`${URL}/delete_music_from_playlist`, "POST", {
+        playlistId,
+        musicId,
+      });
       runInAction(() => {
         this.playlistMusic = this.playlistMusic.filter(
-            item => item.musicId !== Number(musicId)
+          (item) => item.musicId !== Number(musicId),
         );
       });
     } catch (error) {
@@ -101,14 +102,15 @@ class Playlist {
     }
   }
 
-  *get_music_playlist(playlistId:number) {
+  *get_music_playlist(playlistId: number) {
     this.playlistMusicLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/get_music_playlist`,"POST", {playlistId});
-
+      const res = yield ApiRequest(`${URL}/get_music_playlist`, "POST", {
+        playlistId,
+      });
+      
       runInAction(() => {
-        this.playlistMusicLoading = false;
-        this.playlistMusic = res;
+        this.playlistMusic = res.map(item => item.music);
       });
     } catch (error) {
       console.log(error);
@@ -116,7 +118,6 @@ class Playlist {
       this.playlistMusicLoading = false;
     }
   }
-
 }
 
 export default new Playlist();
