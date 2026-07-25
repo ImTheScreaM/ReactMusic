@@ -14,12 +14,8 @@ router.get("/user_music", get_love_user_music);
 // POST
 
 router.post("/add_rm_user_music",add_rm_user_music)
-// router.post("/upload_music",uploadMulter.fields(
-//   [{name:"name",maxCount:1},
-//   {name:"avatar",maxCount:1}]
-// ))
 
-router.post("/test_multer",uploadMulter.fields([
+router.post("/upload_music",uploadMulter.fields([
   {name:"avatar",maxCount:1},
   {name:"audio",maxCount:1},
 ]),upload_music)

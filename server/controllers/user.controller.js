@@ -1,30 +1,20 @@
 import { prisma } from "../lib/prisma.js";
-import {deleted_session, get_session} from "../prisma/actions/session.ts";
-
+import { deleted_session, get_session } from "../prisma/actions/session.ts";
 
 export async function change_bio(req, res) {
-  const { bio } = req.body;
+  const { new_bio } = req.body;
 
-  const { session } = await get_session(req);
+  const session = await get_session(req);
 
   if (!session) return console.log("Wrong session");
 
   try {
-    const bio_change = await prisma.user.update({
+    const bio_change = await prisma.profile.update({
       where: {
         userId: session.userId,
       },
       data: {
-        profile: {
-          update: {
-            bio: {
-              bio,
-            },
-          },
-        },
-      },
-      include: {
-        profile: true,
+        bio: new_bio,
       },
     });
 
@@ -36,23 +26,42 @@ export async function change_bio(req, res) {
 
 export async function change_username(req, res) {
   const { new_name } = req.body;
-  const { session } = await get_session(req);
+  const session = await get_session(req);
 
   if (!session) return console.log("Wrong session");
 
   try {
     const new_username = await prisma.user.update({
       where: {
-        userId: session.userId,
+        id: session.userId,
       },
       data: {
-        update: {
-          name: new_name,
-        },
+        name: new_name,
       },
     });
 
+    console.log(new_username);
+
     return res.status(200).json({ status: `success ${new_username}` });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function change_avatar(req, res) {
+  const session = await get_session(req);
+  const { newAvatar } = req.body;
+
+  if (!session) return res.json({ error: "no session" });
+
+  try {
+    await prisma.user.update({
+      where: { id: session.userId },
+      data: {
+        urlAvatar: newAvatar,
+      },
+    });
+    res.json({success:"UPDATE!"})
   } catch (error) {
     console.log(error);
   }
@@ -64,28 +73,27 @@ export async function session(req, res) {
   if (session) {
     const user = await prisma.user.findUnique({
       where: {
-        id:session.userId,
+        id: session.userId,
       },
       include: {
-        id:false,
-        password:false,
-        role:false,
-        loveMusic:true,
-        profile:true,
-      }
-    })
+        id: false,
+        password: false,
+        role: false,
+        loveMusic: true,
+        profile: true,
+      },
+    });
 
     return res.status(200).json({
       auth: true,
-      user:user
+      user: user,
     });
-
   } else {
     await deleted_session(res);
     await res.json({
       auth: false,
       path: "/",
-      user:null
+      user: null,
     });
   }
 }

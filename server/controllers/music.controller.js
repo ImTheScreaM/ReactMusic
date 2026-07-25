@@ -1,26 +1,27 @@
-import {prisma} from "../lib/prisma.js";
-import {get_session} from "../prisma/actions/session.ts";
-import {CheckerLikeMusic} from "../utils/musicLikesHelper.js";
+import { getVideoDurationInSeconds } from "get-video-duration";
+import { prisma } from "../lib/prisma.js";
 
-export async function get_all_music(req,res) {
+import { get_session } from "../prisma/actions/session.ts";
+import { CheckerLikeMusic } from "../utils/musicLikesHelper.js";
+
+export async function get_all_music(req, res) {
   const session = await get_session(req);
   try {
     const allMusic = await prisma.music.findMany();
 
-    const musicWithLikes = await CheckerLikeMusic (
-        allMusic,
-        (item) => item,
-        session
-    )
+    const musicWithLikes = await CheckerLikeMusic(
+      allMusic,
+      (item) => item,
+      session,
+    );
 
-    res.status(200).json({music:musicWithLikes})
-
+    res.status(200).json({ music: musicWithLikes });
   } catch (err) {
     return res.status(500);
   }
 }
 
-export async function get_love_user_music(req,res) {
+export async function get_love_user_music(req, res) {
   const session = await get_session(req);
   if (!session) return console.log("No session");
 
@@ -29,12 +30,12 @@ export async function get_love_user_music(req,res) {
       where: { userId: session.userId },
       include: {
         music: true,
-      }
+      },
     });
 
     console.log(loveMusic);
 
-    const getMusic = loveMusic.map(item => ({
+    const getMusic = loveMusic.map((item) => ({
       id: item.music.id,
       name: item.music.name,
       artist: item.music.artist,
@@ -42,7 +43,8 @@ export async function get_love_user_music(req,res) {
       description: item.music.description,
       time: item.music.time,
       urlAvatar: item.music.urlAvatar,
-      isLiked: true
+      audioUrl: item.music.audioUrl,
+      isLiked: true,
     }));
 
     res.status(200).json({ userMusic: { getMusic } });
@@ -51,73 +53,83 @@ export async function get_love_user_music(req,res) {
   }
 }
 
-export async function add_rm_user_music(req,res) {
+export async function add_rm_user_music(req, res) {
   const session = await get_session(req);
-  if(!session) return;
+  if (!session) return;
 
-  const {id} = req.body;
+  const { id } = req.body;
   const musicExists = await prisma.music.findUnique({
     where: {
-      id:id
-    }
-  })
+      id: id,
+    },
+  });
 
   if (!musicExists) return console.log("NO FIND MUSIC");
 
   const findMusicUser = await prisma.loveMusic.findUnique({
     where: {
       userId_musicId: {
-        userId:session.userId,
-        musicId:id
-      }
-    }
-  })
+        userId: session.userId,
+        musicId: id,
+      },
+    },
+  });
   let liked = false;
 
   try {
-    if(findMusicUser) {
-      return await prisma.loveMusic.delete({
+    if (findMusicUser) {
+      const music = await prisma.loveMusic.delete({
         where: {
           userId_musicId: {
-            userId:session.userId,
-            musicId:id
-          }
-        }
-      })
-      liked = false;
+            userId: session.userId,
+            musicId: id,
+          },
+        },
+      });
+
+      res.json({
+        liked: false,
+      });
     } else {
       const music = await prisma.loveMusic.create({
         data: {
-          userId:session.userId,
-          musicId:id
+          userId: session.userId,
+          musicId: id,
         },
       });
-      liked = true;
+      res.json({
+        liked: true,
+      });
     }
-
   } catch (error) {
-    console.log("add_rm",error);
+    console.log("add_rm", error);
   }
 }
 
-export async function upload_music(req,res) {
+export async function upload_music(req, res) {
   try {
     const session = await get_session(req);
-    const {name,description,genre} = req.body;
+    const { name, description, genre } = req.body;
+    const durationMusic = await getVideoDurationInSeconds(
+      req.files.audio[0].path,
+    );
+    const durationInSeconds = Math.round(durationMusic);
 
-
-    await prisma.music.create({
+    const uploadMusic = await prisma.music.create({
       data: {
-        name:name,
-        description:description,
-        genre:genre,
-        artist:"ME",
-        urlAvatar:`/uploads/avatar/${req.files.avatar[0].filename}`,
-        audioUrl:`/uploads/audio/${req.files.audio[0].filename}`,
-      }
-    })
-
+        name: name,
+        description: description,
+        genre: genre,
+        artist: "ME",
+        urlAvatar: `/uploads/avatar/${req.files.avatar[0].filename}`,
+        audioUrl: `/uploads/audio/${req.files.audio[0].filename}`,
+        time: durationInSeconds,
+      },
+    });
+    res.json({
+      uploadMusic: uploadMusic,
+    });
   } catch (error) {
-    console.log("upload_music",error);
+    console.log("upload_music", error);
   }
 }

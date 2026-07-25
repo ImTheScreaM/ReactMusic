@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import {prisma} from "../lib/prisma.js";
-import {create_session, deleted_session} from "../prisma/actions/session.ts";
+import { prisma } from "../lib/prisma.js";
+import { create_session, deleted_session } from "../prisma/actions/session.ts";
 
 export async function register(req, res) {
   const { name, password, email } = req.body;
@@ -20,6 +20,7 @@ export async function register(req, res) {
         name: name,
         password: passwordHash,
         email: email,
+        urlAvatar: "none",
         profile: {
           create: {
             bio: "",
@@ -49,19 +50,19 @@ export async function login(req, res) {
   }
 
   await create_session(userFind.id, res);
-  
+
   const user = await prisma.user.findUnique({
     where: {
-      email:email
+      email: email,
     },
     include: {
-      id:false,
-      password:false,
-      role:false,
-      loveMusic:true,
-      profile: true
-    }
-  })
+      id: false,
+      password: false,
+      role: false,
+      loveMusic: true,
+      profile: true,
+    },
+  });
   await res
     .status(200)
     .json({ success: "Login!", user: user, path: "/profile" });

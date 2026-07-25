@@ -21,6 +21,7 @@ model User {
   profile   Profile?
   name      String
   password  String
+  urlAvatar String
   playlist  Playlists[]
 }
 

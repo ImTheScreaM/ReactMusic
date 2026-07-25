@@ -9,7 +9,8 @@ import user_store from "../../../shared/stores/user_store_controller.ts";
 
 const Profile = observer(() => {
   const user = auth_store.user;
-
+  console.log(user);
+  
   const [newProfile, setNewProfile] = useState({
     newName: user.name,
     newBio: user.profile.bio,
@@ -50,7 +51,7 @@ const Profile = observer(() => {
     <div className="profile_container">
       <div className="profile-info">
         <div className="profile-avatar">
-          <img src={user.urlAvatar} />
+          <img src={user.urlAvatar != "none" ? user.urlAvatar : ""} />
         </div>
         <div className="profile-content">
           <div className="profile-user_info">

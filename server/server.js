@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 
 app.use(
   cors({
@@ -56,10 +56,18 @@ app.use(helmet({
       scriptSrc:["'self'"],
       styleSrc:["'self'"],
       imgSrc:["'self'"],
-      connectSrc:["'self'","http://localhost:3003"]
+      connectSrc:["'self'","http://localhost:3003"],
+      mediaSrc: ["'self'", "blob:", "http://localhost:3003"],
     }
-  }
+  },
+  crossOriginResourcePolicy: {policy:"cross-origin"}
 }));
+
+app.use("/uploads",(req,res,next) => {
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  next()
+})
+
 
 
 app.use("/",authRouter)
@@ -67,6 +75,7 @@ app.use("/",musicRouter)
 app.use("/",userRouter)
 app.use("/",searchRouter)
 app.use("/",playlistRouter)
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.listen(3003, () => {
   // loadMusic()

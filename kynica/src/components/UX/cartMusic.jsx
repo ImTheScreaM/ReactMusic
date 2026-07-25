@@ -11,6 +11,9 @@ export const CartMusic = memo(
       toggleMusic(track.id, track, playlist);
     }, [track, playlist]);
 
+    console.log(track);
+    
+
     return (
       <div className="cart_music-container">
         <div className="cart_music">

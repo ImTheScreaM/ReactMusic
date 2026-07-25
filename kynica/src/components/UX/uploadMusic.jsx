@@ -1,22 +1,18 @@
-import { observer } from "mobx-react-lite";
-
-import music_controller from "../../shared/stores/music_controller.ts";
-
-import "../../assets/css/upload_music.css"
 import { useState } from "react";
+
 import { validate_file } from "../../shared/utils/validate_file.tsx";
 
+import "../../assets/css/upload_music.css"
 
-const UploadMusic = observer(() => {
+const UploadMusic = () => {
 
   const [avatarMusic,setAvatarMusic] = useState("");
   const [fileMusic,setFileMusic] = useState("");
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target)
     validate_file(formData)
 
   };
@@ -78,6 +74,6 @@ const UploadMusic = observer(() => {
       </div>
     </form>
   );
-});
+};
 
 export default UploadMusic;

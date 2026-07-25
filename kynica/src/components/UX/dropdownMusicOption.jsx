@@ -1,5 +1,4 @@
-import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -8,7 +7,7 @@ import playlist_controller from "../../shared/stores/playlist_controller.ts";
 import { BurgerMenuThreeDot } from "../UI/SVG.js";
 import PlaylistSubMenu from "./playlistSubMenu.jsx";
 
-const DropdownMusicOption = observer(({ track, showRemoveButton }) => {
+const DropdownMusicOption = memo(({ track, showRemoveButton }) => {
   const { id } = useParams();
   const { isAuth } = useAuthStore();
   const [openDropList, setOpenDropList] = useState(false);
@@ -31,7 +30,6 @@ const DropdownMusicOption = observer(({ track, showRemoveButton }) => {
   const deleteFromPlaylist = async () => {
     try {
       playlist_controller.delete_music_from_playlist(id, track.id);
-
       setOpenPlaylistDropList(false);
       setOpenDropList(false);
       toast.success(`Success delete from ${id}`);

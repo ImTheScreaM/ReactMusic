@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
-import { ApiRequest } from "../api/apiRequest";
+import { ApiRequest, ApiUpload } from "../api/apiRequest";
 
 const URL = process.env.REACT_APP_URL_SERVER || "http://localhost:3003";
 
@@ -55,7 +55,7 @@ class Playlist {
       const res = yield ApiRequest(`${URL}/get_playlist`, "POST");
 
       runInAction(() => {
-        this.playlists = res
+        this.playlists = res;
       });
     } catch (error) {
       console.log(error);
@@ -108,14 +108,24 @@ class Playlist {
       const res = yield ApiRequest(`${URL}/get_music_playlist`, "POST", {
         playlistId,
       });
-      
+
       runInAction(() => {
-        this.playlistMusic = res.map(item => item.music);
+        this.playlistMusic = res.map((item) => item.music);
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.playlistMusicLoading = false;
+    }
+  }
+
+  *update_playlist_avatar(formData: FormData) {
+    try {
+      yield ApiUpload(`${URL}/change_playlist_avatar`, "POST", 
+        formData,
+      );
+    } catch (error) {
+      console.log(error);
     }
   }
 }
