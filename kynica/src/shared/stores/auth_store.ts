@@ -1,8 +1,7 @@
-import {makeAutoObservable, runInAction} from "mobx";
+import { flow, makeAutoObservable, runInAction } from "mobx";
 
-import {ApiRequest} from "../api/apiRequest";
-import {IFormLogin, IFormRegister} from "../interface/intarface";
-
+import { authApi } from "../api/auth.api.ts";
+import { IFormLogin, IFormRegister } from "../interface/intarface";
 
 class AuthController {
   isAuth = false;
@@ -12,73 +11,73 @@ class AuthController {
   constructor() {
     makeAutoObservable(this);
     this.checkAuth();
+    this.setupListener();
   }
 
-  *register(formData:IFormRegister) {
-    console.log("register",formData)
+  setupListener() {
+    window.addEventListener("auth:unauthorized", this.handleUnauthorized);
+  }
+
+  handleUnauthorized = () =>  {
+    this.isAuth = false;
+    this.user = null;
+  }
+
+  dispose() {
+    window.removeEventListener("handleUnauthorized", this.handleUnauthorized);
+  }
+
+  register = flow(function* (formData: IFormRegister) {
     try {
-      const res = yield ApiRequest(
-          "http://localhost:3003/register",
-          "POST",
-          formData,
-      );
+      yield authApi.register(formData);
     } catch (error) {
-      console.log("Error auth")
+      console.log("Error auth",error);
     }
-  }
+  });
 
-  *login(data:IFormLogin) {
-    console.log("login",data);
+  login = flow(function* (this: AuthController, data: IFormLogin) {
     try {
-      const res = yield ApiRequest("http://localhost:3003/login", "POST", data);
-      runInAction(() => {
-        if (res.user) {
-          this.user = res.user;
-          this.isAuth = !!res.user
-        }
-      })
+      const res = yield authApi.login(data);
+
+      if (res.user) {
+        this.user = res.user;
+        this.isAuth = !!res.user;
+      }
     } catch (error) {
-      console.log("Error auth")
+      console.log("Error auth");
     }
-  }
+  });
 
-  *logout() {
+  logout = flow(function* (this: AuthController) {
     try {
-      yield ApiRequest("http://localhost:3003/logout", "POST");
-      runInAction(() => {
-        this.user = null;
-        this.isAuth = false;
-      })
+      yield authApi.logout();
+
+      this.user = null;
+      this.isAuth = false;
     } catch (error) {
       console.log(error);
     }
-  }
+  });
 
-  *checkAuth() {
+  checkAuth = flow(function* (this: AuthController) {
     try {
-      const res = yield ApiRequest("http://localhost:3003/session", "GET");
-      console.log(res)
-      if (res.auth) {
-        runInAction(() => {
-          this.isAuth = !!res.user
-          this.user = res.user
-        })
+      const user = yield authApi.checkAuth();
+
+      if (user.auth) {
+        this.isAuth = !!user.user;
+        this.user = user.user;
       } else {
-        runInAction(() => {
-          this.isAuth = !!res.user
-          this.user = null;
-        })
+        this.isAuth = !!user.user;
+        this.user = null;
       }
     } catch (error) {
       console.log(error);
     } finally {
       runInAction(() => {
         this.isLoading = false;
-      })
+      });
     }
-  }
-
-
+  });
 }
 
 export default new AuthController();

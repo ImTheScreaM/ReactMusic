@@ -13,6 +13,11 @@ const Playlist = observer(() => {
   const [openPlaylistId, setOpenPlaylistId] = useState(null);
   const isLoading = playlist_controller.playlistLoading;
 
+  function test(e) {
+    console.log(e)
+  }
+  
+
   useEffect(() => {
     playlist_controller.get_playlist();
   }, []);
@@ -27,7 +32,7 @@ const Playlist = observer(() => {
         <BlockCreatePlaylist />
         {playlist_controller.playlists.map((item) => (
           <div className="playlist_item" key={item.id}>
-            <div className="playlist_menu-wrapper">
+            <div className={`playlist_menu-wrapper`} >
               <button className="playlist_menu-button" onClick={() => setOpenPlaylistId(openPlaylistId === item.id ? null : item.id)}>
                 <BurgerMenuThreeDot />
               </button>

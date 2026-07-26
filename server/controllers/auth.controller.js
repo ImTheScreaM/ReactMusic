@@ -4,6 +4,7 @@ import { create_session, deleted_session } from "../prisma/actions/session.ts";
 
 export async function register(req, res) {
   const { name, password, email } = req.body;
+
   if (!(name && password && email)) {
     return res.status(400).json({ errors: "No user,password,email" });
   }
@@ -15,7 +16,7 @@ export async function register(req, res) {
     const salt = 10;
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name: name,
         password: passwordHash,
@@ -27,15 +28,11 @@ export async function register(req, res) {
           },
         },
       },
-      include: {
-        profile: true,
-        loveMusic: true,
-      },
     });
 
-    res.status(200).json({ user: user });
+    res.status(200).json({ message: "success" });
   } catch (error) {
-    return;
+    res.status(404).json({ error: error });
   }
 }
 

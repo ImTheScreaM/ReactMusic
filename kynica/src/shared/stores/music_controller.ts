@@ -1,7 +1,7 @@
-import { ApiRequest, ApiUpload } from "../api/apiRequest.jsx";
+import { musicApi } from "../api/music.api.ts";
 import { IMusic, IUploadMusic } from "../interface/intarface";
 
-import { makeAutoObservable, runInAction } from "mobx";
+import { flow, makeAutoObservable, runInAction } from "mobx";
 
 class Music {
   userMusic: IMusic[] = [];
@@ -17,46 +17,44 @@ class Music {
     this.get_user_music();
   }
 
-  *get_all_music() {
+  get_all_music = flow(function* (this: Music) {
     this.loadingAllMusic = true;
     try {
-      const res = yield ApiRequest("http://localhost:3003/all_music", "GET");
-
+      const res = yield musicApi.all_music();
+      
       runInAction(() => {
-        this.allMusic = res.music;
+        this.allMusic = res;
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.loadingAllMusic = false;
     }
-  }
+  });
 
-  *get_user_music() {
+  get_user_music = flow(function* (this: Music) {
     this.userAllMusic = true;
     try {
-      const res = yield ApiRequest("http://localhost:3003/user_music", "GET");
+      const res = yield musicApi.user_music();
 
       runInAction(() => {
-        this.userMusic = res.userMusic.getMusic;
-        this.userMusicQuantity = res.userMusic.getMusic.length;
+        this.userMusic = res;
+        this.userMusicQuantity = res.length;
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.userAllMusic = false;
     }
-  }
+  });
 
-  *add_rm_user_music(data: IMusic) {
+  add_rm_user_music = flow(function* (this: Music, data: IMusic) {
     try {
-      const res = yield ApiRequest(
-        "http://localhost:3003/add_rm_user_music",
-        "POST",
-        data,
-      );
-      console.log(res);
+      console.log(data);
       
+      const res = yield musicApi.add_rm_music(data);
+      console.log(res);
+
       runInAction(() => {
         const music = this.allMusic.find((music) => music.id === data.id);
 
@@ -75,19 +73,18 @@ class Music {
     } catch (error) {
       console.log(error);
     }
-  }
+  });
 
-  *upload_music(data: IUploadMusic) {
-    const res = yield ApiUpload(
-      "http://localhost:3003/upload_music",
-      "POST",
-      data,
-    );
+  upload_music = flow(function* (this: Music, data: IUploadMusic) {
+    
+    console.log(data);
+    
+    const res = yield musicApi.upload_music(data);
 
     runInAction(() => {
-      this.allMusic.push(res.uploadMusic);
+      this.allMusic.push(res);
     });
-  }
+  });
 }
 
 export default new Music();

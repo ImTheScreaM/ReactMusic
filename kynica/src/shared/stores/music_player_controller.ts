@@ -130,7 +130,7 @@ class MusicPlayer {
   }
 
   prevTrack() {
-    const currentIndex = this.playlist.findIndex(
+    const currentIndex = this.playlist?.findIndex(
       (track) => track.id === this.musicId || track.musicId === this.musicId,
     );
 

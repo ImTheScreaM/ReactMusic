@@ -70,7 +70,5 @@ export function useSearchController() {
 }
 
 export function userTogglFavoriteMusic(props) {
-  console.log(props);
-  if (!auth_store.isAuth) return toast.error("pls register");
   music_controller.add_rm_user_music(props.track);
 }

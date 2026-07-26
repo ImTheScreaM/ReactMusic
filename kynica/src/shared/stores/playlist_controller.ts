@@ -1,8 +1,5 @@
-import { makeAutoObservable, runInAction } from "mobx";
-
-import { ApiRequest, ApiUpload } from "../api/apiRequest";
-
-const URL = process.env.REACT_APP_URL_SERVER || "http://localhost:3003";
+import { flow, makeAutoObservable, runInAction } from "mobx";
+import { playlistApi } from "../api/playlist.api.ts";
 
 class Playlist {
   playlists = [];
@@ -17,26 +14,24 @@ class Playlist {
     makeAutoObservable(this);
   }
 
-  *create_playlist(name: string) {
+  create_playlist = flow(function* (this: Playlist, name: string) {
     this.createLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/create_playlist`, "POST", { name });
+      const playlist = yield playlistApi.create(name);
 
-      runInAction(() => {
-        this.playlists.push(res.playlist);
-        this.createLoading = false;
-      });
+      this.playlists.push(playlist);
     } catch (error) {
       console.log(error);
     } finally {
       this.createLoading = false;
     }
-  }
+  });
 
-  *delete_playlist(playlistId: number) {
+  delete_playlist = flow(function* (this: Playlist, playlistId: number) {
     this.isLoading = true;
     try {
-      yield ApiRequest(`${URL}/delete_playlist`, "POST", { playlistId });
+      yield playlistApi.delete(playlistId);
+
       runInAction(() => {
         this.playlists = this.playlists.filter(
           (playlist) => playlist.id !== playlistId,
@@ -47,49 +42,43 @@ class Playlist {
     } finally {
       this.isLoading = false;
     }
-  }
+  });
 
-  *get_playlist() {
+  get_playlist = flow(function*(this: Playlist) {
     this.playlistLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/get_playlist`, "POST");
+      const playlist = yield playlistApi.get();
 
       runInAction(() => {
-        this.playlists = res;
+        this.playlists = playlist;
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.playlistLoading = false;
     }
-  }
+  });
 
-  *add_music_in_playlist(playlistId: number, musicId: number) {
+  add_music_in_playlist = flow(function*(this: Playlist,playlistId: number, musicId: number) {
     this.isLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/add_music_in_playlist`, "POST", {
-        playlistId,
-        musicId,
-      });
+      const music = yield playlistApi.add_music(playlistId, musicId);
 
       runInAction(() => {
-        if (!res.data) return;
-        this.playlistMusic.push(res.data);
+        if (!music) return;
+        this.playlistMusic.push(music);
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.isLoading = false;
     }
-  }
+  });
 
-  *delete_music_from_playlist(playlistId: number, musicId: number) {
+  delete_music_from_playlist = flow(function* (this: Playlist,playlistId: number, musicId: number) {
     this.isLoading = true;
     try {
-      yield ApiRequest(`${URL}/delete_music_from_playlist`, "POST", {
-        playlistId,
-        musicId,
-      });
+      yield playlistApi.delete_music(playlistId, musicId);
       runInAction(() => {
         this.playlistMusic = this.playlistMusic.filter(
           (item) => item.musicId !== Number(musicId),
@@ -100,34 +89,30 @@ class Playlist {
     } finally {
       this.isLoading = false;
     }
-  }
+  });
 
-  *get_music_playlist(playlistId: number) {
+get_music_playlist = flow(function* (this: Playlist,playlistId: number) {
     this.playlistMusicLoading = true;
     try {
-      const res = yield ApiRequest(`${URL}/get_music_playlist`, "POST", {
-        playlistId,
-      });
+      const music = yield playlistApi.get_music(playlistId);
 
       runInAction(() => {
-        this.playlistMusic = res.map((item) => item.music);
+        this.playlistMusic = music.map((item) => item.music);
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.playlistMusicLoading = false;
     }
-  }
+  });
 
-  *update_playlist_avatar(formData: FormData) {
+  update_playlist = flow(function* (this: Playlist,formData: FormData) {
     try {
-      yield ApiUpload(`${URL}/change_playlist_avatar`, "POST", 
-        formData,
-      );
+      yield playlistApi.update_info(formData);
     } catch (error) {
       console.log(error);
     }
-  }
-}
+  });
+ };
 
 export default new Playlist();

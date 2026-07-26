@@ -4,7 +4,7 @@ import playlist_controller from "../../shared/stores/playlist_controller.ts";
 
 import "../../assets/css/dropDownMenuPlaylist.css";
 
-const DropdownMenuPaylist = ({ playlistId, name, currentAvatar }) => {
+const DropdownMenuPaylist = ({ playlistId, name }) => {
   const [isDeletedMenu, setIsDeletedMenu] = useState(false);
   const [newDataForPlaylist, setNewDataForPlaylist] = useState({
     name: name,
@@ -28,7 +28,9 @@ const DropdownMenuPaylist = ({ playlistId, name, currentAvatar }) => {
     formData.append("playlistId", String(playlistId));
 
     try {
-      playlist_controller.update_playlist_avatar(formData);
+      console.log(formData);
+      
+      playlist_controller.update_playlist(formData);
     } catch (error) {
       console.log(error);
     }

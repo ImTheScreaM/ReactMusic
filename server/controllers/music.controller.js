@@ -55,7 +55,7 @@ export async function get_love_user_music(req, res) {
 
 export async function add_rm_user_music(req, res) {
   const session = await get_session(req);
-  if (!session) return;
+  if (!session) return res.status(401).json({message: "no auth"});
 
   const { id } = req.body;
   const musicExists = await prisma.music.findUnique({
@@ -64,7 +64,7 @@ export async function add_rm_user_music(req, res) {
     },
   });
 
-  if (!musicExists) return console.log("NO FIND MUSIC");
+  if (!musicExists) return res.status(404).json({message: "no find music"});
 
   const findMusicUser = await prisma.loveMusic.findUnique({
     where: {
@@ -78,7 +78,7 @@ export async function add_rm_user_music(req, res) {
 
   try {
     if (findMusicUser) {
-      const music = await prisma.loveMusic.delete({
+    await prisma.loveMusic.delete({
         where: {
           userId_musicId: {
             userId: session.userId,
@@ -91,29 +91,33 @@ export async function add_rm_user_music(req, res) {
         liked: false,
       });
     } else {
-      const music = await prisma.loveMusic.create({
+      await prisma.loveMusic.create({
         data: {
           userId: session.userId,
           musicId: id,
         },
       });
-      res.json({
+      res.status(200).json({
         liked: true,
       });
     }
   } catch (error) {
-    console.log("add_rm", error);
+    res.status(404).json({error:error})
   }
 }
 
 export async function upload_music(req, res) {
   try {
     const session = await get_session(req);
+    if (!session) return res.status(401).json({message:"no auth"})
+
     const { name, description, genre } = req.body;
     const durationMusic = await getVideoDurationInSeconds(
       req.files.audio[0].path,
     );
     const durationInSeconds = Math.round(durationMusic);
+    console.log(req.body,req.files);
+    
 
     const uploadMusic = await prisma.music.create({
       data: {

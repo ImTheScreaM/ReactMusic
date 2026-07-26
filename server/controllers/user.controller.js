@@ -6,7 +6,7 @@ export async function change_bio(req, res) {
 
   const session = await get_session(req);
 
-  if (!session) return console.log("Wrong session");
+  if (!session) return res.status(401).json({message:"no auth"})
 
   try {
     const bio_change = await prisma.profile.update({
@@ -20,7 +20,7 @@ export async function change_bio(req, res) {
 
     return res.status(200).json({ new_bio: bio_change });
   } catch (error) {
-    console.log("change bio err", error);
+    res.status(404).json({error:error})
   }
 }
 
@@ -28,7 +28,7 @@ export async function change_username(req, res) {
   const { new_name } = req.body;
   const session = await get_session(req);
 
-  if (!session) return console.log("Wrong session");
+  if (!session) return res.status(401).json({message:"no auth"})
 
   try {
     const new_username = await prisma.user.update({
@@ -44,7 +44,7 @@ export async function change_username(req, res) {
 
     return res.status(200).json({ status: `success ${new_username}` });
   } catch (error) {
-    console.log(error);
+    res.status(404).json({error:error})
   }
 }
 
@@ -52,7 +52,7 @@ export async function change_avatar(req, res) {
   const session = await get_session(req);
   const { newAvatar } = req.body;
 
-  if (!session) return res.json({ error: "no session" });
+  if (!session) return res.status(401).json({message:"no auth"})
 
   try {
     await prisma.user.update({
@@ -61,9 +61,9 @@ export async function change_avatar(req, res) {
         urlAvatar: newAvatar,
       },
     });
-    res.json({success:"UPDATE!"})
+    res.status(200).json({success:"UPDATE!"})
   } catch (error) {
-    console.log(error);
+    res.status(404).json({error:error})
   }
 }
 
@@ -90,7 +90,7 @@ export async function session(req, res) {
     });
   } else {
     await deleted_session(res);
-    await res.json({
+    return res.json({
       auth: false,
       path: "/",
       user: null,

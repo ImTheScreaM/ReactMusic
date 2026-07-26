@@ -1,55 +1,50 @@
-import {ApiRequest} from "../api/apiRequest"
-
-
-import {makeAutoObservable, runInAction} from "mobx";
+import { flow, makeAutoObservable } from "mobx";
+import { searchApi } from "../api/search.api.ts";
 
 class Search {
   result = [];
-  searchPlaylist = []
+  searchPlaylist = [];
   searchLoading = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  *search_by_category(value:string,category:string) {
+  search_by_category = flow(function* (
+    this: Search,
+    value: string,
+    category: string,
+  ) {
     this.searchLoading = true;
-    this.result = []
+    this.result = [];
 
     try {
-      let url:string;
-      let body:Object;
+      let url: string;
+      let body: Object;
 
       switch (category) {
         case "name":
-          url = "http://localhost:3003/search_name";
-          body = {value};
+          url = "/search_name";
+          body = { value };
           break;
         case "artist":
-          url = "http://localhost:3003/search_artist";
-          body = {value};
+          url = "/search_artist";
+          body = { value };
           break;
         default:
-          url = "http://localhost:3003/search_name";
-          body = {value};
-
+          url = "/search_name";
+          body = { value };
       }
-      const res = yield ApiRequest(url,"POST",body);
+      const res = yield searchApi.search_by_category(url, body);
 
-      runInAction(() => {
-        this.searchPlaylist = res.search;
-        this.result = res.search.map(item => item.id);
-        this.searchLoading = false;
-      })
-
+      this.searchPlaylist = res;
+      this.result = res.map((item) => item.id);
     } catch (error) {
       console.error(error);
     } finally {
       this.searchLoading = false;
     }
-
-  }
+  });
 }
 
 export default new Search();
-

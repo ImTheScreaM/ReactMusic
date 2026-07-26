@@ -9,7 +9,7 @@ export const CartMusic = memo(
   ({ track, playlist, showRemoveButton = false }) => {
     const handlePlay = useCallback(() => {
       toggleMusic(track.id, track, playlist);
-    }, [track, playlist]);
+    }, [track.id, playlist]);
 
     console.log(track);
     

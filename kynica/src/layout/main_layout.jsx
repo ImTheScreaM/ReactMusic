@@ -6,6 +6,7 @@ import MusicRight from "../components/UX/musicRight";
 import Header from "../features/pages/header/header.jsx";
 import { useMusicPlayerController } from "../hook/hooks";
 import music_player_controller from "../shared/stores/music_player_controller.ts";
+import { AuthGuard } from "../components/UX/authGuard";
 
 import "../assets/css/main_layout.css";
 
@@ -14,6 +15,7 @@ const MainLayout = observer(() => {
   const isOpen = music_player_controller.isOpen;
   return (
     <div className="main_layout">
+      <AuthGuard/>
       <div className="main_layout-content">
         <Header />
 

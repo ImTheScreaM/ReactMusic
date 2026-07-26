@@ -176,11 +176,11 @@ export async function change_avatar_playlist(req, res) {
   const session = await get_session(req);
   const { playlistId, name } = req.body;
 
-  if (!session) return res.json({ error: "no session" });
+  if (!session) return res.status(401).json({ error: "no session" });
   
   try {
     const hasAvatar = req.files && req.files.avatar && req.files.avatar[0];
-
+    
     if (name && hasAvatar) {
       await prisma.playlists.update({
         where: {
