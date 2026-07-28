@@ -1,9 +1,11 @@
 import {useState} from "react";
 
-import playlist_controller from "../stores/playlist_controller.ts";
+import {useRootContext} from "../di/rootStoreContext.tsx"
 
 const ModalCreatePlaylist = ({open,toggleOpen}) => {
   const [namePlaylist,setNamePlaylist] = useState("");
+
+  const {playlistStore} = useRootContext()
 
   const setNameHandler = (value) => {
     setNamePlaylist(value)
@@ -11,10 +13,10 @@ const ModalCreatePlaylist = ({open,toggleOpen}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(namePlaylist);
+
     try {
       if(!namePlaylist) return console.log("Write name");
-      await playlist_controller.create_playlist(namePlaylist);
+      await playlistStore.create_playlist(namePlaylist);
 
     } catch (error) {
       console.log(error);

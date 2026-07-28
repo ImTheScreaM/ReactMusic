@@ -24,6 +24,13 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => {
     console.log("response API_SUS",response);
+
+    if(response.status == 200) {
+      window.dispatchEvent(
+        new CustomEvent("status:completed")
+      )
+    }
+    
     
     return response},
 

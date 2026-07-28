@@ -4,23 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import UploadMusic from "../../../components/UX/uploadMusic.jsx";
-import auth_store from "../../../shared/stores/auth_store.ts";
-import user_store from "../../../shared/stores/user_store_controller.ts";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 const Profile = observer(() => {
-  const user = auth_store.user;
-  console.log(user);
-  
+  const { authStore, userStore } = useRootContext();
+
   const [newProfile, setNewProfile] = useState({
-    newName: user.name,
-    newBio: user.profile.bio,
+    newName: authStore.user.name,
+    newBio: authStore.user.profile.bio,
   });
 
   const navigate = useNavigate();
 
   const logout_acc = async (e) => {
     e.preventDefault();
-    auth_store.logout();
+    authStore.logout();
     navigate("/");
   };
 
@@ -29,15 +27,15 @@ const Profile = observer(() => {
     console.log(newProfile);
 
     if (
-      user.name == newProfile.newName &&
-      user.profile.bio == newProfile.newBio
+      authStore.user.name == newProfile.newName &&
+      authStore.user.profile.bio == newProfile.newBio
     )
       return toast.info("No has change ");
 
-    if (user.name != newProfile.newName)
-      user_store.update_username(newProfile.newName);
-    if (user.profile.bio != newProfile.newBio)
-      user_store.update_bio(newProfile.newBio);
+    if (authStore.user.name != newProfile.newName)
+      userStore.update_username(newProfile.newName);
+    if (authStore.user.profile.bio != newProfile.newBio)
+      userStore.update_bio(newProfile.newBio);
   }
 
   const handleChange = (e) => {
@@ -51,12 +49,16 @@ const Profile = observer(() => {
     <div className="profile_container">
       <div className="profile-info">
         <div className="profile-avatar">
-          <img src={user.urlAvatar != "none" ? user.urlAvatar : ""} />
+          <img
+            src={
+              authStore.user.urlAvatar != "none" ? authStore.user.urlAvatar : ""
+            }
+          />
         </div>
         <div className="profile-content">
           <div className="profile-user_info">
-            {user.name}
-            <div>{user.profile.bio}</div>
+            {authStore.user.name}
+            <div>{authStore.user.profile.bio}</div>
 
             <div>
               <div>

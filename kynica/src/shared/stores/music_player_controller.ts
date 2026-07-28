@@ -1,20 +1,23 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { RootStore } from "./rootStore";
 
-class MusicPlayer {
+export class MusicPlayer {
+  rootStore: RootStore;
   audio = new Audio();
-  isPlaying = false;
-  isLoop = false;
-  musicId = null;
-  trackData = null;
   currentTime = 0;
   duration = 0;
   volume = 1;
-  isMuted = false;
   previousVolume = 1;
+  musicId = null;
+  trackData = null;
   playlist = null;
   isOpen = false;
+  isMuted = false;
+  isPlaying = false;
+  isLoop = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
     this.audio.loop = false;
     this.audio.volume = this.volume;
@@ -45,6 +48,14 @@ class MusicPlayer {
 
   toggleOpen() {
     return (this.isOpen = !this.isOpen);
+  }
+
+  toggleMusic(musicId, track, playlist) {
+    if (!track || !musicId) return console.log("music_id is null");
+
+    if (this.musicId !== musicId) return this.play(track.id, track, playlist);
+
+    this.isPlaying ? this.pause() : this.resume();
   }
 
   play(musicId: number, trackData, playlist) {
@@ -173,5 +184,3 @@ class MusicPlayer {
     this.audio.loop = this.isLoop;
   }
 }
-
-export default new MusicPlayer();

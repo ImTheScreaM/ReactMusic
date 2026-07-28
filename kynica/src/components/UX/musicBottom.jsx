@@ -1,13 +1,7 @@
 import { observer } from "mobx-react-lite";
 
-import {
-  useAuthStore,
-  useMusicPlayer,
-  useMusicPlayerController,
-  userTogglFavoriteMusic,
-  toggleMusic,
-} from "../../hook/hooks.jsx";
-import music_player_controller from "../../shared/stores/music_player_controller.ts";
+import { useUserTogglFavoriteMusic } from "../../hook/hooks.jsx";
+
 import {
   DislikeSvg,
   LeftArrowSvg,
@@ -22,13 +16,11 @@ import ProgressBar from "./progressBar.jsx";
 import VolumeBar from "./volumeBar.jsx";
 
 import "../../assets/css/music.bottom.css";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const MusicBottom = observer(() => {
-  const { musicId, isPlay, isLoop, track } = useMusicPlayerController();
-  const { userMusic } = useMusicPlayer();
-  const { isAuth } = useAuthStore();
-
-  console.log(track);
+  const { musicStore, musicPlayerStore } = useRootContext();
+  const toggleMusic = useUserTogglFavoriteMusic();
 
   return (
     <section className="music_bottom-container">
@@ -39,22 +31,26 @@ const MusicBottom = observer(() => {
       <div className="music_player">
         <div
           className="absolute w-full"
-          onClick={() => music_player_controller.toggleOpen()}
+          onClick={() => musicPlayerStore.toggleOpen()}
         ></div>
 
         <div className="music_player-info">
           <div className="track-info">
             <img
-              src={`http://localhost:3003${track.urlAvatar.replaceAll(" ", "%20")}`}
+              src={`http://localhost:3003${musicPlayerStore.trackData.urlAvatar.replaceAll(" ", "%20")}`}
               alt=""
               className="track-img"
             />
             <div className="grid">
               <div className="music-info-name">
-                <span className="track-name">{track.name}</span>
+                <span className="track-name">
+                  {musicPlayerStore.trackData.name}
+                </span>
               </div>
               <div className="music-info-artist">
-                <span className="track-artist">{track.artist}</span>
+                <span className="track-artist">
+                  {musicPlayerStore.trackData.artist}
+                </span>
               </div>
             </div>
           </div>
@@ -62,38 +58,45 @@ const MusicBottom = observer(() => {
 
         <div className="music_player-sonata">
           <button
-            onClick={() => userTogglFavoriteMusic({ track, isAuth })}
-            className={`like-button ${track.isLiked ? "active" : ""}`}
+            onClick={() =>
+              toggleMusic(musicPlayerStore.trackData)
+            }
+            className={`like-button ${musicPlayerStore.trackData.isLiked ? "active" : ""}`}
           >
             <LikeSvg />
           </button>
 
           <button
             className="previus-track-button"
-            onClick={() => music_player_controller.prevTrack()}
+            onClick={() => musicPlayerStore.prevTrack()}
           >
             <LeftArrowSvg />
           </button>
 
           <button
             className="pause-resume-button"
-            onClick={() => toggleMusic(musicId, track)}
+            onClick={() =>
+              musicPlayerStore.toggleMusic(
+                musicPlayerStore.musicId,
+                musicPlayerStore.trackData,
+              )
+            }
           >
-            {isPlay ? <PauseSvg /> : <ResumeSvg />}
+            {musicPlayerStore.isPlaying ? <PauseSvg /> : <ResumeSvg />}
           </button>
 
           <button
-            onClick={() => music_player_controller.nextTrack(userMusic)}
+            onClick={() => musicPlayerStore.nextTrack(musicStore.userMusic)}
             className="next-track-button"
           >
             <RightArrowSvg />
           </button>
 
           <button
-            onClick={() => music_player_controller.loopMusic()}
-            className={`loop-button ${isLoop ? "active" : ""}`}
+            onClick={() => musicPlayerStore.loopMusic()}
+            className={`loop-button ${musicPlayerStore.isLoop ? "active" : ""}`}
           >
-            {isLoop ? <LoopSvg /> : <NoLoopSvg />}
+            {musicPlayerStore.isLoop ? <LoopSvg /> : <NoLoopSvg />}
           </button>
 
           <button className="dislike-button">

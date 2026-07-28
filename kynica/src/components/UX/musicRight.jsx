@@ -1,29 +1,26 @@
 import { observer } from "mobx-react-lite";
 
-import { useMusicPlayerController } from "../../hook/hooks.jsx";
-import music_player_controller from "../../shared/stores/music_player_controller.ts";
 
 import "../../assets/css/music.right.css";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const MusicRight = observer(() => {
-  const { track } = useMusicPlayerController();
-  const isOpen = music_player_controller.isOpen;
+  const { musicPlayerStore } = useRootContext();
 
-  console.log(track);
   return (
     <div className="music_right-drop_menu">
-      {isOpen && (
+      {musicPlayerStore.isOpen && (
         <section className="music_right-container">
-          <div className="music_right-title">{track.name}</div>
+          <div className="music_right-title">{musicPlayerStore.name}</div>
 
           <div className="music_right-media"></div>
 
-          <div className="music_right-artist">{track.artist}</div>
+          <div className="music_right-artist">{musicPlayerStore.artist}</div>
 
-          {track.description && (
+          {musicPlayerStore.description && (
             <div className="music_right-description grid">
               <span>TEXT</span>
-              <span>{track.description}</span>
+              <span>{musicPlayerStore.description}</span>
             </div>
           )}
         </section>

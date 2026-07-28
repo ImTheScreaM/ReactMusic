@@ -1,7 +1,9 @@
 import { flow, makeAutoObservable, runInAction } from "mobx";
 import { playlistApi } from "../api/playlist.api.ts";
+import { RootStore } from "./rootStore.ts";
 
-class Playlist {
+export class Playlist {
+  rootStore: RootStore;
   playlists = [];
   playlistMusic = [];
 
@@ -10,7 +12,8 @@ class Playlist {
   playlistMusicLoading = false;
   createLoading = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
   }
 
@@ -44,7 +47,7 @@ class Playlist {
     }
   });
 
-  get_playlist = flow(function*(this: Playlist) {
+  get_playlist = flow(function* (this: Playlist) {
     this.playlistLoading = true;
     try {
       const playlist = yield playlistApi.get();
@@ -59,7 +62,11 @@ class Playlist {
     }
   });
 
-  add_music_in_playlist = flow(function*(this: Playlist,playlistId: number, musicId: number) {
+  add_music_in_playlist = flow(function* (
+    this: Playlist,
+    playlistId: number,
+    musicId: number,
+  ) {
     this.isLoading = true;
     try {
       const music = yield playlistApi.add_music(playlistId, musicId);
@@ -75,7 +82,11 @@ class Playlist {
     }
   });
 
-  delete_music_from_playlist = flow(function* (this: Playlist,playlistId: number, musicId: number) {
+  delete_music_from_playlist = flow(function* (
+    this: Playlist,
+    playlistId: number,
+    musicId: number,
+  ) {
     this.isLoading = true;
     try {
       yield playlistApi.delete_music(playlistId, musicId);
@@ -91,7 +102,7 @@ class Playlist {
     }
   });
 
-get_music_playlist = flow(function* (this: Playlist,playlistId: number) {
+  get_music_playlist = flow(function* (this: Playlist, playlistId: number) {
     this.playlistMusicLoading = true;
     try {
       const music = yield playlistApi.get_music(playlistId);
@@ -106,13 +117,11 @@ get_music_playlist = flow(function* (this: Playlist,playlistId: number) {
     }
   });
 
-  update_playlist = flow(function* (this: Playlist,formData: FormData) {
+  update_playlist = flow(function* (this: Playlist, formData: FormData) {
     try {
       yield playlistApi.update_info(formData);
     } catch (error) {
       console.log(error);
     }
   });
- };
-
-export default new Playlist();
+}

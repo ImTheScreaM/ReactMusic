@@ -1,21 +1,20 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import { CartMusic } from "../../../components/UX/cartMusic";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
-import { toast } from "react-toastify";
 import "../../../assets/css/search.css";
-import { useSearchController } from "../../../hook/hooks.jsx";
-import music_controller from "../../../shared/stores/music_controller.ts";
-import search_controller from "../../../shared/stores/search_controller.ts";
 
 const Search = observer(() => {
   const [value, setValue] = useState("");
   const [searchCategory, setSearchCategory] = useState("name");
-  const { result, searchPlaylist,searchLoading } = useSearchController();
+
+  const {musicStore,searchStore} = useRootContext();
 
   const musicMap = new Map(
-    music_controller.allMusic.map((item) => [item.id, item]),
+    musicStore.allMusic.map((item) => [item.id, item]),
   );
 
   const categories = [
@@ -24,7 +23,7 @@ const Search = observer(() => {
     { id: "genre", label: "Genre" },
   ];
 
-  if (searchLoading) {
+  if (searchStore.searchLoading) {
     return <div>Loading...</div>;
   }
 
@@ -40,7 +39,7 @@ const Search = observer(() => {
     e.preventDefault();
     try {
       if (!value) return toast.error("Please enter a value");
-      await search_controller.search_by_category(value, searchCategory);
+      await searchStore.search_by_category(value, searchCategory);
     } catch (error) {
       console.error(error);
     }
@@ -90,13 +89,13 @@ const Search = observer(() => {
       </div>
 
       <div className="search_result_container">
-        {result.length > 0 && (
+        {searchStore.result.length > 0 && (
           <div className="search_result">
-            {result.map((track) => (
+            {searchStore.result.map((track) => (
               <CartMusic
                 key={track}
                 track={musicMap.get(track)}
-                playlist={searchPlaylist}
+                playlist={searchStore.searchPlaylist}
               />
             ))}
           </div>

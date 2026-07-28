@@ -1,12 +1,14 @@
 import { memo } from "react";
 import { toast } from "react-toastify";
 
-import playlist_controller from "../../shared/stores/playlist_controller.ts";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const PlaylistSubMenu = memo(({id}) => {
+  const {playlistStore} = useRootContext();
+
   const addToPlaylist = async (playlistId) => {
     try {
-      playlist_controller.add_music_in_playlist(playlistId, id);
+      playlistStore.add_music_in_playlist(playlistId, id);
       toast.success(`Success addd to ${playlistId}`);
     } catch (error) {
       toast.error("error");
@@ -16,8 +18,8 @@ const PlaylistSubMenu = memo(({id}) => {
 
   return (
     <div className="playlist-submenu">
-      {playlist_controller.playlists.length > 0 ? (
-        playlist_controller.playlists.map((item) => (
+      {playlistStore.playlists.length > 0 ? (
+        playlistStore.playlists.map((item) => (
           <button key={item.id} onClick={() => addToPlaylist(item.id)}>
             <span>{item.name}</span>
           </button>

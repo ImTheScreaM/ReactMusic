@@ -1,11 +1,12 @@
 import { observer } from "mobx-react-lite";
 import { useRef, useState } from "react";
 
-import music_player_controller from "../../shared/stores/music_player_controller.ts";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 import "../../assets/css/progress.css";
 
 const ProgressBar = observer(() => {
+  const {musicPlayerStore} = useRootContext();
   const [isDragging, setIsDragging] = useState(false);
   const progressRefBar = useRef(null);
 
@@ -16,9 +17,9 @@ const ProgressBar = observer(() => {
     let x = e.clientX - rect.left;
     x = Math.max(0, Math.min(x, rect.width));
     const percent = x / rect.width;
-    const newTime = percent * music_player_controller.duration;
+    const newTime = percent * musicPlayerStore.duration;
     if (!isNaN(newTime)) {
-      music_player_controller.seek(newTime);
+      musicPlayerStore.seek(newTime);
     }
   };
 
@@ -42,13 +43,13 @@ const ProgressBar = observer(() => {
     document.addEventListener("mouseup", handleMouseUp);
   };
 
-  const progress = music_player_controller.getProgressPercent();
+  const progress = musicPlayerStore.getProgressPercent();
 
   return (
     <div className="progress-container">
       <div className="time-current">
-        {music_player_controller.formatTimer(
-          music_player_controller.currentTime,
+        {musicPlayerStore.formatTimer(
+          musicPlayerStore.currentTime,
         )}
       </div>
       <div

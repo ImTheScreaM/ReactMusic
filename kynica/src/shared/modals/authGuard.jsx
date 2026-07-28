@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const AuthGuard = observer(() => {
+export const AuthGuard = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -33,4 +33,4 @@ export const AuthGuard = observer(() => {
       </div>
     </div>
   );
-});
+};

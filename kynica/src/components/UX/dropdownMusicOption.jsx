@@ -3,20 +3,21 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useAuthStore } from "../../hook/hooks";
-import playlist_controller from "../../shared/stores/playlist_controller.ts";
 import { BurgerMenuThreeDot } from "../UI/SVG.js";
 import PlaylistSubMenu from "./playlistSubMenu.jsx";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const DropdownMusicOption = memo(({ track, showRemoveButton }) => {
-  const { id } = useParams();
-  const { isAuth } = useAuthStore();
   const [openDropList, setOpenDropList] = useState(false);
   const [openPlaylistDropList, setOpenPlaylistDropList] = useState(false);
+  
+  const { id } = useParams();
+  const {playlistStore,authStore} =  useRootContext();
 
   const toggleDropList = async () => {
-    if (isAuth && !openDropList) {
+    if (authStore.isAuth && !openDropList) {
       try {
-        playlist_controller.get_playlist();
+        playlistStore.get_playlist();
       } catch (error) {
         console.log(error);
       }
@@ -29,7 +30,7 @@ const DropdownMusicOption = memo(({ track, showRemoveButton }) => {
 
   const deleteFromPlaylist = async () => {
     try {
-      playlist_controller.delete_music_from_playlist(id, track.id);
+      playlistStore.delete_music_from_playlist(id, track.id);
       setOpenPlaylistDropList(false);
       setOpenDropList(false);
       toast.success(`Success delete from ${id}`);

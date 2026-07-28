@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import auth_store from '../../../../shared/stores/auth_store.ts';
+
+import { useRootContext } from "../../../../shared/di/rootStoreContext.tsx";
 
 import '../../../../assets/css/auth.register.css';
 
 const Register = () => {
+  const {authStore} = useRootContext();
     const [formData, setFormData] = useState({
         name: '',
         password: '',
@@ -22,7 +24,7 @@ const Register = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        await auth_store.register(formData)
+        await authStore.register(formData)
         navigate('/auth/login')
     };
 

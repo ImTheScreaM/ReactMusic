@@ -1,15 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
-import { useAuthStore } from "../../hook/hooks";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const ProtectedRouter = observer(({ children }) => {
-  const { isAuth, isLoading } = useAuthStore();
+  const {authStore} = useRootContext();
 
-  if (isLoading) {
+  if (authStore.isLoading) {
     return <div>Загрузка...</div>;
   }
 
-  if (!isAuth) {
+  if (!authStore.isAuth) {
     return (
       <div className="protected_router grid items-center gap-4">
         <span className="text-4xl">

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
-import auth_store from "../../../../shared/stores/auth_store.ts";
+import { useRootContext } from "../../../../shared/di/rootStoreContext.tsx";
 
 import "../../../../assets/css/auth.login.css";
 
 const Login = () => {
+  const { authStore } = useRootContext();
   const [formData, setFormData] = useState({
     password: "",
     email: "",
@@ -23,10 +24,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await auth_store.login(formData);
+      await authStore.login(formData);
       navigate("/");
     } catch (error) {
-      toast.error("error")
+      toast.error("error");
       console.log(error);
     }
   };

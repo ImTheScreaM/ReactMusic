@@ -5,24 +5,20 @@ import { NavLink } from "react-router-dom";
 import { BurgerMenuThreeDot } from "../../../components/UI/SVG.js";
 import BlockCreatePlaylist from "../../../components/UX/blockCreatePlaylist";
 import DropdownMenuPaylist from "../../../components/UX/dropDownMenuPlaylist.jsx";
-import playlist_controller from "../../../shared/stores/playlist_controller.ts";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/playlist.css";
 
 const Playlist = observer(() => {
   const [openPlaylistId, setOpenPlaylistId] = useState(null);
-  const isLoading = playlist_controller.playlistLoading;
 
-  function test(e) {
-    console.log(e)
-  }
+  const {playlistStore} = useRootContext();
   
-
   useEffect(() => {
-    playlist_controller.get_playlist();
+    playlistStore.get_playlist();
   }, []);
 
-  if (isLoading) {
+  if (playlistStore.isLoading) {
     return <div> Loading ...</div>;
   }
 
@@ -30,7 +26,7 @@ const Playlist = observer(() => {
     <div className="playlist_container">
       <div className="playlist_content">
         <BlockCreatePlaylist />
-        {playlist_controller.playlists.map((item) => (
+        {playlistStore.playlists.map((item) => (
           <div className="playlist_item" key={item.id}>
             <div className={`playlist_menu-wrapper`} >
               <button className="playlist_menu-button" onClick={() => setOpenPlaylistId(openPlaylistId === item.id ? null : item.id)}>

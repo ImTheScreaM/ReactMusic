@@ -1,9 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 
-import { useAuthStore } from "../../../hook/hooks";
-
-import "../../../assets/css/header.css";
 import {
   AuthSvg,
   FavoriveSvg,
@@ -12,11 +9,15 @@ import {
   ProfileSvg,
   SearchAvg,
 } from "../../../components/UI/SVG";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
+
+import "../../../assets/css/header.css";
 
 const Header = observer(() => {
-  const { isAuth, isLoading } = useAuthStore();
+  const {authStore} = useRootContext();
 
-  if (isLoading) {
+
+  if (authStore.isLoading) {
     return <div>Loading</div>;
   }
   return (
@@ -64,7 +65,7 @@ const Header = observer(() => {
                 </div>
               </NavLink>
             </li>
-            {isAuth ? (
+            {authStore.isAuth ? (
               <li>
                 <NavLink to={"/profile"}>
                   <div className="profile flex">

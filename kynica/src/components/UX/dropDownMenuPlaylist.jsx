@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import playlist_controller from "../../shared/stores/playlist_controller.ts";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 import "../../assets/css/dropDownMenuPlaylist.css";
 
@@ -10,6 +10,9 @@ const DropdownMenuPaylist = ({ playlistId, name }) => {
     name: name,
     avatar: null,
   });
+
+  const {playlistStore} = useRootContext();
+  
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -30,14 +33,14 @@ const DropdownMenuPaylist = ({ playlistId, name }) => {
     try {
       console.log(formData);
       
-      playlist_controller.update_playlist(formData);
+      playlistStore.update_playlist(formData);
     } catch (error) {
       console.log(error);
     }
   };
 
   const deletePlaylist = () => {
-    playlist_controller.delete_playlist(playlistId);
+    playlistStore.delete_playlist(playlistId);
   };
 
   return (

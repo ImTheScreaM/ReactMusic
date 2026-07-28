@@ -1,12 +1,15 @@
 import { flow, makeAutoObservable } from "mobx";
 import { searchApi } from "../api/search.api.ts";
+import { RootStore } from "./rootStore.ts";
 
-class Search {
+export class Search {
+  rootStore: RootStore;
   result = [];
   searchPlaylist = [];
   searchLoading = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
   }
 
@@ -46,5 +49,3 @@ class Search {
     }
   });
 }
-
-export default new Search();

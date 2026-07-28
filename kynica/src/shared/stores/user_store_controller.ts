@@ -1,13 +1,15 @@
 import { flow, makeAutoObservable } from "mobx";
-import { ApiRequest } from "../api/apiRequest";
 import { userApi } from "../api/user.api.ts";
+import { RootStore } from "./rootStore.ts";
 
-class User {
-  constructor() {
+export class User {
+  rootStore:RootStore;
+  constructor(rootStore:RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
   }
 
-  update_username = flow(function*(data: string) {
+  update_username = flow(function* (data: string) {
     try {
       yield userApi.update_username(data);
     } catch (error) {
@@ -23,7 +25,7 @@ class User {
     }
   });
 
-  update_avatar = flow(function*(avatar: string) {
+  update_avatar = flow(function* (avatar: string) {
     try {
       yield userApi.update_avatar(avatar);
     } catch (error) {
@@ -31,5 +33,3 @@ class User {
     }
   });
 }
-
-export default new User();

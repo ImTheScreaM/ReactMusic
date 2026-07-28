@@ -1,17 +1,23 @@
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import { CartMusic } from "../../../components/UX/cartMusic";
-import music_controller from "../../../shared/stores/music_controller.ts";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/buttons.css";
 import "../../../assets/css/main.css";
 
 const Main = observer(() => {
-  const navigate = useNavigate();
-  const { loadingAllMusic, allMusic, userMusicQuantity } = music_controller;
+  const {musicStore} = useRootContext();
 
-  if (loadingAllMusic) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    musicStore.get_all_music();
+  },[])
+
+  if (musicStore.loadingAllMusic) {
     return <h1>Loading..</h1>;
   }
 
@@ -37,7 +43,7 @@ const Main = observer(() => {
           </svg>
         </div>
         <div className="favorite_music_count justify-center">
-          <span>{userMusicQuantity} tracks</span>
+          <span>{musicStore.userMusicQuantity} tracks</span>
         </div>
       </div>
 
@@ -45,8 +51,8 @@ const Main = observer(() => {
         <div className="population_music">
           <h1 className="population_music-title"> Music </h1>
           <div className="population_music-main">
-            {allMusic.map((item) => (
-              <CartMusic key={item.id} track={item} playlist={allMusic} />
+            {musicStore.allMusic.map((item) => (
+              <CartMusic key={item.id} track={item} playlist={musicStore.allMusic} />
             ))}
           </div>
         </div>

@@ -2,18 +2,20 @@ import { musicApi } from "../api/music.api.ts";
 import { IMusic, IUploadMusic } from "../interface/intarface";
 
 import { flow, makeAutoObservable, runInAction } from "mobx";
+import { RootStore } from "./rootStore.ts";
 
-class Music {
+export class Music {
+  rootStore: RootStore;
   userMusic: IMusic[] = [];
   allMusic: IMusic[] = [];
   userMusicQuantity: number = 0;
 
   loadingAllMusic: boolean = false;
-  userAllMusic: boolean = false;
+  loadingUserAllMusic: boolean = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
-    this.get_all_music();
     this.get_user_music();
   }
 
@@ -21,7 +23,7 @@ class Music {
     this.loadingAllMusic = true;
     try {
       const res = yield musicApi.all_music();
-      
+
       runInAction(() => {
         this.allMusic = res;
       });
@@ -33,7 +35,7 @@ class Music {
   });
 
   get_user_music = flow(function* (this: Music) {
-    this.userAllMusic = true;
+    this.loadingUserAllMusic = true;
     try {
       const res = yield musicApi.user_music();
 
@@ -44,14 +46,14 @@ class Music {
     } catch (error) {
       console.log(error);
     } finally {
-      this.userAllMusic = false;
+      this.loadingUserAllMusic = false;
     }
   });
 
   add_rm_user_music = flow(function* (this: Music, data: IMusic) {
     try {
       console.log(data);
-      
+
       const res = yield musicApi.add_rm_music(data);
       console.log(res);
 
@@ -76,15 +78,6 @@ class Music {
   });
 
   upload_music = flow(function* (this: Music, data: IUploadMusic) {
-    
-    console.log(data);
-    
-    const res = yield musicApi.upload_music(data);
-
-    runInAction(() => {
-      this.allMusic.push(res);
-    });
+    yield musicApi.upload_music(data);
   });
 }
-
-export default new Music();

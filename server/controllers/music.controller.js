@@ -130,8 +130,8 @@ export async function upload_music(req, res) {
         time: durationInSeconds,
       },
     });
-    res.json({
-      uploadMusic: uploadMusic,
+    res.status(200).json({
+      completed: true,
     });
   } catch (error) {
     console.log("upload_music", error);

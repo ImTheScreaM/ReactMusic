@@ -2,13 +2,16 @@ import { flow, makeAutoObservable, runInAction } from "mobx";
 
 import { authApi } from "../api/auth.api.ts";
 import { IFormLogin, IFormRegister } from "../interface/intarface";
+import { RootStore } from "./rootStore.ts";
 
-class AuthController {
+export class AuthController {
+  rootStore: RootStore;
   isAuth = false;
   isLoading = true;
   user = null;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
     this.checkAuth();
     this.setupListener();
@@ -18,20 +21,22 @@ class AuthController {
     window.addEventListener("auth:unauthorized", this.handleUnauthorized);
   }
 
-  handleUnauthorized = () =>  {
-    this.isAuth = false;
-    this.user = null;
-  }
+  handleUnauthorized = () => {
+    runInAction(() => {
+      this.isAuth = false;
+      this.user = null;
+    });
+  };
 
   dispose() {
-    window.removeEventListener("handleUnauthorized", this.handleUnauthorized);
+    window.removeEventListener("auth:unauthorized", this.handleUnauthorized);
   }
 
   register = flow(function* (formData: IFormRegister) {
     try {
       yield authApi.register(formData);
     } catch (error) {
-      console.log("Error auth",error);
+      console.log("Error auth", error);
     }
   });
 
@@ -79,5 +84,3 @@ class AuthController {
     }
   });
 }
-
-export default new AuthController();

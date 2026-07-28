@@ -1,18 +1,18 @@
-import { toggleMusic } from "../../hook/hooks";
-import DropdownMusicOption from "./dropdownMusicOption";
-
 import { memo, useCallback } from "react";
-import "../../assets/css/cart_music.css";
+
+import DropdownMusicOption from "./dropdownMusicOption";
 import LikeButton from "./likeButton";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
+
+import "../../assets/css/cart_music.css";
 
 export const CartMusic = memo(
   ({ track, playlist, showRemoveButton = false }) => {
-    const handlePlay = useCallback(() => {
-      toggleMusic(track.id, track, playlist);
-    }, [track.id, playlist]);
+    const {musicPlayerStore} = useRootContext();
 
-    console.log(track);
-    
+    const handlePlay = useCallback(() => {
+      musicPlayerStore.toggleMusic(track.id, track, playlist);
+    }, [track.id, playlist]);
 
     return (
       <div className="cart_music-container">

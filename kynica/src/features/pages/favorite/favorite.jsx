@@ -2,20 +2,18 @@ import { observer } from "mobx-react-lite";
 import {useEffect} from "react"
 
 import { CartMusic } from "../../../components/UX/cartMusic";
-import { useMusicPlayer } from "../../../hook/hooks";
-import music_controller from "../../../shared/stores/music_controller.ts";
+import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/favorite.css";
 
 const Favorite = observer(() => {
-  const { userMusic } = useMusicPlayer();
-  const { userAllMusic } = music_controller;
+  const {musicStore,musicPlayerStore} = useRootContext();
 
   useEffect(() => {
-    music_controller.get_user_music()
+    musicStore.get_user_music()
   },[])
 
-  if (userAllMusic) {
+  if (musicStore.loadingUserAllMusic) {
     return <div>Загрузка ...</div>;
   }
 
@@ -29,10 +27,10 @@ const Favorite = observer(() => {
       </div>
 
       <div className="favorite_music-main">
-        {userMusic ? (
+        {musicStore.userMusic ? (
           <div>
-            {userMusic.map((item) => (
-              <CartMusic track={item} playlist={userMusic} />
+            {musicStore.userMusic.map((item) => (
+              <CartMusic track={item} playlist={musicStore.userMusic} />
             ))}
           </div>
         ) : (
