@@ -2,20 +2,20 @@ import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import { CartMusic } from "../../../components/UX/cartMusic";
+import VirtualizationMusic from "../../../components/UX/VirtualizationMusic.tsx";
 import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/buttons.css";
 import "../../../assets/css/main.css";
 
 const Main = observer(() => {
-  const {musicStore} = useRootContext();
+  const { musicStore } = useRootContext();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     musicStore.get_all_music();
-  },[])
+  }, [musicStore]);
 
   if (musicStore.loadingAllMusic) {
     return <h1>Loading..</h1>;
@@ -51,9 +51,7 @@ const Main = observer(() => {
         <div className="population_music">
           <h1 className="population_music-title"> Music </h1>
           <div className="population_music-main">
-            {musicStore.allMusic.map((item) => (
-              <CartMusic key={item.id} track={item} playlist={musicStore.allMusic} />
-            ))}
+            <VirtualizationMusic tracks={musicStore.allMusic} />
           </div>
         </div>
       </div>

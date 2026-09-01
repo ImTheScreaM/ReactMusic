@@ -4,7 +4,7 @@ import { apiClient } from "./client.ts";
 export const musicApi = {
   all_music: async () => {
     const { data } = await apiClient.get("/all_music");
-    
+
     return data.music;
   },
 
@@ -13,18 +13,23 @@ export const musicApi = {
     return data.userMusic.getMusic;
   },
 
+  artist_music: async (idArtist:number) => {
+    const {data} = await apiClient.post("/artist_music",{idArtist});
+
+    return data.data;
+  },
+
   add_rm_music: async (dataMusic: IMusic) => {
     const { data } = await apiClient.post("/add_rm_user_music", dataMusic);
-    console.log(data,dataMusic);
-    
+
     return data;
   },
 
   upload_music: async (dataMusic: IUploadMusic) => {
     const { data } = await apiClient.post("/upload_music", dataMusic, {
       headers: {
-        "Content-Type":"multipart/form-data"
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
 
     return data.uploadMusic;

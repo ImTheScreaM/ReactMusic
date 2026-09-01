@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "Music" ADD CONSTRAINT "Music_userWhoAdd_fkey" FOREIGN KEY ("userWhoAdd") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

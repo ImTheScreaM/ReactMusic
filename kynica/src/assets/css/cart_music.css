@@ -1,9 +1,13 @@
 .cart_music-container {
-  display: flex;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 .cart_music {
   display: flex;
+  position: relative;
+  overflow: visible;
   flex-direction: row;
   padding: 5px;
   margin: 0 auto;
@@ -13,9 +17,13 @@
   transition: bacground-color 0.4s;
 }
 
+.cart_music-container:has(.dropdown-menu) {
+  z-index: 100;
+}
+
 .cart_music img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
 }
 
@@ -38,22 +46,25 @@
 
 .cart_music-artist {
   color: #4d4d4d;
+  transition: 0.4s ease;
+}
+
+.cart_music-artist:hover {
+  color: #e6e6e6;
 }
 
 .cart_music-right_information {
   justify-content: end;
 }
 
-.cart_music-name {
-  font-size: 0.975rem;
-}
-
+.cart_music-name,
 .cart_music-artist {
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .cart_music-options-droplist {
   position: relative;
+  z-index: 1001;
 }
 
 .droplist-btn {

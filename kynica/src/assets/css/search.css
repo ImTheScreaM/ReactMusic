@@ -14,7 +14,6 @@
   box-sizing: border-box;
 }
 
-
 .search_container {
   display: flex;
   align-items: center;
@@ -25,9 +24,8 @@
 .search_container input {
   background: transparent;
   width: 100%;
-  border: 1px solid #333333;;
+  border: 1px solid #333333;
   border-radius: 14px;
-  /*padding: 10px;*/
   min-height: 2.5rem;
   padding: 10px 10px 10px 42px;
   cursor: text;
@@ -42,7 +40,6 @@
   cursor: pointer;
   z-index: 1;
 }
-
 
 .search_container input:focus {
   background: none;
@@ -102,4 +99,20 @@
   padding-right: 5px;
   scrollbar-width: thin;
   scrollbar-color: #555 transparent;
+}
+
+.search-result-author {
+  display: flex;
+}
+
+.search-result-author span {
+  font-size: 1.4rem;
+  margin-top: 15px;
+}
+
+.search-profile-avatar {
+  width: 124px;
+  height: 124px;
+  object-fit: cover;
+  border-radius: 30%;
 }

@@ -2,10 +2,10 @@ import { flow, makeAutoObservable } from "mobx";
 import { searchApi } from "../api/search.api.ts";
 import { RootStore } from "./rootStore.ts";
 
+
 export class Search {
   rootStore: RootStore;
   result = [];
-  searchPlaylist = [];
   searchLoading = false;
 
   constructor(rootStore: RootStore) {
@@ -39,9 +39,10 @@ export class Search {
           body = { value };
       }
       const res = yield searchApi.search_by_category(url, body);
+      this.result = res;
+      console.log("res result",res)
+      console.log("result this.result",this.result)
 
-      this.searchPlaylist = res;
-      this.result = res.map((item) => item.id);
     } catch (error) {
       console.error(error);
     } finally {

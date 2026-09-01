@@ -1,0 +1,88 @@
+.profile_container {
+  margin: 10px;
+}
+
+.profile-content {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-user-info-name h2,
+.change-avatar h2,
+.profile_bio h2 {
+  font-size: 1.5rem;
+}
+
+.profile-user-info-change {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.change-username,
+.change-bio,
+.change-avatar {
+  display: flex;
+  flex-direction: column;
+}
+
+.change-username input,
+.change-bio input,
+.change-avatar input {
+  background: transparent;
+  width: 40%;
+  border: 1px solid #333333;
+  border-radius: 14px;
+  min-height: 2.5rem;
+  padding: 10px 10px 10px 42px;
+  cursor: text;
+  font-size: 0.825rem;
+}
+
+.change-avatar {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.change-avatar label {
+  width: 155px;
+  white-space: nowrape;
+  overflow: hidden;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  padding: 10px 10px 10px 22px;
+  border: 1px solid #333333;
+  transition: .4s;
+}
+
+.profile_btn {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.profile_btn_logout,
+.profile_btn_submit,
+.profile_btn_change_theme {
+  padding: 15px;
+  border: 1px solid #333333;
+  transition: 0.4s;
+}
+
+.profile_btn_logout:hover {
+  background: #8b2d2d;
+}
+
+.profile_btn_submit:hover {
+  background: #4c9a6f;
+}
+
+.profile_btn_change_theme:hover,
+.change-avatar label:hover {
+  scale: 1.1;
+}
+
+.profile_avatar {
+  width: 224px;
+  height: 224px;
+  object-fit: cover;
+  border-radius: 30%;
+}

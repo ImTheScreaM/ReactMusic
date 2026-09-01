@@ -5,6 +5,7 @@ import {
   change_username,
   session,
 } from "../controllers/user.controller.js";
+import { uploadMulter } from "../controllers/multer.controller.js";
 
 const router = express.Router();
 
@@ -15,9 +16,18 @@ router.get("/session", session);
 // POST
 
 router.post("/change_bio", change_bio);
-router.post("/change_avatar",change_avatar)
+router.post(
+  "/change_avatar",
+  uploadMulter.fields([
+    {
+      name: "newAvatar",
+      maxCount: 1,
+    },
+  ]),
+  change_avatar,
+);
 router.post("/change_username", change_username);
 
 // DELETE
 
-export default router
+export default router;

@@ -3,7 +3,8 @@ import { apiClient } from "./client.ts";
 
 export const authApi = {
   register: async (formData: IFormRegister) => {
-    await apiClient.post("/register", formData);
+    const { data } = await apiClient.post("/register", formData);
+    return data;
   },
 
   login: async (dataUser: IFormLogin) => {

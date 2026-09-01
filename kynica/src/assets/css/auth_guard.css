@@ -1,0 +1,46 @@
+.auth_guard_container {
+  position: absolute;
+  background: transparent;
+  width: 100%;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  margin: 0 auto;
+}
+
+.auth_guard_context {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background: dimgrey;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.auth_guard_title {
+  font-size: 30px;
+}
+
+.auth_guard_btn {
+  display: flex;
+  gap: 15px;
+}
+
+.auth_guard_login,
+.auth_guard_close {
+  font-size: 22px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.3s ease;
+}
+
+.auth_guard_login:hover {
+  background: green;
+}
+
+.auth_guard_close:hover {
+  background: rgb(142, 1, 1);
+}

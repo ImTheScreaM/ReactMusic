@@ -50,15 +50,14 @@ export async function change_username(req, res) {
 
 export async function change_avatar(req, res) {
   const session = await get_session(req);
-  const { newAvatar } = req.body;
-
+  
   if (!session) return res.status(401).json({message:"no auth"})
 
   try {
     await prisma.user.update({
       where: { id: session.userId },
       data: {
-        urlAvatar: newAvatar,
+        urlAvatar: `/uploads/avatar/${req.body.newAvatar}`,
       },
     });
     res.status(200).json({success:"UPDATE!"})
@@ -76,7 +75,6 @@ export async function session(req, res) {
         id: session.userId,
       },
       include: {
-        id: false,
         password: false,
         role: false,
         loveMusic: true,

@@ -16,7 +16,7 @@ const VolumeBar = observer(() => {
   const volumePercent = musicPlayerStore.getVolumePercent();
   const isMuted = musicPlayerStore.isMuted;
 
-  const handleChangeVolume = (e) => {
+  const handleChangeVolume = (e:MouseEvent | React.MouseEvent<HTMLDivElement>) => {
     if (!volumeRefBar.current) return;
 
     const rect = volumeRefBar.current.getBoundingClientRect();
@@ -26,12 +26,12 @@ const VolumeBar = observer(() => {
     musicPlayerStore.setVolume(percent);
   };
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e:React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
     handleChangeVolume(e);
 
-    const handleMouseMove = (mouseMove) => {
+    const handleMouseMove = (mouseMove:MouseEvent) => {
       handleChangeVolume(mouseMove);
     };
 

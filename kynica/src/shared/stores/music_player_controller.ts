@@ -1,16 +1,17 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { RootStore } from "./rootStore";
+import { IMusic } from "../interface/intarface";
 
 export class MusicPlayer {
   rootStore: RootStore;
   audio = new Audio();
   currentTime = 0;
   duration = 0;
-  volume = 1;
+  volume = 0;
   previousVolume = 1;
-  musicId = null;
+  musicId: number | null = null;
   trackData = null;
-  playlist = null;
+  playlist: IMusic[] | null = null;
   isOpen = false;
   isMuted = false;
   isPlaying = false;
@@ -19,6 +20,7 @@ export class MusicPlayer {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this);
+
     this.audio.loop = false;
     this.audio.volume = this.volume;
 
@@ -50,20 +52,20 @@ export class MusicPlayer {
     return (this.isOpen = !this.isOpen);
   }
 
-  toggleMusic(musicId, track, playlist) {
+  toggleMusic(musicId: number, track: IMusic) {
     if (!track || !musicId) return console.log("music_id is null");
 
-    if (this.musicId !== musicId) return this.play(track.id, track, playlist);
+    if (this.musicId !== musicId)
+      return this.play(track.id, track, this.playlist);
 
     this.isPlaying ? this.pause() : this.resume();
   }
 
-  play(musicId: number, trackData, playlist) {
+  play(musicId: number, trackData: IMusic, playlist: IMusic[] | null) {
     const idMusicFromUrl = trackData.audioUrl;
-    console.log(`http://localhost:3003${idMusicFromUrl}`);
     this.trackData = trackData;
     this.musicId = musicId;
-    this.audio.src = `http://localhost:3003${idMusicFromUrl}`;
+    this.audio.src = `${process.env.REACT_APP_URL_SERVER}${idMusicFromUrl}`;
     try {
       this.isPlaying = true;
       this.audio.play();
@@ -145,7 +147,7 @@ export class MusicPlayer {
       (track) => track.id === this.musicId || track.musicId === this.musicId,
     );
 
-    if (currentIndex === -1) return;
+    if (!currentIndex || !this.playlist) return;
 
     const prevIndex =
       (currentIndex - 1 + this.playlist.length) % this.playlist.length;

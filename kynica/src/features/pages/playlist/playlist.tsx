@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import { BurgerMenuThreeDot } from "../../../components/UI/SVG.js";
-import BlockCreatePlaylist from "../../../components/UX/blockCreatePlaylist";
-import DropdownMenuPaylist from "../../../components/UX/dropDownMenuPlaylist.jsx";
+import BlockCreatePlaylist from "../../../components/UX/blockCreatePlaylist.tsx";
+import DropdownMenuPaylist from "../../../components/UX/dropDownMenuPlaylist.tsx";
 import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/playlist.css";
+import { IMusic } from "../../../shared/interface/intarface.ts";
 
 const Playlist = observer(() => {
   const [openPlaylistId, setOpenPlaylistId] = useState(null);
@@ -16,7 +17,7 @@ const Playlist = observer(() => {
   
   useEffect(() => {
     playlistStore.get_playlist();
-  }, []);
+  }, [playlistStore]);
 
   if (playlistStore.isLoading) {
     return <div> Loading ...</div>;
@@ -26,7 +27,7 @@ const Playlist = observer(() => {
     <div className="playlist_container">
       <div className="playlist_content">
         <BlockCreatePlaylist />
-        {playlistStore.playlists.map((item) => (
+        {playlistStore.playlists.map((item:IMusic) => (
           <div className="playlist_item" key={item.id}>
             <div className={`playlist_menu-wrapper`} >
               <button className="playlist_menu-button" onClick={() => setOpenPlaylistId(openPlaylistId === item.id ? null : item.id)}>
@@ -41,7 +42,7 @@ const Playlist = observer(() => {
                 <img
                   src={
                     item.avatar != "none"
-                      ? `http://localhost:3003/${item.avatar}`
+                      ? `${process.env.REACT_APP_URL_SERVER}${item.avatar}`
                       : "https://i.imgur.com/4Yt4B94.jpeg"
                   }
                   alt={"Error"}

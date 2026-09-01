@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {toast} from "react-toastify"
 
 import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
@@ -8,12 +9,14 @@ const UploadMusic = () => {
   const [avatarMusic, setAvatarMusic] = useState("");
   const [fileMusic, setFileMusic] = useState("");
 
-  const {musicStore} = useRootContext();
+  const { musicStore, authStore } = useRootContext();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target) ;
+    formData.append("username", `${authStore.user?.name}`);
+    formData.append("idUser",`${authStore.user?.id}`)
     // if (!formData.avatar || formData.avatar.size === 0) return toast.error("No avatar for music");
     // if (!formData.audio || formData.audio.size === 0) return toast.error("No file music");
     // if (!formData.name || !formData.genre) return toast.error("No name or genre");
@@ -21,7 +24,6 @@ const UploadMusic = () => {
     musicStore.upload_music(formData);
     // setAvatarMusic("");
     // setFileMusic("");
-    
   };
 
   return (

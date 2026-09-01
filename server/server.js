@@ -78,6 +78,5 @@ app.use("/",playlistRouter)
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.listen(3003, () => {
-  // loadMusic()
   console.log(`Сервер запущен на ${URL}:3003`);
 });

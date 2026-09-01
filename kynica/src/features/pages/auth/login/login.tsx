@@ -14,14 +14,14 @@ const Login = () => {
   });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await authStore.login(formData);

@@ -1,17 +1,18 @@
 import {createBrowserRouter} from 'react-router-dom';
 
-import Main from '../../features/pages/main/main';
-import Register from '../../features/pages/auth/register/register';
-import ErrorPage from '../../features/pages/error/error_page';
-import MainLayout from '../../layout/main_layout';
-import Login from '../../features/pages/auth/login/login';
-import Profile from '../../features/pages/profile/profile';
-import ProtectedRouter from './protectedRouter';
-import Favorite from "../../features/pages/favorite/favorite";
-import AuthLayout from "../../layout/auth_loyout";
-import Search from "../../features/pages/search/search";
-import Playlist from "../../features/pages/playlist/playlist";
-import PlaylistMusic from "../../features/pages/playlistMusic/playlistMusic";
+import Main from '../../features/pages/main/main.tsx';
+import Register from '../../features/pages/auth/register/register.tsx';
+import ErrorPage from '../../features/pages/error/error_page.tsx';
+import MainLayout from '../../layout/main_layout.tsx';
+import Login from '../../features/pages/auth/login/login.tsx';
+import Profile from '../../features/pages/profile/profile.tsx';
+import ProtectedRouter from './protectedRouter.tsx';
+import Favorite from "../../features/pages/favorite/favorite.tsx";
+import AuthLayout from "../../layout/auth_loyout.tsx";
+import Search from "../../features/pages/search/search.tsx";
+import Playlist from "../../features/pages/playlist/playlist.tsx";
+import PlaylistMusic from "../../features/pages/playlistMusic/playlistMusic.tsx";
+import Artist from '../../features/pages/artist/artist.tsx';
 
 
 export const router = createBrowserRouter([
@@ -43,6 +44,12 @@ export const router = createBrowserRouter([
             {
                 path:"/search",
                 element: <Search/>,
+            },
+            {
+              path:"/artist/:id",
+              element: (
+                <Artist/>
+              )
             },
             {
                 path:"/playlist",

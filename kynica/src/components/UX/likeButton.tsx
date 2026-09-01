@@ -2,13 +2,15 @@ import { observer } from "mobx-react-lite";
 
 import { useUserTogglFavoriteMusic } from "../../hook/hooks";
 import { LikeSvg } from "../UI/SVG";
+import { ILikeButton } from "../../shared/interface/intarface";
 
-const LikeButton = observer(({ track }) => {
-  const toggleMusic = useUserTogglFavoriteMusic()
+const LikeButton = observer(({ track }: ILikeButton) => {
+  const toggleMusic = useUserTogglFavoriteMusic();
+
   return (
     <button
       className={`like-button ${track.isLiked ? "active" : ""}`}
-      onClick={() => toggleMusic(track )}
+      onClick={() => toggleMusic(track)}
     >
       <LikeSvg />
     </button>

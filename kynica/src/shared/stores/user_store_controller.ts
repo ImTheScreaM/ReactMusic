@@ -3,23 +3,23 @@ import { userApi } from "../api/user.api.ts";
 import { RootStore } from "./rootStore.ts";
 
 export class User {
-  rootStore:RootStore;
-  constructor(rootStore:RootStore) {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this);
   }
 
-  update_username = flow(function* (data: string) {
+  update_username = flow(function* (newName: string) {
     try {
-      yield userApi.update_username(data);
+      yield userApi.update_username(newName);
     } catch (error) {
       console.log(error);
     }
   });
 
-  update_bio = flow(function* (data: string) {
+  update_bio = flow(function* (newBio: string) {
     try {
-      yield userApi.update_bio(data);
+      yield userApi.update_bio(newBio);
     } catch (error) {
       console.log(error);
     }
@@ -27,6 +27,7 @@ export class User {
 
   update_avatar = flow(function* (avatar: string) {
     try {
+      console.log(avatar);
       yield userApi.update_avatar(avatar);
     } catch (error) {
       console.log(error);

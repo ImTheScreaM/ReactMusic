@@ -3,20 +3,22 @@ import { useState } from "react";
 import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 import "../../assets/css/dropDownMenuPlaylist.css";
+import { IDropdownMenuPaylist } from "../../shared/interface/intarface.ts";
 
-const DropdownMenuPaylist = ({ playlistId, name }) => {
+const DropdownMenuPaylist = ({ playlistId, name }: IDropdownMenuPaylist) => {
   const [isDeletedMenu, setIsDeletedMenu] = useState(false);
-  const [newDataForPlaylist, setNewDataForPlaylist] = useState({
-    name: name,
+  const [newDataForPlaylist, setNewDataForPlaylist] = useState<{
+    username: string;
+    avatar: string | null;
+  }>({
+    username: name,
     avatar: null,
   });
 
-  const {playlistStore} = useRootContext();
-  
+  const { playlistStore } = useRootContext();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-    console.log(name, value, files);
 
     setNewDataForPlaylist((prev) => ({
       ...prev,
@@ -24,16 +26,16 @@ const DropdownMenuPaylist = ({ playlistId, name }) => {
     }));
   };
 
-  const handleSubmitAvatarAndName = (e) => {
+  const handleSubmitAvatarAndName = async (
+    e: React.ChangeEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     formData.append("playlistId", String(playlistId));
 
     try {
-      console.log(formData);
-      
-      playlistStore.update_playlist(formData);
+      return await playlistStore.update_playlist(formData);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +54,7 @@ const DropdownMenuPaylist = ({ playlistId, name }) => {
           <input
             type="text"
             name="name"
-            value={newDataForPlaylist.name}
+            value={newDataForPlaylist.username}
             onChange={handleChange}
             placeholder="New playlist name"
           />
@@ -89,8 +91,15 @@ const DropdownMenuPaylist = ({ playlistId, name }) => {
           </button>
           {isDeletedMenu && (
             <div className="choice-deleted-or-no">
-              <button className="deleted-yes" onClick={deletePlaylist}>YES</button>
-              <button className="deleted-no" onClick={() => setIsDeletedMenu(false)}>NO</button>
+              <button className="deleted-yes" onClick={deletePlaylist}>
+                YES
+              </button>
+              <button
+                className="deleted-no"
+                onClick={() => setIsDeletedMenu(false)}
+              >
+                NO
+              </button>
             </div>
           )}
         </div>

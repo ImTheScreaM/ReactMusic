@@ -1,0 +1,21 @@
+.artist_logo_container {
+  display: flex;
+  align-items:center;
+  gap: 12px;
+}
+
+.artist_logo_img {
+  width: 6rem;
+  height: 6rem;
+  object-fit:cover;
+  border-radius: 20%;
+}
+
+.artist_logo_btn {
+  display: grid;
+  gap: 12px;
+}
+
+.artist_logo_name {
+  
+}

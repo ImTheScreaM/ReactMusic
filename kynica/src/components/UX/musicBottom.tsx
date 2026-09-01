@@ -1,7 +1,5 @@
 import { observer } from "mobx-react-lite";
 
-import { useUserTogglFavoriteMusic } from "../../hook/hooks.jsx";
-
 import {
   DislikeSvg,
   LeftArrowSvg,
@@ -12,14 +10,16 @@ import {
   ResumeSvg,
   RightArrowSvg,
 } from "../UI/SVG.js";
-import ProgressBar from "./progressBar.jsx";
-import VolumeBar from "./volumeBar.jsx";
+
+import { useUserTogglFavoriteMusic } from "../../hook/hooks.js";
+import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
+import ProgressBar from "./progressBar.tsx";
+import VolumeBar from "./volumeBar.tsx";
 
 import "../../assets/css/music.bottom.css";
-import { useRootContext } from "../../shared/di/rootStoreContext.tsx";
 
 const MusicBottom = observer(() => {
-  const { musicStore, musicPlayerStore } = useRootContext();
+  const {musicPlayerStore } = useRootContext();
   const toggleMusic = useUserTogglFavoriteMusic();
 
   return (
@@ -29,27 +29,24 @@ const MusicBottom = observer(() => {
       </div>
 
       <div className="music_player">
-        <div
-          className="absolute w-full"
-          onClick={() => musicPlayerStore.toggleOpen()}
-        ></div>
+        <div className="" onClick={() => musicPlayerStore.toggleOpen()}></div>
 
         <div className="music_player-info">
           <div className="track-info">
             <img
-              src={`http://localhost:3003${musicPlayerStore.trackData.urlAvatar.replaceAll(" ", "%20")}`}
+              src={`${process.env.REACT_APP_URL_SERVER}${musicPlayerStore.trackData?.urlAvatar.replaceAll(" ", "%20")}`}
               alt=""
               className="track-img"
             />
             <div className="grid">
               <div className="music-info-name">
                 <span className="track-name">
-                  {musicPlayerStore.trackData.name}
+                  {musicPlayerStore.trackData?.name}
                 </span>
               </div>
               <div className="music-info-artist">
                 <span className="track-artist">
-                  {musicPlayerStore.trackData.artist}
+                  {musicPlayerStore.trackData?.artist}
                 </span>
               </div>
             </div>
@@ -58,10 +55,8 @@ const MusicBottom = observer(() => {
 
         <div className="music_player-sonata">
           <button
-            onClick={() =>
-              toggleMusic(musicPlayerStore.trackData)
-            }
-            className={`like-button ${musicPlayerStore.trackData.isLiked ? "active" : ""}`}
+            onClick={() => toggleMusic(musicPlayerStore.trackData)}
+            className={`like-button ${musicPlayerStore.trackData?.isLiked ? "active" : ""}`}
           >
             <LikeSvg />
           </button>
@@ -86,7 +81,7 @@ const MusicBottom = observer(() => {
           </button>
 
           <button
-            onClick={() => musicPlayerStore.nextTrack(musicStore.userMusic)}
+            onClick={() => musicPlayerStore.nextTrack()}
             className="next-track-button"
           >
             <RightArrowSvg />

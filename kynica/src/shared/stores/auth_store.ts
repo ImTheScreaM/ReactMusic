@@ -1,14 +1,14 @@
 import { flow, makeAutoObservable, runInAction } from "mobx";
 
 import { authApi } from "../api/auth.api.ts";
-import { IFormLogin, IFormRegister } from "../interface/intarface";
+import { IFormLogin, IFormRegister, IUser } from "../interface/intarface";
 import { RootStore } from "./rootStore.ts";
 
 export class AuthController {
   rootStore: RootStore;
   isAuth = false;
   isLoading = true;
-  user = null;
+  user:IUser|null = null;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -34,7 +34,8 @@ export class AuthController {
 
   register = flow(function* (formData: IFormRegister) {
     try {
-      yield authApi.register(formData);
+      const res = yield authApi.register(formData);
+      return res;
     } catch (error) {
       console.log("Error auth", error);
     }
@@ -66,8 +67,7 @@ export class AuthController {
 
   checkAuth = flow(function* (this: AuthController) {
     try {
-      const user = yield authApi.checkAuth();
-
+      const user = yield authApi.checkAuth()
       if (user.auth) {
         this.isAuth = !!user.user;
         this.user = user.user;

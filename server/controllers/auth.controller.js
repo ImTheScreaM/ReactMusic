@@ -11,7 +11,7 @@ export async function register(req, res) {
 
   try {
     const userFind = await prisma.user.findUnique({ where: { email: email } });
-    if (userFind) return res.status(400).json({ errors: "user has" });
+    if (userFind) return res.json({ errors: "user has",status:"FAILED" });
 
     const salt = 10;
     const passwordHash = await bcrypt.hash(password, salt);
@@ -30,7 +30,7 @@ export async function register(req, res) {
       },
     });
 
-    res.status(200).json({ message: "success" });
+    res.status(200).json({ message: "success",status:"SUCCESS" });
   } catch (error) {
     res.status(404).json({ error: error });
   }
@@ -43,7 +43,9 @@ export async function login(req, res) {
   const passCheck = await bcrypt.compare(password, userFind.password);
 
   if (!userFind || !passCheck) {
-    return res.status(400).json({ errors: "no valide data or no password" });
+    return res
+      .status(400)
+      .json({ data: { errors: "no valide data or no password" } });
   }
 
   await create_session(userFind.id, res);
@@ -53,13 +55,14 @@ export async function login(req, res) {
       email: email,
     },
     include: {
-      id: false,
       password: false,
       role: false,
       loveMusic: true,
       profile: true,
     },
   });
+
+  console.log(user)
   await res
     .status(200)
     .json({ success: "Login!", user: user, path: "/profile" });

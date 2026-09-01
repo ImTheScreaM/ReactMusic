@@ -2,6 +2,7 @@ import { flow, makeAutoObservable, runInAction } from "mobx";
 import { playlistApi } from "../api/playlist.api.ts";
 import { RootStore } from "./rootStore.ts";
 
+
 export class Playlist {
   rootStore: RootStore;
   playlists = [];
@@ -90,6 +91,7 @@ export class Playlist {
     this.isLoading = true;
     try {
       yield playlistApi.delete_music(playlistId, musicId);
+      
       runInAction(() => {
         this.playlistMusic = this.playlistMusic.filter(
           (item) => item.musicId !== Number(musicId),
@@ -108,12 +110,15 @@ export class Playlist {
       const music = yield playlistApi.get_music(playlistId);
 
       runInAction(() => {
+        console.log(this.playlistMusicLoading);
         this.playlistMusic = music.map((item) => item.music);
+        console.log("get_music_playlist");
       });
     } catch (error) {
       console.log(error);
     } finally {
       this.playlistMusicLoading = false;
+      console.log(this.playlistMusicLoading)
     }
   });
 

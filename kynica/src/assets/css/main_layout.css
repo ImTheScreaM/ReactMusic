@@ -1,33 +1,84 @@
 .main_layout {
-    background: #000;
-    height: 100vh;
-}
-
-.content-area {
-    position: relative;
-    overflow: hidden;
-    background: #121212;
-    padding: 24px;
-    border-radius: 18px;
-}
-
-.outlet-wrapper {
-    flex: 1;
+  background: #000;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .main_layout-content {
-    display: grid;
-    padding: 12px;
-    grid-template-columns: 250px 1fr;
-    height: 100vh;
-
+  gap: 10px;
+  padding: 12px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.main_layout-header {
-    width: 250px;
-    flex-shrink: 0;
+.music_bottom {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  margin: 0 12px 12px;
+}
+
+.main_layout-content > div:nth-child(2) {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.music_bottom-content {
+  grid-column: span 2;
+  display: grid;
+  justify-content: stretch;
+  align-content: end;
+}
+
+.music_bottom,
+.main_layout-content,
+.content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+
+.music_bottom {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  margin: 0 12px 12px;
 }
 
 .main_layout-content.isPlay {
-    height: calc(100vh - 100px);
+  height: calc(100vh - 100px);
+  padding-bottom: 100px;
+}
+
+.profile_bottom {
+  display: grid;
+  align-content: center;
+}
+
+.profile_info,
+.auth {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.profile_avatar_navigation {
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dark {
+  background: black;
+}
+
+.light {
+  background: white;
 }

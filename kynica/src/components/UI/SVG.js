@@ -239,10 +239,10 @@ export function VolumeSvg() {
         strokeLinejoin="round"
       />
       <line
-        x1="2"
-        y1="19"
-        x2="14"
-        y2="4"
+        x1="15.5"
+        y1="8"
+        x2="15.5"
+        y2="16"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="round"
@@ -268,10 +268,10 @@ export function MutedVolumeSvg() {
         strokeLinejoin="round"
       />
       <line
-        x1="15.5"
-        y1="8"
-        x2="15.5"
-        y2="16"
+        x1="2"
+        y1="19"
+        x2="14"
+        y2="4"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="round"
@@ -413,8 +413,8 @@ export function AuthSvg() {
   return (
     <svg
       xmlns="http://www.w3.org"
-      width="24"
-      height="24"
+      width="34"
+      height="34"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

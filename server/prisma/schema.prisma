@@ -23,6 +23,7 @@ model User {
   password  String
   urlAvatar String
   playlist  Playlists[]
+  music     Music[]
 }
 
 model Profile {
@@ -54,6 +55,9 @@ model Music {
   audioUrl       String?
   lovedBy        LoveMusic[]
   playlistMusics PlaylistMusic[]
+  userWhoAdd     Int
+  user           User            @relation(fields: [userWhoAdd], references: [id])
+  createAt       DateTime        @default(now())
 }
 
 model Playlists {

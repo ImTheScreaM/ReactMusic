@@ -2,20 +2,17 @@ import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 
 import {
-  AuthSvg,
   FavoriveSvg,
   HomeSvg,
   PlaylistSvg,
-  ProfileSvg,
   SearchAvg,
-} from "../../../components/UI/SVG";
+} from "../../../components/UI/SVG.js";
 import { useRootContext } from "../../../shared/di/rootStoreContext.tsx";
 
 import "../../../assets/css/header.css";
 
 const Header = observer(() => {
-  const {authStore} = useRootContext();
-
+  const { authStore } = useRootContext();
 
   if (authStore.isLoading) {
     return <div>Loading</div>;
@@ -66,23 +63,17 @@ const Header = observer(() => {
               </NavLink>
             </li>
             {authStore.isAuth ? (
-              <li>
-                <NavLink to={"/profile"}>
-                  <div className="profile flex">
-                    <ProfileSvg />
-                    <h2>Profile</h2>
-                  </div>
-                </NavLink>
-              </li>
+              <>
+                <li>
+                  <NavLink to={`/artist/${authStore.user?.id}`}>
+                    <div className="artist">
+                      <h2>Artist</h2>
+                    </div>
+                  </NavLink>
+                </li>
+              </>
             ) : (
-              <li>
-                <NavLink to={"/auth/register"}>
-                  <div className="auth flex">
-                    <AuthSvg />
-                    <h2>Auth</h2>
-                  </div>
-                </NavLink>
-              </li>
+              <></>
             )}
           </ul>
         </nav>
